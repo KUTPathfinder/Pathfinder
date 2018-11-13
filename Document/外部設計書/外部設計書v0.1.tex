@@ -389,10 +389,155 @@ Pathfinder \\
 
 
 \section{データベース設計}
+本システムに用いるデータについて以下に示す。
+\subsection{データテーブル仕様}
+本システムのデータベースには、9個のデータテーブルが存在する。各データテーブルの仕様をデータモデルを用いて以下に示す。
+\begin{itemize}
+\item ユーザテーブル\\
+  ユーザテーブルでは本システムを利用するユーザに関する情報を管理する。またフラグを用いることで利用者と管理者(親管理者と子管理者)を区別、拡張機能の寄与、初回ログインの判別を行っている。表1にこのテーブルのデータモデルを示す。
+  \begin{table}[h]
+    \caption{ユーザモデル}
+    \begin{center}
+      \begin{tabular}{|l|c|l|} \hline
 
+        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          学生番号&CHAR(10)&PK\\\hline
+          ユーザID&CHAR(20)&  \multicolumn{1}{|c|}{-} \\\hline
+          パスワード&CHAR(20)& \multicolumn{1}{|c|}{-}\\\hline
+          保有ポイント&INT& \multicolumn{1}{|c|}{-}\\\hline
+          拡張機能フラグ1(VIPフラグ)&CHAR(1)& \multicolumn{1}{|c|}{-}\\\hline
+          拡張機能フラグ2(色)&CHAR(2)& \multicolumn{1}{|c|}{-}\\\hline
+          拡張機能フラグ3(太字)&CHAR(1)& \multicolumn{1}{|c|}{-}\\\hline
+          拡張機能フラグ4(斜線)&CHAR(1)& \multicolumn{1}{|c|}{-}\\\hline
+          初回ログインフラグ&CHAR(1)& \multicolumn{1}{|c|}{-}\\\hline
+          管理者フラグ&CHAR(1)& \multicolumn{1}{|c|}{-}\\\hline
+      \end{tabular}
+    \end{center}
+  \end{table}
+\item スレッドテーブル\\
+  スレッドテーブルではスレッドに関する情報を管理する。表2にこのテーブルのデータモデルを示す。
+
+  \begin{table}[h]
+    \caption{スレッドモデル}
+    \begin{center}
+      \begin{tabular}{|l|c|c|} \hline
+
+        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          スレッドID&CHAR(10)&\multicolumn{1}{|l|}{PK}\\\hline
+          スレッドカテゴリID&CHAR(2)&\multicolumn{1}{|l|}{FK:スレッドカテゴリテーブル}\\\hline
+          スレッドタイトル&CHAR(50)& -\\\hline
+          作成日時&わからん& -\\\hline
+          更新日時&わからん& -\\\hline
+      \end{tabular}
+    \end{center}
+  \end{table}
+  \newpage   
+\item お気に入り掲示板テーブル\\
+  お気に入り掲示板テーブルではユーザが気に入ったスレッドに対してブックマークとして登録したスレッド情報を管理する。表3にこのテーブルのデータモデルを示す。
+
+  \begin{table}[h]
+    \caption{お気に入り掲示板モデル}
+    \begin{center}
+      \begin{tabular}{|l|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          学籍番号&CHAR(10)&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
+          スレッドID&CHAR(10)&\multicolumn{1}{|l|}{FK:スレッドテーブル}\\\hline
+      \end{tabular}
+    \end{center}
+  \end{table}
+
+\item レステーブル\\
+  レステーブルではスレッドに対してのレスに関する情報を管理する。表4にこのテーブルのデータモデルを示す。
+  \begin{table}[h]
+    \caption{レスモデル}
+    \begin{center}
+      \begin{tabular}{|l|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          レスID&CHAR(10)&\multicolumn{1}{|l|}{PK(スレッドIDと複合)}\\\hline
+          スレッドID&CHAR(10)&\multicolumn{1}{|l|}{PK(レスIDと複合)、FK:スレッドテーブル}\\\hline
+          学籍番号&CHAR(10)&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
+          書き込みID&N VCHAR(15)&-\\\hline
+          書き込み内容&N VCHAR(200)&-\\\hline
+          コレクトボタンプッシュ数&INT&-\\\hline
+          レス日時&わからん&-\\\hline
+      \end{tabular}
+    \end{center}
+  \end{table}
+  
+\item コレクトテーブル\\
+  コレクトテーブルでは利用者が投稿したレスに対して、投稿した本人以外の利用者がそのレスに対して信頼性があると判断した場合に、コレクトボタンを押されたことに関する情報を管理する。表5にこのテーブルのデータモデルを示す。
+  \begin{table}[h]
+    \caption{コレクトモデル}
+    \begin{center}
+      \begin{tabular}{|l|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          レスID&CHAR(10)&\multicolumn{1}{|l|}{FK:レステーブル}\\\hline
+          スレッドID&CHAR(10)&\multicolumn{1}{|l|}{FK:スレッドテーブル}\\\hline
+          ユーザID&CHAR(20)&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
+
+      \end{tabular}
+    \end{center}
+  \end{table}
+  \newpage 
+\item NGワードテーブル\\
+  NGワードテーブルでは管理者が誹謗中傷や公序良俗に違反していると考えられる単語を登録したNGワードの情報を管理する。表6にこのテーブルのデータモデルを示す。
+  \begin{table}[h]
+    \caption{NGワードモデル}
+    \begin{center}
+      \begin{tabular}{|l|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          NGワードID&CHAR(5)&\multicolumn{1}{|l|}{PK}\\\hline
+          NGワード&N VCHAR(20)&-\\\hline
+      \end{tabular}
+    \end{center}
+  \end{table}
+\item スレッドカテゴリテーブル\\
+  スレッドカテゴリテーブルでは各カテゴリごとに分けられたスレッドの情報を管理する。表7にこのテーブルのデータモデルを示す。
+  \begin{table}[h]
+    \caption{スレッドカテゴリモデル}
+    \begin{center}
+      \begin{tabular}{|l|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          スレッドカテゴリID&CHAR(2)&\multicolumn{1}{|l|}{PK}\\\hline
+          スレッドカテゴリ名&N VCHAR(15)&-\\\hline
+      \end{tabular}
+    \end{center}
+  \end{table}   
+\item  通報テーブル\\
+  通報テーブルでは利用者が謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報した時の情報を管理する。また、通報した内容の情報も管理する。表8にこのテーブルのデータモデルを示す。
+  \begin{table}[h]
+    \caption{通報モデル}
+    \begin{center}
+      \begin{tabular}{|l|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          通報ID&CHAR(10)&\multicolumn{1}{|l|}{PK}\\\hline
+          通報ユーザID&CHAR(10)&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
+          スレッドID&CHAR(10)&\multicolumn{1}{|l|}{FK:スレッドテーブル}\\\hline
+          レスID&CHAR(10)&\multicolumn{1}{|l|}{FK:レステーブル}\\\hline
+          通報カテゴリID&CHAR(10)&\multicolumn{1}{|l|}{FK:通報カテゴリテーブル}\\\hline
+          通報内容&N VCHAR(200)&-\\\hline
+          通報日時&わからん&-\\\hline
+      \end{tabular}
+    \end{center}
+  \end{table}   
+        \newpage
+      \item ユーザ凍結テーブル\\
+        ユーザ凍結テーブルでは、迷惑行為が改善されない利用者のアカウントに対しての情報を管理する。表9にこのテーブルのデータモデルを示す。
+          \begin{table}[h]
+    \caption{ユーザ凍結モデル}
+    \begin{center}
+      \begin{tabular}{|l|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          凍結ID&CHAR(5)&\multicolumn{1}{|l|}{PK}\\\hline
+          学籍番号&CHAR(10)&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
+  
+      \end{tabular}
+    \end{center}
+  \end{table} 
+        
+\end{itemize}
 
 \section{ネットワーク設計}
-
 
 
 
