@@ -428,6 +428,7 @@ Pathfinder \\
           スレッドID&CHAR(10)&\multicolumn{1}{|l|}{PK}\\\hline
           スレッドカテゴリID&CHAR(2)&\multicolumn{1}{|l|}{FK:スレッドカテゴリテーブル}\\\hline
           スレッドタイトル&CHAR(50)& -\\\hline
+          非表示フラグ&INT(1)& -\\\hline
           作成日時&DATE()& -\\\hline
           更新日時&DATE()& -\\\hline
       \end{tabular}
@@ -461,7 +462,8 @@ Pathfinder \\
           書き込みID&N VCHAR(15)&-\\\hline
           書き込み内容&N VCHAR(200)&-\\\hline
           コレクトボタンプッシュ数&INT&-\\\hline
-          レス日時&-&-\\\hline
+          非表示フラグ&INT(1)&-\\\hline
+          レス日時&DATE()&-\\\hline
       \end{tabular}
     \end{center}
   \end{table}
@@ -542,7 +544,7 @@ Pathfinder \\
 
 \begin{figure}[h!]
 \begin{center}
-\resizebox{10cm}{!}{\includegraphics{KUTBBS.png}}
+\resizebox{10cm}{!}{\includegraphics{KUTBBSER.png}}
 \caption{データベースのER図}
 \label{ER:ERtest}
 \end{center}
@@ -562,8 +564,15 @@ Pathfinder \\
 
 
 
-
-
+\section*{付録:ユースケース図}
+図()に、本システムのユースケース図を示す。
+\begin{figure}[h!]
+\begin{center}
+\resizebox{10cm}{!}{\includegraphics{UseCase.png}}
+\caption{ユースケース図}
+\label{UseCase:UseCasetest}
+\end{center}
+\end{figure}
 
 % \bibliographystyle{jplain}
 % \begin{thebibliography}{10}
