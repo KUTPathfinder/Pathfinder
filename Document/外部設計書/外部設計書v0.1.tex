@@ -386,9 +386,569 @@ Pathfinder \\
 
 
 \section{ユーザインタフェース設計}
+（脚注：レイアウト図の画像は編集途中で、対応する番号や修正などが適応されていない状態です。v2では修正後の画像を表示します。）
+
+本システムが提供する学生掲示板KUTBBSにおける掲示板画面遷移及び各画面の詳細について説明する。
+
+また、本システムが提供する管理者が操作する管理画面における画面遷移及び各画面の詳細について説明する。
 
 \subsection{画面遷移図}
+%付録\cite{fig:Screen_transition}にて画面遷移図を記載している。
+図\ref{fig:Screen_transition}に画面遷移図を示す。
+\begin{figure}[H]
+\centering
+\resizebox{18cm}{!}{\includegraphics{KUTBBSの画面遷移図.png}}
+\caption{KUTBBSの画面遷移図}
+\label{fig:Screen_transition}
+\end{figure}
 
+\subsection{画面詳細（学生掲示板KUTBBS）}
+学生掲示板KUTBBSの画面詳細について記す。一部の掲示板の機能はユーザ・管理者ともに使用できるものと管理者のみが使用できるものがあるが、ここでは管理者側で表示する画面を図として用いる。
+
+\subsubsection{ログインTOP画面}
+図\ref{fig:login_top}にログインのトップ画面を示す。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/login_top.PNG}}
+\caption{新規登録画面}
+\label{fig:login_top}
+\end{figure}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item ログインボタン\\
+ユーザはここをクリックすることで図\ref{fig:login_user}に示すユーザログイン画面に遷移する。
+\item 管理者はこちらボタン\\
+管理者はここをクリックすることで図\ref{fig:login_admin}に示す管理者ログイン画面に遷移する。
+\end{enumerate}
+
+\subsubsection{ユーザログイン画面}
+図\ref{fig:login_user}にユーザ側のログイン画面を示す。ユーザは自分の持つIDとパスワードを入力する。新規登録ユーザは大学から与えられた仮IDと仮パスワードを入力する。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/login_user.PNG}}
+\caption{新規登録画面}
+\label{fig:login_user}
+\end{figure}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item ID入力テキストボックス…データベースに登録されているIDをテキストボックス内に入力する。
+\item パスワード入力テキストボックス…データベースに登録されているIDと対応したパスワードをテキストボックス内に入力する。
+\item ENTERボタン:入力完了時に押すボタンである。テキストボックスに入力されたIDとパスワードがデータベースに登録されている場合、ENTERボタンを押すことで管理者トップ画面へと遷移する。入力していない欄がある場合や、入力した内容が一致しなかった場合、エラーメッセージが表示される。
+\end{enumerate}
+
+\subsubsection{新規登録画面}
+図\ref{fig:subscribe_user}に利用者側の新規登録画面を示す。利用者はここで自分が覚えやすいIDとパスワードに変更する。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/subscribe_user.PNG}}
+\caption{新規登録画面}
+\label{fig:subscribe_user}
+\end{figure}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item ID入力テキストボックス…変更後のIDをテキストボックス内に入力する。
+\item パスワード入力テキストボックス…変更後のパスワードをテキストボックス内に入力する。
+\item パスワード再確認入力テキストボックス:入力したパスワードを再度入力する。
+\end{enumerate}
+入力が完了すると、図\ref{fig:subscribe_ok}の新規登録確認画面に遷移する。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/subscribe_ok.PNG}}
+\caption{新規登録画面}
+\label{fig:subscribe_ok}
+\end{figure}
+
+
+\subsubsection{掲示板TOP画面}
+図\ref{fig:BBS_top}に、掲示板TOP画面を示す。この画面は、利用者が本システムにログインした際に最初に表示される画面である。この画面では、お知らせの閲覧、スレッド検索、カテゴリの選択などを行うことができる。
+
+図\ref{fig:BBS_top}に示す番号と対応させる形式で、以下にその役割を示す。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/BBS_top.PNG}}
+\caption{掲示板TOP画面}
+\label{fig:BBS_top}
+\end{figure}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+  \item スティッキーヘッダー\\
+  画面をスクロールしても、常に画面上部の表示されている領域である。この領域は、ログイン後の他の画面においても常に表示される(送信完了画面と確認画面は除く)。「KUTBBS」のロゴボタンを押すと、掲示板TOP画面に遷移する。人型アイコン付きのマイページボタンを押すと、利用者個人のページに遷移する。電源ボタンを押すと、本システムからログアウトする。また、「≡」のマーク(ハンバーガーメニュー)を押すと、画面左からメニューリストを表示し、カテゴリの選択ができる。また、利用者に対する通知があった場合、「マイページ」の文字の隣にベルマークが出現する。
+  \item カテゴリボタン\\
+  任意のカテゴリを選択できる領域である。「カテゴリ」の下の任意のカテゴリを押すと、そのカテゴリの画面に遷移する。
+  \item スレッド検索\\
+  任意のキーワードを入力して、スレッドを検索する領域である。キーワード入力テキストボックス直下のカテゴリ選択ボタンで検索するカテゴリを指定し、「AND」、「OR」のボタンでAND検索、OR検索の検索方法を指定する。
+  \item お知らせ\\
+  管理者からのお知らせタイトルを表示する領域である。任意のお知らせタイトルを選択すると、そのお知らせの詳細ページに遷移する。
+\end{enumerate}
+
+\subsubsection{カテゴリTOP画面}
+図\ref{fig:category_top}にカテゴリTOP画面を示す。この画面は、カテゴリ検索に対するスレッド一覧を表示するためのもので、任意のカテゴリを選択した際に表示される画面である。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/category_top.PNG}}
+\caption{カテゴリTOP画面}
+\label{fig:category_top}
+\end{figure}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item キーワード入力テキストボックス…検索したいキーワードの入力を行うためのテキストボックスである。
+\item 検索ボタン…検索サブシステムが実装されている領域である。キーワードを入力し検索ボタンを押すことで一覧画面に遷移する。
+\item 通報ボタン…通報サブシステムが実装されている領域である。通報ボタンを押すことで通報理由書き込み画面へと遷移する。
+\item スレッド新規作成ボタン…掲示案サブシステムが実装されている領域である。新規作成ボタンを押すことでスレッドの新規作成画面へと遷移する。
+\item スレッドタイトル…掲示板サブシステムが実装されている領域である。スレッドタイトルを選択することでそれに対するレスの画面へと遷移する。
+\item Nextボタン…カテゴリ一覧の次ページ画面に遷移する。
+\item Prevボタン…カテゴリ一覧の前ページに遷移する。
+\item AND/ORボタン…検索する際にANDかORを選択するボタンである。
+\item 表示件数変換ボタン…スレッド一覧の表示件数を利用者が変換できるボタンである。
+
+\end{enumerate}
+
+
+\subsubsection{スレッド閲覧画面}
+この画面は、掲示板機能に属し、掲示板サブシステムを用いてスレッドを作成するためのもので、カテゴリTOPからスレッド作成ボタンを押すことにより表示される画面である。\\
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/read_thread.PNG}}
+\caption{スレッド閲覧画面}
+\label{fig:read_thread}
+\end{figure}
+
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item スレッドタイトル入力テキストボックス…任意のスレッドタイトルをテキストボックス内に入力する。
+
+\item レス欄…任意のレスをテキストボックス内に入力する。
+
+\item 拡張機能…レスの書き込み時に使用する拡張機能を選択する。
+
+\item 送信…スレッドタイトル・レス欄が入力された状態で押すことで、レス書き込み確認画面に遷移する。
+
+\end{enumerate}
+\subsubsection{スレッド作成画面}
+この画面は、掲示板機能に属し、掲示板サブシステムを用いてスレッドを作成するためのもので、カテゴリTOPからスレッド作成ボタンを押すことにより表示される画面である。\\
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item スレッドタイトル…テキストボックスにスレッドタイトルを入力する。
+
+\item レス欄…任意のレスをテキストボックス内に入力する。
+
+\item 拡張機能…レスの書き込み時に使用する拡張機能を選択する。
+
+\item 作成…スレッドタイトル・レス欄が入力された状態で押すことで、スレッドを作成し、カテゴリTOP画面に遷移する。
+\end{enumerate}
+
+\subsubsection{レス書き込み確認画面}
+この画面は、掲示板機能に属し、掲示板サブシステムを用いてスレッドに書き込むレスを確認するためのもので、スレッド閲覧画面からレス欄のテキストボックスにレスの書き込みを行い、送信ボタンを押すことにより表示される画面である。
+
+\subsubsection{通報画面}
+　図\ref{fig:report_reason}は利用者が誹謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報することができる画面である。利用者は通報理由を文字数400文字以内に記述することができる。「送信」ボタンを押すと通報内容確認画面に遷移する。
+\begin{figure}[H]
+\begin{center}
+\resizebox{14cm}{!}{\includegraphics{layout/report_reason.png}}
+\caption{通報画面}
+\label{fig:report_reason}
+\end{center}
+\end{figure}
+
+\subsubsection{通報内容確認画面}
+図\ref{fig:report_confirm}は利用者が通報画面で記述した内容を確認する画面である。通報内容の確認後、通報内容を管理者に送信する場合は「はい」のボタンを押す。また、「いいえ」のボタンを押すと通報画面に戻る。
+\begin{figure}[H]
+\begin{center}
+\resizebox{14cm}{!}{\includegraphics{layout/report_confirm.png}}
+\caption{通報内容確認画面}
+\label{fig:report_confirm}
+\end{center}
+\end{figure}
+
+\subsubsection{通報送信完了画面}
+図\ref{fig:report_ok}は利用者が管理者側に通報を送信完了した画面である。利用者は通報内容を管理者側に送信完了後、元のスレッドに戻りたい場合は、「戻る」ボタンを押すことでスレッドに戻ることができる。また、「カテゴリTOP」をクリックするとカテゴリTOP画面へ戻ることができる。
+\begin{figure}[H]
+\begin{center}
+\resizebox{14cm}{!}{\includegraphics{layout/report_ok.png}}
+\caption{通報送信完了画面}
+\label{fig:report_ok}
+\end{center}
+\end{figure}
+
+
+\subsubsection{マイページ画面}
+図\ref{fig:mypage}に、マイページ画面を示す。この画面はユーザ個人のページであり、各種設定を行う。\\
+図\ref{fig:mypage}に示す番号と対応させる形式で、以下にその役割を示す。
+
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/mypage.PNG}}
+\caption{マイページ画面}
+\label{fig:mypage}
+\end{figure}
+
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+  \item ログインID\\
+  各ユーザのログインIDを表示する領域である。
+  \item ログイン日数\\
+  各ユーザが本システムにログインした累計日数を表示する領域である。
+  \item ハンドルネーム\\
+  掲示板に表示されるハンドルネームの設定をする領域である。何も設定されていない場合、掲示板には「名無し」と表示される。
+  \item 通知設定\\
+  通知機能のON/OFFの設定をする領域である。
+  \item 拡張機能\\
+  保有ポイントを消費して掲示板で使用可能な拡張機能を解放することができる領域である。拡張機能の項目は「太字」、「赤字」、「斜体」、「取り消し線」の4つであるが、今後の仕様変更で追加する可能性がある。
+  \item ブックマーク一覧\\
+  登録したブックマークの一覧を表示する領域である。「ブックマーク一覧」を選択すると展開され、ブックマークの一覧が表示される。
+  \item 警告・注意喚起確認ボタン\\
+  管理者から送られた警告や注意喚起を閲覧するページに遷移するボタンである。管理者から警告や注意喚起があった場合、ボタン上に通知を示すベルマークが出現する。
+\end{enumerate}
+
+警告や注意喚起確認ボタンを選択した場合、図\ref{fig:read_warning}の画面に遷移する。この画面で、管理者からの警告や注意喚起の詳細を確認する。
+
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/read_warning.PNG}}
+\caption{警告・注意喚起画面}
+\label{fig:read_warning}
+\end{figure}
+
+\subsection{画面詳細（管理者ページ）}
+管理者ページの画面詳細について記す。
+
+\subsubsection{管理者ログイン}
+図\ref{fig:login_admin}に管理者ログイン画面を示す。この画面は管理者ページの最初に表示される画面であり、本システムの編集を行う管理者であるかの認証を行う。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/login_admin.PNG}}
+\caption{管理者ログイン}
+\label{fig:login_admin}
+\end{figure}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item ID入力テキストボックス…データベースに登録されているIDをテキストボックス内に入力する。
+\item 管理者パスワード入力テキストボックス…データベースに登録されているIDと対応したパスワードをテキストボックス内に入力する。
+\item ENTERボタン…テキストボックスに入力されたIDとパスワードがデータベースに登録されている場合、ENTERボタンを押すことで管理者トップ画面へと遷移
+する。入力していない欄がある場合や、入力した内容が一致しなかった場合、エラーメッセージが表示される。
+
+\end{enumerate}
+%\subsubsection{管理者ログイン画面}
+%図\ref{fig:login_admin}に管理者側のログイン画面を示す。親管理者・子管理者ともにこの画面からログインを行う。親管理者においてはシステム設計時にわたしておいたIDとパスワードによりログインを行う。子管理者においては親管理者から発行されたIDとパスワードによりログインを行う。
+%%元のenumerate
+%\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+%\item ID:IDを入力する
+%\item パスワード:パスワードを入力する。
+%\end{enumerate}
+%%訂正後
+%\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+%\item ID入力テキストボックス…データベースに登録されているIDをテキストボックス内に入力する。
+%\item 管理者パスワード入力テキストボックス…データベースに登録されているIDと対応したパスワードをテキストボックス内に入力する。
+%\item ENTERボタン…テキストボックスに入力されたIDとパスワードがデータベースに登録されている場合、ENTERボタンを押すことで管理者トップ画面へと遷移する。
+%\end{enumerate}
+
+\subsubsection{管理者TOP画面}
+図\ref{fig:admin_top}に管理者ログイン画面を示す。この画面は、管理者機能に属し、管理者として管理を行うための画面である。\\
+管理者は、ユーザ管理・お知らせ編集・通報状況確認・不適切な単語登録を行うことができ、親管理者のみ子管理者管理を行うことができる。
+
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/admin_top.PNG}}
+\caption{管理者TOP画面}
+\label{fig:admin_top}
+\end{figure}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item 子管理者管理ボタン…押すことで、子管理者管理TOP画面に遷移する。
+
+\item ユーザ管理ボタン…押すことで、ユーザ管理TOP画面に遷移する。
+
+\item お知らせ編集ボタン…押すことで、お知らせ編集画面に遷移する。
+
+\item 通報状況確認ボタン…押すことで、通報状況確認画面に遷移する。
+
+\item 不適切な単語登録ボタン…押すことで、不適切な単語登録画面に遷移する。
+\end{enumerate}
+
+\subsubsection{子管理者管理TOP}
+図\ref{fig:admin_child_top}に、子管理者管理TOP画面を示す。この画面は、親管理者が子管理者のアカウント管理を行う。
+
+図\ref{fig:admin_child_top}に示す番号と対応させる形式で、以下にその役割を示す。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/admin_child_top.PNG}}
+\caption{子管理者管理TOP}
+\label{fig:admin_child_top}
+\end{figure}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+  \item 子管理者情報一覧\\
+  本システムに登録されている子管理者のIDとパスワードを一覧で表示する領域である。
+  \item 子管理者アカウント発行ボタン\\
+  子管理者を新たに登録する場合、このボタンを押すと、子管理者アカウント発行画面に遷移する。
+  \item 子管理者抹消ボタン\\
+  現在登録されている任意の子管理者を抹消するボタンである。
+  \item 管理者TOPボタン\\
+  管理者TOPに遷移するボタンである。
+\end{enumerate}
+子管理者アカウント発行ボタンを押した場合、図\ref{fig:create_admin}の画面に遷移する。ここで新規で子管理者のアカウントを発行するか否かを選択する。「はい」を選択した場合、子管理者アカウント発行完了画面に遷移し、「いいえ」を選択した場合、子管理者管理TOP画面に戻る。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/create_admin.PNG}}
+\caption{子管理者アカウント発行画面}
+\label{fig:create_admin}
+\end{figure}
+図\ref{fig:create_admin}で「はい」を選択すると、図\ref{fig:new_admin}の画面に遷移する。子管理者アカウントの発行が完了したことを表示し、発行したアカウントのIDとパスワードが表示される。「確認」ボタンを選択すると、子管理者管理TOP画面に遷移し、管理者TOPボタンを選択すると、管理者TOP画面に遷移する。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/new_admin.PNG}}
+\caption{子管理者アカウント発行完了画面}
+\label{fig:new_admin}
+\end{figure}
+また、図\ref{fig:admin_child_top}で子管理者抹消ボタンを押すと、図\ref{fig:delete_admin}の画面に遷移する。ここで特定の子管理者のアカウントを抹消するか否かを選択する。「はい」を押すと子管理者アカウント抹消完了画面に遷移し、「いいえ」を押すと子管理者管理TOP画面に遷移する。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/delete_admin.PNG}}
+\caption{子管理者アカウント抹消画面}
+\label{fig:delete_admin}
+\end{figure}
+図\ref{fig:delete_admin}で「はい」を押すと、図\ref{fig:delete_admin_ok}の画面に遷移する。特定の子管理者アカウントの抹消が完了したことを表示し、「戻る」を選択して子管理者管理TOP画面に遷移する。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/delete_admin_ok.PNG}}
+\caption{子管理者アカウント抹消完了画面}
+\label{fig:delete_admin_ok}
+\end{figure}
+
+\subsubsection{利用者管理画面}
+図\ref{fig:user_admin_top}に利用者管理画面を示す。この画面は、管理サブシステムを用いて利用者のアカウント発行と利用者情報検索を行うことができる。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/user_admin_top.PNG}}
+\caption{利用者管理画面}
+\label{fig:user_admin_top}
+\end{figure}
+
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item 利用者アカウント発行ボタン…利用者登録サブシステムが実装されている領域である。利用者アカウント発行ボタンを押すことで、利用者アカウント発行画面へと遷移する。
+
+\item 利用者情報検索ボタン…利用者管理サブシステムが実装されている領域である。利用者情報検索ボタンを押すことで、利用者情報検索画面に遷移する。
+
+\end{enumerate}
+
+\subsubsection{利用者アカウント発行}
+図\ref{fig:create_user}に利用者アカウント発行画面を示す。この画面は、利用者登録サブシステムを用いて利用者アカウントの発行を行うことができる。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/create_user.PNG}}
+\caption{利用者管理}
+\label{fig:create_user}
+\end{figure}
+
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item 学籍番号（開始、末尾）テキストボックス
+  新しく発行する利用者の学籍番号を入力するテキストボックスである。
+\item 登録ボタン
+  開始テキストボックスに入力された学籍番号と末尾テキストボックスに入力された学籍番号の利用者のアカウントを登録するためのボタンである。
+\end{enumerate}
+
+\subsubsection{利用者アカウント発行確認}
+図\ref{fig:new_user}に利用者アカウント発行確認画面を示す。この画面は、利用者アカウントを発行する際の学籍番号の確認を行うことができる。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/new_user.PNG}}
+\caption{利用者管理}
+\label{fig:new_user}
+\end{figure}
+
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item 確認ボタン…確認ボタンを押すと利用者管理画面に遷移する。
+
+\end{enumerate}
+
+\subsubsection{利用者情報検索画面}
+図\ref{fig:search_user}に利用者情報検索画面を示す。この画面は、利用者管理サブシステムを用いて管理者が利用者情報を検索する際に表示する。
+
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/search_user.PNG}}
+\caption{利用者情報検索}
+\label{fig:search_user}
+\end{figure}
+
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item 検索テキストボックス…利用者管理サブシステムが実装されている領域である。管理者が利用者に対して警告やアカウント凍結などの処置を行う際に学籍番号を入力するテキストボックスである。
+
+\item 検索ボタン…検索ボタンを押すことで検索テキストボックスに入力されている学籍番号に合わせて利用者の検索を行う。その後、検索した利用者情報画面に遷移する。
+
+
+\end{enumerate}
+
+
+\subsubsection{利用者情報画面}
+図\ref{fig:user_info}に利用者情報画面を示す。この画面では利用者情報を検索した際に表示され確認を行うことができる。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/user_info.PNG}}
+\caption{利用者管理}
+\label{fig:user_info}
+\end{figure}
+
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item 警告・注意喚起ボタン…表示されている利用者に対して、警告・注意喚起を行う際に警告・注意喚起ボタンを押すことで、警告注意喚起ボタンに遷移する。
+\item アカウント凍結ボタン…利用者のアカウントを凍結する際にアカウント凍結ボタンを押すことで、アカウント凍結画面に遷移する。
+
+\end{enumerate}
+
+\subsubsection{警告・注意喚起画面}
+図\ref{fig:report_admin}に警告・注意喚起画面を示す。この画面では利用者に対して警告・注意喚起を行う際にメッセージ内容の記述を行うことができる。
+
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/report_admin.PNG}}
+\caption{警告・注意喚起画面}
+\label{fig:report_admin}
+\end{figure}
+
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item メッセージ内容テキストボックス…利用者に警告・注意喚起を行うためにメッセージ内容を記述できるテキストボックスである。
+\item 送信ボタン…送信ボタンを押すことで、警告・注意喚起の確認画面へと遷移する。
+\end{enumerate}
+
+\subsubsection{警告・注意喚起確認画面}
+図\ref{fig:report_confirm}に警告・注意喚起確認画面を示す。この画面では警告・注意喚起を行う際に記述したメッセージ内容の確認を行うことができる。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/report_admin.PNG}}
+\caption{警告・注意喚起画面}
+\label{fig:report_confirm}
+\end{figure}
+
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item はいボタン…メッセージ内容に誤りがない場合ははいボタンを押すことで、警告・注意喚起完了画面へと遷移する。
+\item いいえボタン…いいえボタンを押すことで、利用者情報ページへと遷移する。
+
+\end{enumerate}
+
+\subsubsection{警告・注意喚起完了画面}
+図\ref{fig:report_ok}に警告・注意喚起完了画面を示す。この画面では警告・注意喚起を行う際のメッセージが送信されたことを確認することができる。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/report_admin.PNG}}
+\caption{警告・注意喚起画面}
+\label{fig:report_ok}
+\end{figure}
+
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item 確認ボタン…確認ボタンを押すことで利用者情報ページへと遷移する。
+
+\end{enumerate}
+
+
+
+
+\subsubsection{管理者アカウント抹消画面}
+図\ref{fig:delete_admin}に管理者アカウント抹消画面を示す。この画面は、子管理者管理サブシステムを用いて、不要になった子管理者のアカウントを抹消することができる。
+\begin{figure}[H]
+\begin{center}
+\resizebox{14cm}{!}{\includegraphics{layout/delete_admin.png}}
+\caption{管理者アカウント抹消画面}
+\label{fig:delete_admin}
+\end{center}
+\end{figure}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+\item はいボタン…アカウントを抹消することに同意した上で「はい」を押すことで、管理者アカウント抹消完了画面へと遷移する。
+
+\item いいえボタン…いいえを押すことで抹消は行われず、子管理者管理TOPページへと遷移する。
+\end{enumerate}
+\subsubsection{管理者アカウント抹消完了画面}
+図\ref{fig:delete_admin_ok}に管理者アカウント抹消完了画面を示す。この画面は、管理者アカウントの抹消が完了されたことを確認することができる。
+\begin{figure}[H]
+\begin{center}
+\resizebox{14cm}{!}{\includegraphics{layout/delete_admin_ok.png}}
+\caption{通報状況画面}
+\label{fig:delete_admin_ok}
+\end{center}
+\end{figure}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+
+\item 戻るボタン…戻るボタンを押すことで、子管理者管理TOPページへと遷移する。
+\end{enumerate}
+
+
+\subsubsection{通報状況画面}
+図\ref{fig:report_admin}は利用者が通報した内容を管理者が閲覧できる画面である。管理者は、利用者から送られた通報内容を確認を行い、通報状況を見て適切な処置を行うことができる。また、「利用者情報検索へ」ボタンを押すことで利用者情報検索画面へ遷移することができる。
+\begin{figure}[H]
+\begin{center}
+\resizebox{14cm}{!}{\includegraphics{layout/report_admin.png}}
+\caption{通報状況画面}
+\label{fig:report_admin}
+\end{center}
+\end{figure}
+
+\subsubsection{不適切な単語登録画面}
+図\ref{fig:NGword}に、不適切な単語の登録画面を示す。この画面では、既に登録されている不適切な単語の閲覧し、新たに不適切な単語を登録する。
+
+図\ref{fig:NGword}に示す番号と対応させる形式で、以下にその役割を示す。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/NGword.PNG}}
+\caption{不適切な単語登録画面}
+\label{fig:NGword}
+\end{figure}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+  \item 不適切な単語入力テキストボックス\\
+  新たに登録する不適切な単語を入力する領域である。入力の登録ボタンを押すと、不適切な単語の登録確認ページに遷移する。入力テキストボックスに何も入力せずに登録ボタンを押すと、エラーメッセージが表示される。
+  \item 登録単語一覧\\
+  既に登録されている不適切な単語を一覧で表示する領域である。
+  \item カテゴリTOPボタン\\
+  カテゴリTOPに遷移するボタンである。
+  \item 削除ボタン\\
+  既に登録されている不適切な単語を削除するボタンである。ボタンを押すと、該当単語が削除された状態の不適切な単語登録画面を表示する。
+\end{enumerate}
+不適切な単語入力テキストボックスに、新たに登録する単語を入力した上で登録ボタンを押すと、図\ref{fig:NGword_confirm}の画面に遷移する。入力した単語を確認し、不適切な単語として登録するか否かを選択する。はいボタンを押すと不適切な単語登録完了画面に遷移し、いいえボタンを押すと不適切な単語登録画面に戻る。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/NGword_confirm.PNG}}
+\caption{不適切な単語登録確認画面}
+\label{fig:NGword_confirm}
+\end{figure}
+不適切な単語登録確認画面ではいボタンを押すと、図\ref{fig:NGword_ok}の画面に遷移する。単語の登録が完了したことを表示し、「戻る」ボタンを選択して不適切な単語の登録ページに遷移する。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/NGword_ok.PNG}}
+\caption{不適切な単語登録完了画面}
+\label{fig:NGword_ok}
+\end{figure}
 
 \section{データベース設計}
 本システムに用いるデータベースはMySQLを用いて、データベースの仕様、データベースの構造を示す。
@@ -580,6 +1140,16 @@ Pathfinder \\
 %
 %
 % \end{thebibliography}
+
+% \appendix
+% \include{KUTBBSの画面遷移図}
+% \label{fig:Screen_transition}
+% \begin{figure}[H]
+% \centering
+% \resizebox{18cm}{!}{\includegraphics{KUTBBSの画面遷移図.png}}
+% \caption{KUTBBSの画面遷移図}
+% \label{fig:Screen_transition}
+% \end{figure}
 
 
 \end{document}
