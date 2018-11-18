@@ -22,7 +22,7 @@
 \vspace{5mm}
 大学掲示板(KUTBBS)\\
 \vspace{5mm}
-{\bf  外部設計書v0.1}
+{\bf  外部設計書v1.0}
 \vspace{90mm}
 }
 
@@ -95,7 +95,7 @@ Pathfinder \\
 図1は上記の流れを表したものである。
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \begin{center}
 \resizebox{10cm}{!}{\includegraphics{flow.png}}
 \caption{上記の業務の流れ}
@@ -393,14 +393,14 @@ Pathfinder \\
 また、本システムが提供する管理者が操作する管理画面における画面遷移及び各画面の詳細について説明する。
 
 \subsection{画面遷移図}
-%付録\cite{fig:Screen_transition}にて画面遷移図を記載している。
-図\ref{fig:Screen_transition}に画面遷移図を示す。
-\begin{figure}[H]
-\centering
-\resizebox{14cm}{!}{\includegraphics{KUTBBSの画面遷移図.png}}
-\caption{KUTBBSの画面遷移図}
-\label{fig:Screen_transition}
-\end{figure}
+付録\ref{fig:Screen_transition}にて画面遷移図を記載している。
+%図\ref{fig:Screen_transition}に画面遷移図を示す。
+%\begin{figure}[H]
+%\centering
+%\resizebox{14cm}{!}{\includegraphics{KUTBBSの画面遷移図.png}}
+%\caption{KUTBBSの画面遷移図}
+%\label{fig:Screen_transition}
+%\end{figure}
 
 \subsection{画面詳細（学生掲示板KUTBBS）}
 学生掲示板KUTBBSの画面詳細について記す。一部の掲示板の機能はユーザ・管理者ともに使用できるものと管理者のみが使用できるものがあるが、ここでは管理者側で表示する画面を図として用いる。
@@ -855,7 +855,7 @@ Pathfinder \\
 \centering
 \resizebox{14cm}{!}{\includegraphics{layout/warning.PNG}}
 \caption{警告・注意喚起画面}
-\label{fig:report_admin}
+\label{fig:warning}
 \end{figure}
 
 \begin{enumerate}
@@ -952,7 +952,7 @@ Pathfinder \\
 \begin{itemize}
 \item ユーザテーブル\\
   ユーザテーブルでは本システムを利用するユーザに関する情報を管理する。またフラグを用いることで利用者と管理者(親管理者と子管理者)を区別、拡張機能の寄与、初回ログインの判別を行っている。表1にこのテーブルのデータモデルを示す。
-  \begin{table}[h]
+  \begin{table}[H]
     \caption{ユーザモデル}
     \begin{center}
       \begin{tabular}{|l|c|l|} \hline
@@ -974,7 +974,7 @@ Pathfinder \\
 \item スレッドテーブル\\
   スレッドテーブルではスレッドに関する情報を管理する。表2にこのテーブルのデータモデルを示す。
 
-  \begin{table}[h]
+  \begin{table}[H]
     \caption{スレッドモデル}
     \begin{center}
       \begin{tabular}{|l|c|c|} \hline
@@ -993,7 +993,7 @@ Pathfinder \\
 \item お気に入り掲示板テーブル\\
   お気に入り掲示板テーブルではユーザが気に入ったスレッドに対してブックマークとして登録したスレッド情報を管理する。表3にこのテーブルのデータモデルを示す。
 
-  \begin{table}[h]
+  \begin{table}[H]
     \caption{お気に入り掲示板モデル}
     \begin{center}
       \begin{tabular}{|l|c|c|} \hline
@@ -1006,7 +1006,7 @@ Pathfinder \\
 
 \item レステーブル\\
   レステーブルではスレッドに対してのレスに関する情報を管理する。表4にこのテーブルのデータモデルを示す。
-  \begin{table}[h]
+  \begin{table}[H]
     \caption{レスモデル}
     \begin{center}
       \begin{tabular}{|l|c|c|} \hline
@@ -1025,7 +1025,7 @@ Pathfinder \\
 
 \item コレクトユーザテーブル\\
   コレクトユーザテーブルでは利用者が投稿したレスに対して、投稿した本人以外の利用者がそのレスに対して信頼性があると判断した場合に、コレクトボタンを押されたことに関する情報を管理する。表5にこのテーブルのデータモデルを示す。
-  \begin{table}[h]
+  \begin{table}[H]
     \caption{コレクトユーザモデル}
     \begin{center}
       \begin{tabular}{|l|c|c|} \hline
@@ -1039,7 +1039,7 @@ Pathfinder \\
   \newpage
 \item NGワードテーブル\\
   NGワードテーブルでは管理者が誹謗中傷や公序良俗に違反していると考えられる単語を登録したNGワードの情報を管理する。表6にこのテーブルのデータモデルを示す。
-  \begin{table}[h]
+  \begin{table}[H]
     \caption{NGワードモデル}
     \begin{center}
       \begin{tabular}{|l|c|c|} \hline
@@ -1051,7 +1051,7 @@ Pathfinder \\
   \end{table}
 \item スレッドカテゴリテーブル\\
   スレッドカテゴリテーブルでは各カテゴリごとに分けられたスレッドの情報を管理する。表7にこのテーブルのデータモデルを示す。
-  \begin{table}[h]
+  \begin{table}[H]
     \caption{スレッドカテゴリモデル}
     \begin{center}
       \begin{tabular}{|l|c|c|} \hline
@@ -1063,7 +1063,7 @@ Pathfinder \\
   \end{table}
 \item  通報テーブル\\
   通報テーブルでは利用者が謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報した時の情報を管理する。また、通報した内容の情報も管理する。表8にこのテーブルのデータモデルを示す。
-  \begin{table}[h]
+  \begin{table}[H]
     \caption{通報モデル}
     \begin{center}
       \begin{tabular}{|l|c|c|} \hline
@@ -1081,7 +1081,7 @@ Pathfinder \\
         \newpage
       \item 書き込み禁止ユーザテーブル\\
         書き込み禁止ユーザテーブルでは、迷惑行為が改善されない利用者のアカウントに対しての情報を管理する。このデータベースに登録されたユーザは、書き込みを行うことができなくなる。表9にこのテーブルのデータモデルを示す。
-          \begin{table}[h]
+          \begin{table}[H]
     \caption{書き込み禁止ユーザモデル}
     \begin{center}
       \begin{tabular}{|l|c|c|} \hline
@@ -1097,7 +1097,7 @@ Pathfinder \\
 \subsection{データテーブルの構造}
 本システムのデータテーブルの構造についてはERモデルを用いて図()で示す。
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \begin{center}
 \resizebox{10cm}{!}{\includegraphics{KUTBBSER.png}}
 \caption{データベースのER図}
@@ -1106,10 +1106,11 @@ Pathfinder \\
 \end{figure}
 
 
+
 \section{ネットワーク設計}
-　図()は本システム全体のネットワーク構成を表したものである。サーバにはWebサーバ、APサーバ、DBサーバの3層構造を使用する。なおAPサーバとDBサーバは学内ネットワークに接続されている。\\
+　図\ref{network:networktest}は本システム全体のネットワーク構成を表したものである。サーバにはWebサーバ、APサーバ、DBサーバの3層構造を使用する。なおAPサーバとDBサーバは学内ネットワークに接続されている。\\
 利用者はインターネットに接続できる電子デバイスを用いて本システムを使用することができる。管理者は学内ネットワークに接続されている電子デバイスを使用する。
-\begin{figure}[h!]
+\begin{figure}[H]
 \begin{center}
 \resizebox{10cm}{!}{\includegraphics{network.png}}
 \caption{ネットワーク構成}
@@ -1119,15 +1120,6 @@ Pathfinder \\
 
 
 
-\section*{付録:ユースケース図}
-図()に、本システムのユースケース図を示す。
-\begin{figure}[h!]
-\begin{center}
-\resizebox{10cm}{!}{\includegraphics{UseCase.png}}
-\caption{ユースケース図}
-\label{UseCase:UseCasetest}
-\end{center}
-\end{figure}
 
 % \bibliographystyle{jplain}
 % \begin{thebibliography}{10}
@@ -1135,16 +1127,36 @@ Pathfinder \\
 %
 %
 % \end{thebibliography}
+\newpage
+\appendix
+\part*{付録}
+\addcontentsline{toc}{part}{付録}
 
-% \appendix
-% \include{KUTBBSの画面遷移図}
-% \label{fig:Screen_transition}
-% \begin{figure}[H]
-% \centering
-% \resizebox{18cm}{!}{\includegraphics{KUTBBSの画面遷移図.png}}
-% \caption{KUTBBSの画面遷移図}
-% \label{fig:Screen_transition}
-% \end{figure}
+\setcounter{section}{0} % section の番号をゼロにリセットする
+\renewcommand{\thesection}{\Alph{section}} % 数字ではなくアルファベットで数える
+\setcounter{figure}{0} % 図番号
+\renewcommand{\thefigure}{\Alph{section}}
+
+
+\section{ユースケース図}
+図\ref{UseCase:UseCasetest}に、本システムのユースケース図を示す。
+\begin{figure}[H]
+\begin{center}
+\resizebox{10cm}{!}{\includegraphics{UseCase.png}}
+\caption{ユースケース図}
+\label{UseCase:UseCasetest}
+\end{center}
+\end{figure}
+
+\section{KUTBBSの画面遷移図}
+図\ref{fig:Screen_transition}に、本システムのユースケース図を示す。
+\label{fig:Screen_transition}
+\begin{figure}[H]
+\centering
+\resizebox{18cm}{!}{\includegraphics{KUTBBSの画面遷移図.png}}
+\caption{KUTBBSの画面遷移図}
+\label{fig:Screen_transition}
+\end{figure}
 
 
 \end{document}
