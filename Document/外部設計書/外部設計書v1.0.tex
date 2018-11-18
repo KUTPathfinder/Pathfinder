@@ -397,7 +397,7 @@ Pathfinder \\
 図\ref{fig:Screen_transition}に画面遷移図を示す。
 \begin{figure}[H]
 \centering
-\resizebox{18cm}{!}{\includegraphics{KUTBBSの画面遷移図.png}}
+\resizebox{14cm}{!}{\includegraphics{KUTBBSの画面遷移図.png}}
 \caption{KUTBBSの画面遷移図}
 \label{fig:Screen_transition}
 \end{figure}
@@ -728,6 +728,36 @@ Pathfinder \\
 \label{fig:delete_admin_ok}
 \end{figure}
 
+%\subsubsection{管理者アカウント抹消画面}
+%図\ref{fig:delete_admin}に管理者アカウント抹消画面を示す。この画面は、子管理者管理サブシステムを用いて、不要になった子管理者のアカウントを抹消することができる。
+%\begin{figure}[H]
+%\begin{center}
+%\resizebox{14cm}{!}{\includegraphics{layout/delete_admin.png}}
+%\caption{管理者アカウント抹消画面}
+%\label{fig:delete_admin}
+%\end{center}
+%\end{figure}
+%\begin{enumerate}
+%  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+
+%\item はいボタン…アカウントを抹消することに同意した上で「はい」を押すことで、管理者アカウント抹消完了画面へと遷移する。
+
+%\item いいえボタン…いいえを押すことで抹消は行われず、子管理者管理TOPページへと遷移する。
+%\end{enumerate}
+%\subsubsection{管理者アカウント抹消完了画面}
+%図\ref{fig:delete_admin_ok}に管理者アカウント抹消完了画面を示す。この画面は、管理者アカウントの抹消が完了されたことを確認することができる。
+%\begin{figure}[H]
+%\begin{center}
+%\resizebox{14cm}{!}{\includegraphics{layout/delete_admin_ok.png}}
+%\caption{通報状況画面}
+%\label{fig:delete_admin_ok}
+%\end{center}
+%\end{figure}
+%\begin{enumerate}
+%  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+%\item 戻るボタン…戻るボタンを押すことで、子管理者管理TOPページへと遷移する。
+%\end{enumerate}
+
 \subsubsection{利用者管理画面}
 図\ref{fig:user_admin_top}に利用者管理画面を示す。この画面は、管理サブシステムを用いて利用者のアカウント発行と利用者情報検索を行うことができる。
 \begin{figure}[H]
@@ -819,11 +849,11 @@ Pathfinder \\
 \end{enumerate}
 
 \subsubsection{警告・注意喚起画面}
-図\ref{fig:report_admin}に警告・注意喚起画面を示す。この画面では利用者に対して警告・注意喚起を行う際にメッセージ内容の記述を行うことができる。
+図\ref{fig:warning}に警告・注意喚起画面を示す。この画面では利用者に対して警告・注意喚起を行う際にメッセージ内容の記述を行うことができる。
 
 \begin{figure}[H]
 \centering
-\resizebox{14cm}{!}{\includegraphics{layout/report_admin.PNG}}
+\resizebox{14cm}{!}{\includegraphics{layout/warning.PNG}}
 \caption{警告・注意喚起画面}
 \label{fig:report_admin}
 \end{figure}
@@ -836,12 +866,12 @@ Pathfinder \\
 \end{enumerate}
 
 \subsubsection{警告・注意喚起確認画面}
-図\ref{fig:report_confirm}に警告・注意喚起確認画面を示す。この画面では警告・注意喚起を行う際に記述したメッセージ内容の確認を行うことができる。
+図\ref{fig:warning_confirm}に警告・注意喚起確認画面を示す。この画面では警告・注意喚起を行う際に記述したメッセージ内容の確認を行うことができる。
 \begin{figure}[H]
 \centering
-\resizebox{14cm}{!}{\includegraphics{layout/report_admin.PNG}}
+\resizebox{14cm}{!}{\includegraphics{layout/warning_confirm.PNG}}
 \caption{警告・注意喚起画面}
-\label{fig:report_confirm}
+\label{fig:warning_confirm}
 \end{figure}
 
 \begin{enumerate}
@@ -853,12 +883,12 @@ Pathfinder \\
 \end{enumerate}
 
 \subsubsection{警告・注意喚起完了画面}
-図\ref{fig:report_ok}に警告・注意喚起完了画面を示す。この画面では警告・注意喚起を行う際のメッセージが送信されたことを確認することができる。
+図\ref{fig:warning_ok}に警告・注意喚起完了画面を示す。この画面では警告・注意喚起を行う際のメッセージが送信されたことを確認することができる。
 \begin{figure}[H]
 \centering
-\resizebox{14cm}{!}{\includegraphics{layout/report_admin.PNG}}
+\resizebox{14cm}{!}{\includegraphics{layout/warning_ok.PNG}}
 \caption{警告・注意喚起画面}
-\label{fig:report_ok}
+\label{fig:warning_ok}
 \end{figure}
 
 \begin{enumerate}
@@ -866,41 +896,6 @@ Pathfinder \\
 
 \item 確認ボタン…確認ボタンを押すことで利用者情報ページへと遷移する。
 
-\end{enumerate}
-
-
-
-
-\subsubsection{管理者アカウント抹消画面}
-図\ref{fig:delete_admin}に管理者アカウント抹消画面を示す。この画面は、子管理者管理サブシステムを用いて、不要になった子管理者のアカウントを抹消することができる。
-\begin{figure}[H]
-\begin{center}
-\resizebox{14cm}{!}{\includegraphics{layout/delete_admin.png}}
-\caption{管理者アカウント抹消画面}
-\label{fig:delete_admin}
-\end{center}
-\end{figure}
-\begin{enumerate}
-  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
-
-\item はいボタン…アカウントを抹消することに同意した上で「はい」を押すことで、管理者アカウント抹消完了画面へと遷移する。
-
-\item いいえボタン…いいえを押すことで抹消は行われず、子管理者管理TOPページへと遷移する。
-\end{enumerate}
-\subsubsection{管理者アカウント抹消完了画面}
-図\ref{fig:delete_admin_ok}に管理者アカウント抹消完了画面を示す。この画面は、管理者アカウントの抹消が完了されたことを確認することができる。
-\begin{figure}[H]
-\begin{center}
-\resizebox{14cm}{!}{\includegraphics{layout/delete_admin_ok.png}}
-\caption{通報状況画面}
-\label{fig:delete_admin_ok}
-\end{center}
-\end{figure}
-\begin{enumerate}
-  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
-
-
-\item 戻るボタン…戻るボタンを押すことで、子管理者管理TOPページへと遷移する。
 \end{enumerate}
 
 
