@@ -386,7 +386,7 @@ Pathfinder \\
 
 
 \section{ユーザインタフェース設計}
-（脚注：レイアウト図の画像は編集途中で、対応する番号や修正などが適応されていない状態です。v2では修正後の画像を表示します。）
+%（脚注：レイアウト図の画像は編集途中で、対応する番号や修正などが適応されていない状態です。v2では修正後の画像を表示します。）
 
 本システムが提供する学生掲示板KUTBBSにおける掲示板画面遷移及び各画面の詳細について説明する。
 
@@ -524,7 +524,7 @@ Pathfinder \\
 
 
 \subsubsection{スレッド閲覧画面}
-この画面は、掲示板機能に属し、掲示板サブシステムを用いてスレッドを作成するためのもので、カテゴリTOPからスレッド作成ボタンを押すことにより表示される画面である。\\
+図\ref{fig:read_thread}に、スレッド作成画面を示す。この画面は、掲示板機能に属し、掲示板サブシステムを用いてスレッドを作成するためのもので、カテゴリTOPからスレッド作成ボタンを押すことにより表示される画面である。\\
 \begin{figure}[H]
 \centering
 \resizebox{14cm}{!}{\includegraphics{layout/read_thread.PNG}}
@@ -534,40 +534,52 @@ Pathfinder \\
 
 \begin{enumerate}
   \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+\item 削除ボタン(管理者のみ)・・・管理者が不適切なレスだと判断したレスを削除するためのボタン。
+\item コレクトボタン・・・そのレスの情報に信頼性があると感じたときに押してもらうボタン。
+\item 通報ボタン・・・そのレスが不適切だと感じたときに管理者に報告を行うためのボタン。ボタンを押すと通報画面へ遷移する。
+\item 送信ボタン・・・レスを送信するためのボタン。ボタンを押すとレス書き込み確認画面へ遷移する。
 
-\item スレッドタイトル入力テキストボックス\\
-任意のスレッドタイトルをテキストボックス内に入力する。
+\item レス欄（レス入力テキストボックス）・・・任意のレスをテキストボックス内に入力する。
 
-\item レス欄\\
-任意のレスをテキストボックス内に入力する。
+\item 拡張機能・・・レスの書き込み時に使用する拡張機能を選択する。
 
-\item 拡張機能\\
-レスの書き込み時に使用する拡張機能を選択する。
-
-\item 送信\\
-スレッドタイトル・レス欄が入力された状態で押すことで、レス書き込み確認画面に遷移する。
+\item 送信ボタン・・・スレッドタイトル・レス欄が入力された状態で押すことで、レス書き込み確認画面に遷移する。
 
 \end{enumerate}
+なお、管理者のみ、掲示板のレスの情報として書き込んだユーザの学籍番号が確認可能である。
 \subsubsection{スレッド作成画面}
-この画面は、掲示板機能に属し、掲示板サブシステムを用いてスレッドを作成するためのもので、カテゴリTOPからスレッド作成ボタンを押すことにより表示される画面である。\\
+図\ref{fig:make_thread}に、スレッド作成画面を示す。この画面は、掲示板機能に属し、掲示板サブシステムを用いてスレッドを作成するためのもので、カテゴリTOPからスレッド作成ボタンを押すことにより表示される画面である。\\
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/make_thread.PNG}}
+\caption{スレッド作成画面}
+\label{fig:read_thread}
+\end{figure}
+
 \begin{enumerate}
   \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
 
-\item スレッドタイトル\\
+\item スレッドタイトル入力テキストボックス\\
 テキストボックスにスレッドタイトルを入力する。
 
-\item レス欄\\
+\item レス欄（レス入力テキストボックス）\\
 任意のレスをテキストボックス内に入力する。
 
 \item 拡張機能\\
 レスの書き込み時に使用する拡張機能を選択する。
 
-\item 作成\\
+\item 作成ボタン\\
 スレッドタイトル・レス欄が入力された状態で押すことで、スレッドを作成し、カテゴリTOP画面に遷移する。
 \end{enumerate}
 
 \subsubsection{レス書き込み確認画面}
-この画面は、掲示板機能に属し、掲示板サブシステムを用いてスレッドに書き込むレスを確認するためのもので、スレッド閲覧画面からレス欄のテキストボックスにレスの書き込みを行い、送信ボタンを押すことにより表示される画面である。
+図\ref{fig:check_res}に、レス書き込み確認画面を示す。この画面は、掲示板機能に属し、掲示板サブシステムを用いてスレッドに書き込むレスを確認するためのもので、スレッド閲覧画面からレス欄のテキストボックスにレスの書き込みを行い、送信ボタンを押すことにより表示される画面である。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{layout/check_res.PNG}}
+\caption{レス書き込み確認画面}
+\label{fig:check_res}
+\end{figure}
 
 \subsubsection{通報画面}
 　図\ref{fig:report_reason}はユーザが誹謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報することができる画面である。ユーザは通報理由を文字数400文字以内に記述することができる。「送信」ボタンを押すと通報内容確認画面に遷移する。
@@ -666,14 +678,14 @@ Pathfinder \\
 %図\ref{fig:login_admin}に管理者側のログイン画面を示す。親管理者・子管理者ともにこの画面からログインを行う。親管理者においてはシステム設計時にわたしておいたIDとパスワードによりログインを行う。子管理者においては親管理者から発行されたIDとパスワードによりログインを行う。
 %%元のenumerate
 %\begin{enumerate}
-  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+%  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
 
 %\item ID:IDを入力する
 %\item パスワード:パスワードを入力する。
 %\end{enumerate}
 %%訂正後
 %\begin{enumerate}
-  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
+%  \renewcommand{\labelenumi}{\textcircled{\scriptsize \theenumi}}
 
 %\item ID入力テキストボックス\\データベースに登録されているIDをテキストボックス内に入力する。
 %\item 管理者パスワード入力テキストボックス\\データベースに登録されているIDと対応したパスワードをテキストボックス内に入力する。
