@@ -998,37 +998,38 @@ Pathfinder \\
   \begin{table}[H]
     \caption{ユーザモデル}
     \begin{center}
-      \begin{tabular}{|l|c|l|} \hline
+      \begin{tabular}{|l|c|c|l|} \hline
 
-        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
-          学生番号&CHAR(10)&PK\\\hline
-          ユーザID&CHAR(20)&  \multicolumn{1}{|c|}{-} \\\hline
-          パスワード&CHAR(20)& \multicolumn{1}{|c|}{-}\\\hline
-          保有ポイント&INT& \multicolumn{1}{|c|}{-}\\\hline
-          拡張機能フラグ1(VIPフラグ)&CHAR(1)& \multicolumn{1}{|c|}{-}\\\hline
-          拡張機能フラグ2(色)&CHAR(2)& \multicolumn{1}{|c|}{-}\\\hline
-          拡張機能フラグ3(太字)&CHAR(1)& \multicolumn{1}{|c|}{-}\\\hline
-          拡張機能フラグ4(斜線)&CHAR(1)& \multicolumn{1}{|c|}{-}\\\hline
-          初回ログインフラグ&CHAR(1)& \multicolumn{1}{|c|}{-}\\\hline
-          管理者フラグ&CHAR(1)& \multicolumn{1}{|c|}{-}\\\hline
+        \multicolumn{1}{|c|}{属性} & データ型 &オプション & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          学生番号&CHAR(10)&NOT NULL&PK\\\hline
+          ユーザID&CHAR(20)&-&  \multicolumn{1}{|c|}{-} \\\hline
+          パスワード&CHAR(20)&-& \multicolumn{1}{|c|}{-}\\\hline
+          保有ポイント&INT(3)&-& \multicolumn{1}{|c|}{-}\\\hline
+          VIPフラグ&INT(1)&-& \multicolumn{1}{|c|}{-}\\\hline
+          色フラグ&INT(2)&-& \multicolumn{1}{|c|}{-}\\\hline
+          太字フラグ&INT(1)&-& \multicolumn{1}{|c|}{-}\\\hline
+          斜線フラグ&INT(1)&-& \multicolumn{1}{|c|}{-}\\\hline
+          初回ログインフラグ&INT(1)&-& \multicolumn{1}{|c|}{-}\\\hline
+          管理者フラグ&INT(1)&-& \multicolumn{1}{|c|}{-}\\\hline
       \end{tabular}
     \end{center}
   \end{table}
 \item スレッドテーブル\\
-  スレッドテーブルではスレッドに関する情報を管理する。表2にこのテーブルのデータモデルを示す。
+  スレッドテーブルではスレッドに関する情報を管理する。非表示フラグでは管理者だけの限定操作でスレッドを非表示することでユーザ側からスレッドを表示させないようにすることができる。表2にこのテーブルのデータモデルを示す。
 
   \begin{table}[H]
     \caption{スレッドモデル}
     \begin{center}
-      \begin{tabular}{|l|c|c|} \hline
+      \begin{tabular}{|l|c|c|c|} \hline
 
-        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
-          スレッドID&CHAR(10)&\multicolumn{1}{|l|}{PK}\\\hline
-          スレッドカテゴリID&CHAR(2)&\multicolumn{1}{|l|}{FK:スレッドカテゴリテーブル}\\\hline
-          スレッドタイトル&CHAR(50)& -\\\hline
-          非表示フラグ&INT(1)& -\\\hline
-          作成日時&DATE()& -\\\hline
-          更新日時&DATE()& -\\\hline
+        \multicolumn{1}{|c|}{属性} & データ型 &オプション & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          スレッドID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{PK}\\\hline
+          スレッドカテゴリID&INT(2)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{FK:スレッドカテゴリテーブル}\\\hline
+          学籍番号&CHAR(10)&NOT NULL&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
+          スレッドタイトル名&CHAR(50)&-& -\\\hline
+          非表示フラグ&INT(1)&-& -\\\hline
+          作成日時&DATE()&-& -\\\hline
+          更新日時&DATE()&-& -\\\hline
       \end{tabular}
     \end{center}
   \end{table}
@@ -1039,29 +1040,29 @@ Pathfinder \\
   \begin{table}[H]
     \caption{お気に入り掲示板モデル}
     \begin{center}
-      \begin{tabular}{|l|c|c|} \hline
-        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
-          学籍番号&CHAR(10)&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
-          スレッドID&CHAR(10)&\multicolumn{1}{|l|}{FK:スレッドテーブル}\\\hline
+      \begin{tabular}{|l|c|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 &オプション& \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          学籍番号&CHAR(10)&NOT NULL&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
+          スレッドID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{FK:スレッドテーブル}\\\hline
       \end{tabular}
     \end{center}
   \end{table}
 
 \item レステーブル\\
-  レステーブルではスレッドに対してのレスに関する情報を管理する。表4にこのテーブルのデータモデルを示す。
+  レステーブルではスレッドに対してのレスに関する情報を管理する。非常時フラグでは管理者だけの限定操作でレスを非表示することでユーザ側からレスを表示させないようにすることができる。表4にこのテーブルのデータモデルを示す。
   \begin{table}[H]
     \caption{レスモデル}
     \begin{center}
-      \begin{tabular}{|l|c|c|} \hline
-        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
-          レスID&CHAR(10)&\multicolumn{1}{|l|}{PK(スレッドIDと複合)}\\\hline
-          スレッドID&CHAR(10)&\multicolumn{1}{|l|}{PK(レスIDと複合)、FK:スレッドテーブル}\\\hline
-          学籍番号&CHAR(10)&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
-          書き込みID&N VCHAR(15)&-\\\hline
-          書き込み内容&N VCHAR(200)&-\\\hline
-          コレクトボタンプッシュ数&INT&-\\\hline
-          非表示フラグ&INT(1)&-\\\hline
-          レス日時&DATE()&-\\\hline
+      \begin{tabular}{|l|c|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 &オプション& \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          レスID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{PK(スレッドIDと複合)}\\\hline
+          スレッドID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{PK(レスIDと複合)、FK:スレッドテーブル}\\\hline
+          学籍番号&CHAR(10)&NOT NULL&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
+          書き込みID&N VCHAR(15)&-&-\\\hline
+          書き込み内容&N VCHAR(200)&-&-\\\hline
+          コレクトボタンプッシュ数&INT(3)&-&-\\\hline
+          非表示フラグ&INT(1)&-&-\\\hline
+          レス日時&DATE()&-&-\\\hline
       \end{tabular}
     \end{center}
   \end{table}
@@ -1071,11 +1072,11 @@ Pathfinder \\
   \begin{table}[H]
     \caption{コレクトユーザモデル}
     \begin{center}
-      \begin{tabular}{|l|c|c|} \hline
-        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
-          学籍番号&CHAR(20)&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
-          スレッドID&CHAR(10)&\multicolumn{1}{|l|}{FK:スレッドテーブル}\\\hline
-          レスID&CHAR(10)&\multicolumn{1}{|l|}{FK:レステーブル}\\\hline
+      \begin{tabular}{|l|c|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 &オプション& \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          学籍番号&CHAR(10)&NOT NULL&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
+          スレッドID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{FK:スレッドテーブル}\\\hline
+          レスID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{FK:レステーブル}\\\hline
       \end{tabular}
     \end{center}
   \end{table}
@@ -1085,10 +1086,10 @@ Pathfinder \\
   \begin{table}[H]
     \caption{NGワードモデル}
     \begin{center}
-      \begin{tabular}{|l|c|c|} \hline
-        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
-          NGワードID&CHAR(5)&\multicolumn{1}{|l|}{PK}\\\hline
-          NGワード&N VCHAR(20)&-\\\hline
+      \begin{tabular}{|l|c|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 &オプション& \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          NGワードID&INT(5)&AUTO\verb|_|INCREMEN&\multicolumn{1}{|l|}{PK}\\\hline
+          NGワード&N VCHAR(20)&-&-\\\hline
       \end{tabular}
     \end{center}
   \end{table}
@@ -1097,10 +1098,11 @@ Pathfinder \\
   \begin{table}[H]
     \caption{スレッドカテゴリモデル}
     \begin{center}
-      \begin{tabular}{|l|c|c|} \hline
-        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
-          カテゴリID&CHAR(2)&\multicolumn{1}{|l|}{PK}\\\hline
-          カテゴリ名&N VCHAR(15)&-\\\hline
+      \begin{tabular}{|l|c|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 &オプション& \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          カテゴリID&INT(2)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{PK}\\\hline
+           スレッドID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{FK:スレッドテーブル}\\\hline
+          カテゴリ名&N VCHAR(15)&-&-\\\hline
       \end{tabular}
     \end{center}
   \end{table}
@@ -1109,15 +1111,14 @@ Pathfinder \\
   \begin{table}[H]
     \caption{通報モデル}
     \begin{center}
-      \begin{tabular}{|l|c|c|} \hline
-        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
-          通報ID&CHAR(10)&\multicolumn{1}{|l|}{PK}\\\hline
-          通報ユーザID&CHAR(10)&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
-          スレッドID&CHAR(10)&\multicolumn{1}{|l|}{FK:スレッドテーブル}\\\hline
-          レスID&CHAR(10)&\multicolumn{1}{|l|}{FK:レステーブル}\\\hline
-          通報カテゴリID&CHAR(10)&\multicolumn{1}{|l|}{FK:通報カテゴリテーブル}\\\hline
-          通報内容&N VCHAR(200)&-\\\hline
-          通報日時&DATE()&-\\\hline
+      \begin{tabular}{|l|c|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 &オプション& \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          通報ID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{PK}\\\hline
+          通報ユーザID&CHAR(20)&-&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
+          スレッドID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{FK:スレッドテーブル}\\\hline
+          レスID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{FK:レステーブル}\\\hline
+          通報内容&N VCHAR(200)&-&-\\\hline
+          通報日時&DATE()&-&-\\\hline
       \end{tabular}
     \end{center}
   \end{table}
@@ -1127,10 +1128,10 @@ Pathfinder \\
           \begin{table}[H]
     \caption{書き込み禁止ユーザモデル}
     \begin{center}
-      \begin{tabular}{|l|c|c|} \hline
-        \multicolumn{1}{|c|}{属性} & データ型 & \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
-          凍結ユーザID&CHAR(5)&\multicolumn{1}{|l|}{PK}\\\hline
-          学籍番号&CHAR(10)&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
+      \begin{tabular}{|l|c|c|c|} \hline
+        \multicolumn{1}{|c|}{属性} & データ型 &オプション& \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
+          凍結ユーザID&INT(5)&AUTO\verb|_|INCREMEN&\multicolumn{1}{|l|}{PK}\\\hline
+          学籍番号&CHAR(10)&NOT NULL&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
 
       \end{tabular}
     \end{center}
@@ -1138,11 +1139,11 @@ Pathfinder \\
 
 \end{itemize}
 \subsection{データテーブルの構造}
-本システムのデータテーブルの構造についてはERモデルを用いて図()で示す。
+本システムのデータテーブルの構造についてはERモデルを用いて図\ref{ER:ERtest}で示す。
 
 \begin{figure}[H]
 \begin{center}
-\resizebox{10cm}{!}{\includegraphics{KUTBBSER.png}}
+\resizebox{10cm}{!}{\includegraphics{KUTBBS-ER.png}}
 \caption{データベースのER図}
 \label{ER:ERtest}
 \end{center}
