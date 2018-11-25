@@ -392,7 +392,7 @@ Pathfinder \\
 また、本システムが提供する管理者が操作する管理画面における画面遷移及び各画面の詳細について説明する。
 
 \subsection{画面遷移図}
-付録\ref{fig:Screen_transition}にて画面遷移図を記載している。
+付録\ref{Screen_transition}にて画面遷移図を記載している。
 %図\ref{fig:Screen_transition}に画面遷移図を示す。
 %\begin{figure}[H]
 %\centering
@@ -1359,14 +1359,24 @@ Pathfinder \\
 \end{figure}
 
 \newpage
+\setcounter{figure}{0} % 図番号
+\renewcommand{\thefigure}{\Alph{section}-\arabic{figure}}
+
 \section{KUTBBSの画面遷移図}
-図\ref{fig:Screen_transition}に、本システムの画面遷移図を示す。
+\label{Screen_transition}
+図\ref{fig:Screen_transition_1}図\ref{fig:Screen_transition_2}に、本システムの画面遷移図を示す。
 \begin{figure}[H]
 \centering
-\resizebox{16cm}{!}{\includegraphics{KUTBBSの画面遷移図.png}}
-\caption{KUTBBSの画面遷移図}
-\label{fig:Screen_transition}
+\resizebox{16cm}{!}{\includegraphics{利用者の画面遷移図.png}}
+\caption{学生掲示板KUTBBSの画面遷移図}
+\label{fig:Screen_transition_1}
 \end{figure}
 
+\begin{figure}[H]
+\centering
+\resizebox{16cm}{!}{\includegraphics{管理者の画面遷移図.png}}
+\caption{管理者側の画面遷移図}
+\label{fig:Screen_transition_2}
+\end{figure}
 
 \end{document}
