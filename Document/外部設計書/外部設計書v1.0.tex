@@ -1090,7 +1090,7 @@ Pathfinder \\
 本システムのデータベースには、9個のデータテーブルが存在する。各データテーブルの仕様をデータモデルを用いて以下に示す。
 \begin{itemize}
 \item ユーザテーブル\\
-  ユーザテーブルでは本システムを利用するユーザに関する情報を管理する。またフラグを用いることでユーザと管理者(親管理者と子管理者)を区別、拡張機能の寄与、初回ログインの判別を行っている。表1にこのテーブルのデータモデルを示す。
+  ユーザテーブルでは本システムを利用するユーザに関する情報を管理する。またフラグを用いることでユーザと管理者(親管理者と子管理者)を区別、拡張機能の付与、初回ログインの判別を行っている。表1にこのテーブルのデータモデルを示す。
   \begin{table}[H]
     \caption{ユーザモデル}
     \begin{center}
@@ -1111,7 +1111,7 @@ Pathfinder \\
     \end{center}
   \end{table}
 \item スレッドテーブル\\
-  スレッドテーブルではスレッドに関する情報を管理する。非表示フラグでは管理者だけの限定操作でスレッドを非表示することでユーザ側からスレッドを表示させないようにすることができる。表2にこのテーブルのデータモデルを示す。
+  スレッドテーブルではスレッドに関する情報を管理する。非表示フラグは管理者だけの限定操作であり、スレッドを非表示することでユーザ側はレスを閲覧できないようにすることができる。表2にこのテーブルのデータモデルを示す。
 
   \begin{table}[H]
     \caption{スレッドモデル}
@@ -1145,7 +1145,7 @@ Pathfinder \\
   \end{table}
 
 \item レステーブル\\
-  レステーブルではスレッドに対してのレスに関する情報を管理する。非常時フラグでは管理者だけの限定操作でレスを非表示することでユーザ側からレスを表示させないようにすることができる。表4にこのテーブルのデータモデルを示す。
+  レステーブルではスレッドに対してのレスに関する情報を管理する。非表示フラグは管理者だけの限定操作であり、レスを非表示することでユーザ側はレスを閲覧できないようにすることができる。表4にこのテーブルのデータモデルを示す。
   \begin{table}[H]
     \caption{レスモデル}
     \begin{center}
@@ -1156,7 +1156,7 @@ Pathfinder \\
           学籍番号&CHAR(10)&NOT NULL&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
           書き込みID&N VCHAR(15)&-&-\\\hline
           書き込み内容&N VCHAR(200)&-&-\\\hline
-          コレクトボタンプッシュ数&INT(3)&-&-\\\hline
+          コレクトボタンプッシュ数&INT(1)&-&-\\\hline
           非表示フラグ&INT(1)&-&-\\\hline
           レス日時&DATE()&-&-\\\hline
       \end{tabular}
@@ -1164,7 +1164,7 @@ Pathfinder \\
   \end{table}
 
 \item コレクトユーザテーブル\\
-  コレクトユーザテーブルではユーザが投稿したレスに対して、投稿した本人以外のユーザがそのレスに対して信頼性があると判断した場合に、コレクトボタンを押されたことに関する情報を管理する。表5にこのテーブルのデータモデルを示す。
+  コレクトユーザテーブルではコレクトボタンを押されたことに関する情報を管理する。表5にこのテーブルのデータモデルを示す。
   \begin{table}[H]
     \caption{コレクトユーザモデル}
     \begin{center}
@@ -1177,15 +1177,15 @@ Pathfinder \\
     \end{center}
   \end{table}
   \newpage
-\item NGワードテーブル\\
-  NGワードテーブルでは管理者が誹謗中傷や公序良俗に違反していると考えられる単語を登録したNGワードの情報を管理する。表6にこのテーブルのデータモデルを示す。
+\item 不適切な単語登録テーブル\\
+  不適切な単語登録では管理者が誹謗中傷や公序良俗に違反していると考えられる単語を登録した情報を管理する。表6にこのテーブルのデータモデルを示す。
   \begin{table}[H]
-    \caption{NGワードモデル}
+    \caption{不適切な単語登録モデル}
     \begin{center}
       \begin{tabular}{|l|c|c|c|} \hline
         \multicolumn{1}{|c|}{属性} & データ型 &オプション& \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
-          NGワードID&INT(5)&AUTO\verb|_|INCREMEN&\multicolumn{1}{|l|}{PK}\\\hline
-          NGワード&N VCHAR(20)&-&-\\\hline
+          単語ID&INT(5)&AUTO\verb|_|INCREMEN&\multicolumn{1}{|l|}{PK}\\\hline
+          単語名&N VCHAR(20)&-&-\\\hline
       \end{tabular}
     \end{center}
   \end{table}
@@ -1197,13 +1197,12 @@ Pathfinder \\
       \begin{tabular}{|l|c|c|c|} \hline
         \multicolumn{1}{|c|}{属性} & データ型 &オプション& \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
           カテゴリID&INT(2)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{PK}\\\hline
-           スレッドID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{FK:スレッドテーブル}\\\hline
           カテゴリ名&N VCHAR(15)&-&-\\\hline
       \end{tabular}
     \end{center}
   \end{table}
 \item  通報テーブル\\
-  通報テーブルではユーザが謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報した時の情報を管理する。また、通報した内容の情報も管理する。表8にこのテーブルのデータモデルを示す。
+  通報テーブルではユーザが誹謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報した時の情報を管理する。また、通報した内容の情報も管理する。表8にこのテーブルのデータモデルを示す。
   \begin{table}[H]
     \caption{通報モデル}
     \begin{center}
@@ -1219,10 +1218,10 @@ Pathfinder \\
     \end{center}
   \end{table}
         \newpage
-      \item 書き込み禁止ユーザテーブル\\
-        書き込み禁止ユーザテーブルでは、迷惑行為が改善されないユーザのアカウントに対しての情報を管理する。このデータベースに登録されたユーザは、書き込みを行うことができなくなる。表9にこのテーブルのデータモデルを示す。
+      \item 凍結ユーザテーブル\\
+        凍結ユーザテーブルでは、迷惑行為が改善されないユーザのアカウントに対しての情報を管理する。このデータベースに登録されたユーザは、書き込みを行うことができなくなる。表9にこのテーブルのデータモデルを示す。
           \begin{table}[H]
-    \caption{書き込み禁止ユーザモデル}
+    \caption{凍結ユーザモデル}
     \begin{center}
       \begin{tabular}{|l|c|c|c|} \hline
         \multicolumn{1}{|c|}{属性} & データ型 &オプション& \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
@@ -1239,12 +1238,11 @@ Pathfinder \\
 
 \begin{figure}[H]
 \begin{center}
-\resizebox{10cm}{!}{\includegraphics{KUTBBS-ER.png}}
+\resizebox{10cm}{!}{\includegraphics{KUTBBS-DETAER.png}}
 \caption{データベースのER図}
 \label{ER:ERtest}
 \end{center}
 \end{figure}
-
 
 
 \section{ネットワーク設計}
@@ -1252,7 +1250,7 @@ Pathfinder \\
 ユーザはインターネットに接続できる電子デバイスを用いて本システムを使用することができる。管理者は学内ネットワークに接続されている電子デバイスを使用する。
 \begin{figure}[H]
 \begin{center}
-\resizebox{10cm}{!}{\includegraphics{network.png}}
+\resizebox{10cm}{!}{\includegraphics{KUTBBS-network.png}}
 \caption{ネットワーク構成}
 \label{network:networktest}
 \end{center}
