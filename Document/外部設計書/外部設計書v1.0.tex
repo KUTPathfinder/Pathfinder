@@ -997,9 +997,9 @@ Pathfinder \\
 \item メッセージ内容テキストボックス\\
 ユーザに警告・注意喚起を行うためにメッセージ内容を記述できるテキストボックスである。
 \item 送信ボタン\\
-  送信ボタンを押すことで、警告・注意喚起の確認画面へと遷移する。メッセージ内容テキストボックスに入力していない場合、エラーメッセージが表示される。
-\item 戻るボタン\\
-  %書くよ！！！
+  このボタンを押すことで、警告・注意喚起の確認画面へと遷移する。メッセージ内容テキストボックスに入力していない場合、エラーメッセージが表示される。
+\item ユーザ情報ページに戻るボタン\\
+  このボタンを押すことで、ユーザ情報ページに遷移する。
 \end{enumerate}
 
 \subsubsection{警告・注意喚起確認画面}
@@ -1152,7 +1152,7 @@ Pathfinder \\
       \begin{tabular}{|l|c|c|c|} \hline
         \multicolumn{1}{|c|}{属性} & データ型 &オプション& \begin{tabular}{c}キー:テーブル名\end{tabular}\\\hline \hline
           レスID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{PK(スレッドIDと複合)}\\\hline
-          スレッドID&INT(10)&AUTO\verb|_|INCREMENT&\multicolumn{1}{|l|}{PK(レスIDと複合)、FK:スレッドテーブル}\\\hline
+          スレッドID&INT(10)&AUTO\verb|_|INCREMENT&\begin{tabular}{l}PK(レスIDと複合)\\FK:スレッドテーブル\end{tabular}\\\hline
           学籍番号&CHAR(10)&NOT NULL&\multicolumn{1}{|l|}{FK:ユーザテーブル}\\\hline
           書き込みID&N VCHAR(15)&-&-\\\hline
           書き込み内容&N VCHAR(200)&-&-\\\hline
