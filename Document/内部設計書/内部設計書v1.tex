@@ -15,12 +15,430 @@
 \setlength{\textheight}{230mm}
 \setlength{\footskip}{20mm}
 
+\title{
+\vspace{30mm}
+{\bf 高知工科大学様}\\
+\vspace{5mm}
+大学掲示板(KUTBBS)\\
+\vspace{5mm}
+{\bf  内部設計書v1.0}
+\vspace{90mm}
+}
+
+
+\author{
+\vspace{5mm}
+グループ10 \\
+\vspace{5mm}
+Pathfinder \\
+\vspace{5mm}
+\vspace{10mm}
+}
+
+
 \begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{システム概要}
+本システムは本校の学生同士によって問題提起から問題解決までを匿名で行えるようにするためのシステムである。\\
+本システムはWebブラウザ上で「掲示板システム」「ユーザシステム」「管理者システム」によって構築される\\
+各要素の主な機能は以下に示す。
+\begin{itemize}
+\item 掲示板システム
+	\begin{itemize}
+	\item 掲示板サブシステム
+	\item 検索サブシステム
+	\item コレクトボタンサブシステム
+	\item 通報サブシステム
+	\item 通知サブシステム
+	\end{itemize}
+\item ユーザシステム
+	\begin{itemize}
+	\item アカウント登録サブシステム
+	\item ログインサブシステム
+	\item マイページサブシステム
+	\item ブックマークサブシステム
+	\item お知らせ表示サブシステム
+	\end{itemize}
+\item 管理者システム
+	\begin{itemize}
+	\item 管理者ログインサブシステム
+	\item 子管理者管理サブシステム
+	\item お知らせ編集サブシステム
+	\item 掲示板編集サブシステム
+	\item ユーザ管理サブシステム
+	\end{itemize}
+\end{itemize}
+\section{動作環境}
+本システムの動作環境は以下の通りである。
+\begin{itemize}
+\item 動作環境
+	\begin{itemize}
+	\item CPU
+	\item GPU
+	\item メモリ
+	\item ストレージ
+	\item OS
+	\item webサーバ
+	\item Appサーバ
+	\item RDBMS
+	\end{itemize}
+\item 使用ブラウザ
+\end{itemize}
+\section{開発環境}
+本システムの開発環境は以下の通りである。
+\begin{itemize}
+\item OS
+\item 使用言語
+	\begin{itemize}
+	\item ruby version
+	\item Ruby on Rails version
+	\item HTML
+	\item CSS
+	\item JavaScript
+	\end{itemize}
+\item サーバ\\
+\item データベース : MySQL
+\item webサーバ : AmazonWebServices
+\end{itemize}
+
+\section{データベース設計}
+本章では本システムにおけるデータベースMySQLについてを示す。
+\subsection{データテーブル構成}
+本小節ではデータテーブルの構成をER図を用いて示す。
+%\begin{figure}[H]
+%\begin{center}
+%\resizebox{10cm}{!}{\includegraphics{date_ER.png}}
+%\caption{データベーステーブルのER図}
+%\label{ER:dateER}
+%\end{center}
+%\end{figure}
+\newpage
+\subsection{テーブル設計}
+本小節ではデータベース構成するテーブルについて示す。また、各カラムについても詳細も示す。
+\subsubsection{ユーザテーブル(user)}
+ユーザテーブルではユーザに関する情報を管理する。このテーブルの詳細は表\ref{tab:user} に示す。
+\begin{table}[h]
+  \caption{ユーザテーブル}
+  \begin{center}
+    \footnotesize
+    \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+      \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+      学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{PK} \\\hline
+      ユーザID&user\verb|_|id&char&20&×&-&- \\ \hline
+      パスワード&password&char&20&×&-&- \\ \hline
+      保留ポイント&now\verb|_|point&int&4&×&-&- \\ \hline
+      取り消しフラグ&cancel\verb|_|flag&int&1&×&-&- \\ \hline
+      色フラグ&color\verb|_|flag&int&1&×&-&- \\ \hline
+      斜線フラグ&diagonal\verb|_|flag&int&1&×&-&- \\ \hline
+      太文字フラグ&bold\verb|_|letters\verb|_|flag&int&1&×&-&- \\ \hline
+      管理者フラグ&administrator\verb|_|flag&int&1&○&-&- \\ \hline
+      初回ログインフラグ&first\verb|_|login\verb|_|flag&int&1&×&-&- \\ \hline
+      ログイン日数&count\verb|_|login&int&4&×&-&-\\ \hline 
+    \end{tabular}
+    \label{tab:user}
+  \end{center}
+\end{table}
+\begin{itemize}
+\item 学籍番号\\
+  ユーザの学籍番号を示す値であり、自テーブルの主キーである。値は7文字の半角数字にて構成される。(例:1200***)
+\item ユーザID\\
+  ユーザを識別するためのIDを示す値である。値は最大20文字の半角英字と半角数字の組み合わせにて構成される。(例:user1234)
+\item パスワード\\
+  ユーザを識別するためのパスワードを示す値である。値は最大20文字の半角英数字と半角数字の組み合わせにて構成される。(例:pass1234)
+\item 保留ポイント\\
+  ユーザがログインした回数、コレクトボタンを10回以上押されたことで獲得したポイントを示す値である。値は4桁の数値にて構成される。(例:9999)
+\item 取り消しフラグ\\
+  拡張機能の1つであり、取り消し線を付与することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。(例:1 → 取り消し線付与)
+\item 色フラグ\\
+  拡張機能の1つであり、色を付与することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。(例:1 → 色付与)\\
+  *色フラグは1(ON)にした場合、文字を赤色に変更することができるように想定している。
+\item 斜線フラグ\\
+  拡張機能の1つであり、斜線を付与することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。(例:1 → 斜線付与)
+\item 太文字フラグ\\
+  拡張機能の1つであり、太文字を寄与することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。(例:1 → 太文字付与)
+\item 管理者フラグ\\
+  親管理者と子管理者を識別することを示す値である。値は１桁の0(子管理者)、1(親管理者)の数値にて構成される。(例:1 → 親管理者と識別される)
+\item 初回ログインフラグ\\
+  初回ログインを識別することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。(例:1 → 初回ログインと識別)
+\item ログイン日数\\
+  ユーザがログインをした日数の回数を記録することを示す値である。値は4桁の数値にて構築される。(例:9999)
+  
+  　\end{itemize}
+  \subsubsection{スレッドテーブル(thread)}
+  スレッドテーブルではスレッドに関する情報を管理する。このテーブルの詳細は表\ref{tab:thread} に示す。
+  \begin{table}[h]
+    \caption{スレッドテーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        スレッドNo&thread\verb|_|no&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&\multicolumn{1}{|l|}{PK} \\\hline
+        スレッドカテゴリNo&thread\verb|_|category\verb|_|no&int&3&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\verb|_|category \\ \hline
+        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+        スレッドタイトル名&thread\verb|_|category\verb|_|name&char&50&×&-&- \\ \hline
+        スレッド非表示フラグ&thread\verb|_|hide\verb|_|flag&int&1&×&-&- \\ \hline
+        作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+        更新日時&updated\verb|_|at&timestamp&-&×&\begin{tabular}{l}default current\verb|_|timestamp on \\updat current\verb|_|timestamp\end{tabular}&- \\ \hline
+      \end{tabular}
+      
+      \label{tab:thread}
+    \end{center}
+  \end{table}
+  \begin{itemize}  
+  \item スレッドNo\\
+    自テーブルの主キーである。値は5桁の数値に構成され自動追加される。(例:00001→対応するスレッドNoが追加される)
+  \item スレッドカテゴリNo\\
+    スレッドカテゴリテーブルを参照する際の外部キーである。値は3桁の数値に構成され自動追加される。(例:001→対応するスレッドカテゴリNoが追加される)
+  \item 学籍番号\\
+    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。(例:1200***)
+  \item スレッドタイトル名\\
+    ユーザが作成したスレッドタイトルを示す値である。値は最大50文字の全角文字にて構成される。(例:研究室どこにしようか・・・)
+  \item スレッド非表示フラグ\\
+    管理者の操作権限でスレッドを非表示するを示す値である。値は1桁の数値で0(OFF)、1(ON)の数値にて構成される。(例:1→対象のスレッドを非表示にする)
+  \item 作成日時\\
+    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加を行う。(例:2015-05-12 17:30:36)
+  \item 更新日時\\
+    レコードを更新した日付・時刻を示す値である。レコードが更新されるたびに自動更新を行う。(例:2015-05-12 17:31:07)
+  \end{itemize}
+  \subsubsection{レステーブル(ress)}
+  レステーブルではレスに関する情報を管理する。このテーブルの詳細は表\ref{tab:ress} に示す。
+  \begin{table}[h]
+    \caption{レステーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        レスNo&ress\verb|_|no&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK \\\hline
+        スレッドNo&thread\verb|_|no&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\\\hline
+        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+        レスID&ress\verb|_|id&char&8&×&-&-\\ \hline 
+        書き込み名&write\verb|_|name&varchar&15&×&-&- \\ \hline
+        書き込み内容&write\verb|_|content&varchar&200&×&-&- \\ \hline
+        コレクトプッシュ数&collect\verb|_|push\verb|_|count&int&4&×&-&- \\ \hline
+        レス非表示フラグ&ress\verb|_|hide\verb|_|flag&int&1&×&-&- \\ \hline
+        作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+      \end{tabular}
+      
+      \label{tab:ress}
+    \end{center}
+  \end{table}
+  
+  \begin{itemize}
+  \item レスNo\\
+    自テーブルの主キーである。値は5桁の数値で構成され自動追加される。(例:00001→対応するレスNoが追加される)
+  \item スレッドNo\\
+    スレッドテーブルを参照する際の外部キーである。値は5桁の数値に構成され自動追加される。(例:00001→対応するレスッドNoが追加される)
+  \item 学籍番号\\
+    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。(例:1200***)
+  \item レスID\\
+    ユーザが書き込みを行う際に表示するIDを示す値である。値は最大8文字の半角英数か半角数字にて構成される(例:ero1o23u)
+  \item 書き込み名\\
+    書き込みを行う際に表示する名前を示す値である。値は15文字以下の全角文字にて構成される。(例:名無しさん)
+  \item 書き込み内容\\
+    書き込み内容を示す値である。値は200文字以下の全角文字にて構成される。(例:自分のやりたいことができるとこでええんやで)
+  \item コレクトボタンプッシュ数\\
+    レスに対してコレクトボタンが押された回数を示す値である。値は4桁の数値にて構成される。(例:10[コレクトボタンが押された回数])
+  \item レス非表示フラグ\\
+    管理者の操作権限でレスを非表示するを示す値である。値は1桁の数値で0(OFF)、1(ON)の数値にて構成される。(例:1→対象のレスを非表示にする)
+  \item 作成日時\\
+    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加を行う(例:2015-05-12 17:30:36)    
+  \end{itemize}
+  \subsubsection{スレッドカテゴリテーブル(thread\_category)}
+  スレッドカテゴリテーブルは各カテゴリごとに分けられたスレッドの情報を管理する。このテーブルの詳細は表\ref{tab:thread_category} に示す。
+  \begin{table}[h]
+    \caption{スレッドカテゴリテーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        カテゴリNo&category\verb|_|no&int&3&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\ \hline
+        カテゴリ名&category\verb|_|name&varchar&15&×&-&-\\\hline
+      \end{tabular}
+      \label{tab:thread_category}
+    \end{center}
+  \end{table}
+  
+  \begin{itemize}
+  \item カテゴリNo\\
+    自テーブルの主キーである。値は値は3桁の数値に構築され自動追加される。(例:001→対応するカテゴリNoが追加される)
+  \item カテゴリ名
+    カテゴリの名前を示す値である。値は15文字以下の全角文字にて構成される。(例:情報学群)
+  \end{itemize}
+  \subsubsection{お気に入り掲示板テーブル(favorite\_bbs)}
+  お気入り掲示板テーブルではブックマークとして登録したスレッド情報を管理する。このテーブルの詳細は表\ref{tab:favorite_bbs} に示す。
+  \begin{table}[h]
+    \caption{お気に入り掲示板テーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+        スレッドNo&thread\verb|_|no&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\\\hline
+      \end{tabular}
+      \label{tab:favorite_bbs}
+    \end{center}
+    \end{table}
+    
+  \begin{itemize}
+  \item 学生番号\\
+    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。(例:1200***)
+  \item スレッドNo\\
+    スレッドテーブルを参照する際の外部キーである。値は5桁の数値に構築され自動追加される。(例:00001→対応するレスッドNoが追加される)
+  \end{itemize}
+  
+  
+  
+  \subsubsection{コレクトユーザテーブル(collect\_user)}
+  コレクトユーザテーブルではコレクトボタンを押されたことに関する情報を管理する。このテーブルの詳細は表 \ref{tab:collect_user} に示す。
+  \begin{table}[h]
+    \caption{コレクトユーザテーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+        スレッドNo&thread\verb|_|no&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\\\hline
+        レスNo&ress\verb|_|no&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:ress \\\hline
+      \end{tabular}
+      \label{tab:collect_user}
+    \end{center}
+  \end{table}
+  \begin{itemize}
+  \item 学生番号\\
+    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。(例:1200***)
+  \item スレッドNo\\
+    スレッドテーブルを参照する際の外部キーである。値は5桁の数値にて構築され自動追加される。(例:00001→対応するレスッドNoが追加される)
+  \item レスNo\\
+    レステーブルを参照する際の外部キーである。値は5桁の数値にて構築され自動追加される。(例:00001→対応するレスNoが追加される)
+  \end{itemize}
+  
+  \subsubsection{不適切な単語登録テーブル(inadequacy\_word)}
+  不適切な単語登録テーブルでは管理者が誹謗中傷や公序良俗に違反していると考えられる単語を登録した情報を管理する。このテーブルの詳細は表 \ref{tab:inadequacy_word} に示す。
+  \begin{table}[h]
+    \caption{不適切な単語登録テーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        単語No&word\verb|_|no&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
+        単語名&word\verb|_|name&varchar&200&×&-&- \\\hline
+      \end{tabular}
+      \label{tab:inadequacy_word}
+    \end{center}
+  \end{table}
+  
+  \begin{itemize}
+  \item 単語No\\
+    自テーブルの主キーである。値は5桁の数値に構成され自動追加される。(例00001→対応する単語Noが追加される)
+  \item 単語名\\
+    管理者の操作権限で登録した単語を示す値である。値は200文字以下の全角文字にて構成される。(例:バカ)
+  \end{itemize}
+  
+  \subsubsection{通報テーブル(report)}
+  通報テーブルではユーザが誹謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報した時の情報を管理する。また、通報した内容の情報も管理する。このテーブルの詳細は表 \ref{tab:report} に示す。
+  \begin{table}[h]
+    \caption{通報テーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        通報No&report\verb|_|no&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
+        通報ユーザID&report\verb|_|user\verb|_|id&char&20&×&-&FK:user \\ \hline
+        スレッドNo&thread\verb|_|no&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\\\hline
+        レスNo&ress\verb|_|no&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}t&FK:ress \\\hline
+        通報内容&report\verb|_|content&varchar&200&○&-&-\\ \hline
+        通報日時&report\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+      \end{tabular}
+      \label{tab:report}
+    \end{center}
+  \end{table}
+  
+  \begin{itemize}
+  \item 通報No\\
+    自テーブルの主キーである。値は5桁の数値に構成され自動追加される。(例00001→対応する通報Noが追加される)
+  \item 通報ユーザID\\
+    ユーザテーブルを参照する際の外部キーである。値は最大20文字の半角英字と半角数字の組み合わせにて構成される。(例:user1234)
+  \item スレッドNo\\
+    スレッドテーブルを参照する際の外部キーである。値は5桁の数値に構築され自動追加される。(例:00001→対応するスレッドNoが追加される)
+  \item レスNo\\
+    レステーブルを参照する際の外部キーである。値は5桁の数値に構築され自動追加される。(例:00001→対応するレスNoが追加される)
+  \item 通報内容\\
+    通報内容を示す値である。値は200文字以下の全角文字にて構成される。(例:このユーザ○○は誹謗中傷に反している思ったから)
+  \item 通報日時\\
+    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加を行う。(例:2015-05-12 17:30:36)
+  \end{itemize}
+  
+  \subsubsection{凍結ユーザテーブル(suspend)}
+  凍結ユーザテーブルでは迷惑行為が改善されないユーザのアカウントに対しての情報を管理する。このテーブルの詳細は表 \ref{tab:suspend} に示す。
+  
+  \begin{table}[h]
+    \caption{凍結ユーザテーブル}
+    \begin{center}
+      \fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        凍結No&suspend\verb|_|no&int&4&×&\begin{tabular}{l}lunsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
+        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+      \end{tabular}
+      \label{tab:suspend}
+    \end{center}
+  \end{table}
+  
+  \begin{itemize}
+  \item 凍結No\\
+    自テーブルの主キーである。値は3桁の数値に構成され自動追加される。(例:00001→対応する凍結Noが追加される)
+  \item 学籍番号\\
+    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。(例:1200***)
+  \end{itemize}
+  
+  \subsubsection{お知らせテーブル(notice)}
+  お知らせテーブルではお知らせに関する情報を管理する。このテーブルの詳細は表 \ref{tab:notice} に示す。
+    \begin{table}[h]
+    \caption{お知らせテーブル}
+    \begin{center}
+      \fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        お知らせNo&notice\verb|_|no&int&5&×&\begin{tabular}{l}lunsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
+        お知らせタイトル&notice\verb|_|title&varchar&50&×&-&-\\\hline
+        お知らせ内容&notice\verb|_|title&varchar&400&×&-&-\\\hline
+        作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+        
+      \end{tabular}
+      \label{tab:notice}
+    \end{center}
+  \end{table}
+  
+  \begin{itemize}
+  \item お知らせNo\\
+    自テーブルの主キーである。値は4桁の数値に構成され自動追加される。(例:00001→対応するお知らせNoが追加される)
+  \item お知らせタイトル名\\
+    管理者が作成したお知らせタイトルを示す値である。値は50文字以下の全角文字にて構成される。(例:現在確認している不具合について)
+  \item お知らせ内容\\
+    お知らせ内容を示す値である。値は400文字以下の全角文字にて構成される。(例:KUTBBS運営事務局です。・・・)
+  \item 作成日時\\
+    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加を行う。(例:2015-05-12 17:30:36)
+  \end{itemize}
+
+
 
 
 
 \section{モジュール設計}
-\subsection{admin\_top.thml}
+\subsection{admin\_top.html}
 \noindent
 【名称】\\
 管理者TOP画面\\
@@ -29,14 +447,14 @@
 【処理フロー】
 \begin{itemize}
 \item 「掲示板はこちらボタン」を押すと、が呼び出される。
-\item 「子管理者管理ボタン」を押すと、admin\_child\_top.thmlが呼び出される。
+\item 「子管理者管理ボタン」を押すと、admin\_child\_top.htmlが呼び出される。
 \item 「ユーザ管理ボタン」を押すと、が呼び出される。
 \item 「お知らせ編集ボタン」を押すと、が呼び出される。
 \item 「通報状況確認ボタン」を押すと、が呼び出される。
 \item 「不適切な単語登録ボタン」を押すと、が呼び出される。
 \end{itemize}
 
-\subsection{admin\_child\_top.thml}
+\subsection{admin\_child\_top.html}
 \noindent
 【名称】\\
 子管理者管理TOP\\
@@ -44,12 +462,12 @@
 各子管理者について発行・抹消を行うための画面である。\\
 【処理フロー】
 \begin{itemize}
-\item 「子管理者アカウント発行ボタン」を押すと、create\_admin.thmlが呼び出される。
-\item 「子管理者抹消ボタン」を押すと、delete\_admin.thmlが呼び出される。
-\item 「管理者TOPボタン」を押すと、admin\_top.thmlが呼び出される。
+\item 「子管理者アカウント発行ボタン」を押すと、create\_admin.htmlが呼び出される。
+\item 「子管理者抹消ボタン」を押すと、delete\_admin.htmlが呼び出される。
+\item 「管理者TOPボタン」を押すと、admin\_top.htmlが呼び出される。
 \end{itemize}
 
-\subsection{create\_admin.thml}
+\subsection{create\_admin.html}
 \noindent
 【名称】\\
 子管理者アカウント発行画面\\
@@ -58,11 +476,11 @@
 【処理フロー】
 \begin{itemize}
 \item 「はいボタン」を押すと、.html.erbで処理が行われる。
-\item .html.erbで新たなアカウントの発行が完了するとnew\_admin.thmlが呼び出される。
-\item 「いいえボタン」を押すと、admin\_child\_top.thmlが呼び出される。
+\item .html.erbで新たなアカウントの発行が完了するとnew\_admin.htmlが呼び出される。
+\item 「いいえボタン」を押すと、admin\_child\_top.htmlが呼び出される。
 \end{itemize}
 
-\subsection{new\_admin.thml}
+\subsection{new\_admin.html}
 \noindent
 【名称】\\
 子管理者アカウント発行完了画面\\
@@ -70,11 +488,11 @@
 子管理者アカウント発行完了画面が表示される\\
 【処理フロー】
 \begin{itemize}
-\item 「確認ボタン」を押すと、admin\_child\_top.thmlが呼び出される。
-\item 「管理者TOPボタン」を押すと、admin\_top.thmlが呼び出される。
+\item 「確認ボタン」を押すと、admin\_child\_top.htmlが呼び出される。
+\item 「管理者TOPボタン」を押すと、admin\_top.htmlが呼び出される。
 \end{itemize}
 
-\subsection{delete\_admin.thml}
+\subsection{delete\_admin.html}
 \noindent
 【名称】\\
 子管理者アカウント抹消画面\\
@@ -83,11 +501,11 @@
 【処理フロー】
 \begin{itemize}
 \item 「はいボタン」を押すと、.html.erbで処理が行われる
-\item .html.erbで子管理者アカウントの抹消が完了するとdelete\_admin\_ok.thmlが呼び出される。
-\item 「いいえボタン」を押すと、admin\_child\_top.thmlが呼び出される。
+\item .html.erbで子管理者アカウントの抹消が完了するとdelete\_admin\_ok.htmlが呼び出される。
+\item 「いいえボタン」を押すと、admin\_child\_top.htmlが呼び出される。
 \end{itemize}
 
-\subsection{delete\_admin\_ok.thml}
+\subsection{delete\_admin\_ok.html}
 \noindent
 【名称】\\
 子管理者アカウント抹消完了画面\\
@@ -95,10 +513,10 @@
 子管理者アカウント抹消完了画面が表示される\\
 【処理フロー】
 \begin{itemize}
-\item 「戻るボタン」を押すと、admin\_child\_top.thmlが呼び出される。
+\item 「戻るボタン」を押すと、admin\_child\_top.htmlが呼び出される。
 \end{itemize}
 
-\subsection{user\_admin\_top.thml}
+\subsection{user\_admin\_top.html}
 \noindent
 【名称】\\
 ユーザ管理画面\\
@@ -106,11 +524,11 @@
 ユーザのアカウント発行とユーザ情報検索を行うことができる画面である。\\
 【処理フロー】
 \begin{itemize}
-\item 「ユーザアカウント発行ボタン」を押すと、create\_user.thmlが呼び出される。
-\item 「ユーザ情報検索ボタン」を押すと、search\_user.thmlが呼び出される。
+\item 「ユーザアカウント発行ボタン」を押すと、create\_user.htmlが呼び出される。
+\item 「ユーザ情報検索ボタン」を押すと、search\_user.htmlが呼び出される。
 \end{itemize}
 
-\subsection{create\_user.thml}
+\subsection{create\_user.html}
 \noindent
 【名称】\\
 ユーザアカウント発行画面\\
@@ -121,11 +539,11 @@
 \item 「開始番号テキストボックス」に新しく発行するユーザの開始番号を入力する。
 \item 「末尾番号テキストボックス」に新しく発行するユーザの末尾番号を入力する。
 \item 「登録ボタン」を押すと、.html.erbで処理が行われる。
-\item .html.erbでユーザのアカウント発行が完了するとnew\_user.thmlが呼び出される。
-\item 「管理者TOPボタン」を押すと、admin\_top.thmlが呼び出される。
+\item .html.erbでユーザのアカウント発行が完了するとnew\_user.htmlが呼び出される。
+\item 「管理者TOPボタン」を押すと、admin\_top.htmlが呼び出される。
 \end{itemize}
 
-\subsection{new\_user.thml}
+\subsection{new\_user.html}
 \noindent
 【名称】\\
 ユーザアカウント発行確認画面\\
@@ -133,10 +551,10 @@
 ユーザアカウント発行確認画面が表示される\\
 【処理フロー】
 \begin{itemize}
-\item 「確認ボタン」を押すと、user\_admin\_top.thmlが呼び出される。
+\item 「確認ボタン」を押すと、user\_admin\_top.htmlが呼び出される。
 \end{itemize}
 
-\subsection{search\_user.thml}
+\subsection{search\_user.html}
 \noindent
 【名称】\\
 ユーザ情報検索画面\\
@@ -144,11 +562,11 @@
 【処理フロー】
 \begin{itemize}
 \item 「学籍番号検索テキストボックス」にはユーザの情報を入手する際に学籍番号を入力する。
-\item 「検索ボタン」を押すと、.html.erbで処理が行われる。
-\item .html.erbで該当するユーザがあればuser\_info.thmlが呼び出される。
+\item 「検索ボタン」を押すと、.thml.erbで処理が行われる。
+\item .html.erbで該当するユーザがあればuser\_info.htmlが呼び出される。
 \end{itemize}
 
-\subsection{user\_info.thml}
+\subsection{user\_info.html}
 \noindent
 【名称】\\
 ユーザ情報画面\\
@@ -159,18 +577,18 @@
 \item 「警告・注意喚起ボタン」を押すと、が呼び出される。
 \item 「アカウント凍結ボタン」を押すと、が呼び出される。
 \item 「パスワード表示ボタン」を押すと、が呼び出される。
-\item 「管理者TOPボタン」を押すと、admin\_top.thmlが呼び出される。
+\item 「管理者TOPボタン」を押すと、admin\_top.htmlが呼び出される。
 \end{itemize}
 
-\subsection{.thml}
-\noindent
-【名称】\\
-画面\\
-【概要】\\
-【処理フロー】
-\begin{itemize}
-\item 「ボタン」を押すと、が呼び出される。
-\end{itemize}
+%\subsection{.html}
+%\noindent
+%【名称】\\
+%画面\\
+%【概要】\\
+%【処理フロー】
+%\begin{itemize}
+%\item 「ボタン」を押すと、が呼び出される。
+%\end{itemize}
 
 \subsection{login\_top.html}
 【名称】\\
@@ -340,13 +758,13 @@
   \item 単語の「削除ボタン」を押すことで、不適切な単語の一覧からその単語を外し、(不適切な単語のデータベース)から外す。
 \end{itemize}
 
-\begin{figure}[H]
-\begin{center}
-\resizebox{8cm}{!}{\includegraphics{sequence/subscribe_user.PNG}}
-%\caption {カテゴリトップ画面}
-%\label {fig：category\_top}
-\end{center}
-\end{figure}
+%\begin{figure}[H]
+%\begin{center}
+%\resizebox{8cm}{!}{\includegraphics{sequence/subscribe_user.PNG}}
+%%\caption {カテゴリトップ画面}
+%%\label {fig：category\_top}
+%\end{center}
+%\end{figure}
 
 
 
