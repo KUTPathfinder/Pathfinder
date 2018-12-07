@@ -72,38 +72,47 @@ Pathfinder \\
 	\item ユーザ管理サブシステム
 	\end{itemize}
 \end{itemize}
+
 \section{動作環境}
 本システムの動作環境は以下の通りである。
 \begin{itemize}
 \item 動作環境
 	\begin{itemize}
-	\item CPU
-	\item GPU
-	\item メモリ
-	\item ストレージ
+	\item CPU : ARM Cortex-A53 1GHz以上
+	\item GPU : Broadcom VideoCore IV
+	\item メモリ : 2GB以上
+	\item ストレージ : 4GB eMMC / SDカードPIN
 	\item OS
-	\item webサーバ
-	\item Appサーバ
-	\item RDBMS
+	\begin{itemize}
+		\item Linux version
+		\item ubuntu version
+		\item MacOS version
+		\item Windowss7 , 8 , 10
+		\item iOS 10.0
 	\end{itemize}
-\item 使用ブラウザ
+	\item webサーバ : AWS EC2
+	\item Appサーバ : Ruby on Rails version 5.1.4
+	\item RDBMS : MySQL version 8.0
+	\end{itemize}
+\item 使用ブラウザ : GoogleChrome62.0 , Firefox version 57.0% , Safari11.0.1
 \end{itemize}
 \section{開発環境}
 本システムの開発環境は以下の通りである。
 \begin{itemize}
-\item OS
+\item OS : Linux , ubuntu , MacOS , Windows , iOS10.0
 \item 使用言語
 	\begin{itemize}
-	\item ruby version
-	\item Ruby on Rails version
-	\item HTML
+	\item ruby version 2.4.2
+	\item Ruby on Rails version 5.1.4
+	\item HTML5
 	\item CSS
 	\item JavaScript
 	\end{itemize}
-\item サーバ\\
-\item データベース : MySQL
+\item サーバ : Raspberry Pi 3
+\item データベース : MySQL version 8.0
 \item webサーバ : AmazonWebServices
 \end{itemize}
+
 
 \section{データベース設計}
 本章では本システムにおけるデータベースMySQLについてを示す。
