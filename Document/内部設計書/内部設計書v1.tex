@@ -169,66 +169,83 @@ Pathfinder \\
 \label{tab:server_environment}
 \end{center}
 \end{table}
- \section{テーブル設計}
+\section{データベース設計}
+本章では本システムにおけるデータベースMySQLについてを示す。
+
+\subsection{データテーブル構成}
+本小節ではデータテーブルの構成をER図を用いて示す。
+
+
+\begin{figure}[H]
+\begin{center}
+\resizebox{10cm}{!}{\includegraphics{date-ER1.png}}
+\caption{ER図}
+\label{}
+\end{center}
+\end{figure}
+\newpage
+
+\subsection{テーブル設計}
 本小節ではデータベース構成するテーブルについて示す。また、各カラムについても詳細も示す。
- \subsection{ユーザテーブル(user)}
-ユーザテーブルではユーザに関する情報を管理する。このテーブルの詳細は表\ref{tab:server_environment} に示す。
+
+\subsubsection{ユーザテーブル(user)}
+ユーザテーブルではユーザに関する情報を管理する。このテーブルの詳細は表\ref{tab:user} に示す。
 \begin{table}[h]
-   \caption{ユーザテーブル}
+
+  \caption{ユーザテーブル}
   \begin{center}
     \footnotesize
     \begin{tabular}{|l|l|l|c|c|l|l|} \hline
-       \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+
+      \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
       学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{PK} \\\hline
-      ユーザID&user\verb|_|id&char&20&×&-&- \\ \hline
-      パスワード&password&char&20&×&-&- \\ \hline
+      ユーザID&user\verb|_|id&varchar&20&×&-&- \\ \hline
+      パスワード&password&varchar&20&×&-&- \\ \hline
       保有ポイント&now\verb|_|point&int&4&×&-&- \\ \hline
       取り消しフラグ&cancel\verb|_|flag&int&1&×&-&- \\ \hline
-      色フラグ&color\verb|_|flag&int&1&×&-&- \\ \hline
-      斜線フラグ&diagonal\verb|_|flag&int&1&×&-&- \\ \hline
+      赤色フラグ&color\verb|_|flag&int&1&×&-&- \\ \hline
+      斜体フラグ&diagonal\verb|_|flag&int&1&×&-&- \\ \hline
       太文字フラグ&bold\verb|_|letters\verb|_|flag&int&1&×&-&- \\ \hline
       管理者フラグ&administrator\verb|_|flag&int&1&○&-&- \\ \hline
       初回ログインフラグ&first\verb|_|login\verb|_|flag&int&1&×&-&- \\ \hline
-      ログイン日数&count\verb|_|login&int&4&×&-&-\\ \hline
+      ログイン日数&count\verb|_|login&int&4&×&-&-\\ \hline 
     \end{tabular}
-   \label{tab:user}
+    \label{tab:user}
   \end{center}
 \end{table}
- \begin{itemize}
+
+\begin{itemize}
 \item 学籍番号\\
-  ユーザの学籍番号を示す値であり、自テーブルの主キーである。値は7文字の半角数字にて構成される。\\例として学籍番号「1200***」がある。
+  ユーザの学籍番号を示す値であり、自テーブルの主キーである。NULL値は含まない。値は固定7文字の半角英数字にて構成される。\\
 \item ユーザID\\
-  ユーザを識別するためのIDを示す値である。値は最大20文字の半角英字と半角数字の組み合わせにて構成される。
-  \\例としてユーザID「user1234」がある。
+  ユーザを識別するためのIDを示す値である。NULL値は含まない。値は20文字以下の半角英数字にて構成される。
 \item パスワード\\
-  ユーザを識別するためのパスワードを示す値である。値は最大20文字の半角英数字と半角数字の組み合わせにて構成される。\\
-  例としてパスワード「pass1234」がある。
+  ユーザを識別するためのパスワードを示す値である。NULL値は含まない。値は20文字以下の半角英数字にて構成される。\\
 \item 保有ポイント\\
-  ユーザがログインした日数とコレクトボタンを10回以上押されたことで獲得したポイントを示す値である。値は4桁の数値にて構成される。
-  例として保有ポイント「9999」がある。
+  ユーザがログインした日数とコレクトボタンを10回以上押されたことで獲得したポイントを示す値である。NULL値は含まない。4桁(0001から9999)の数値にて構成される。
+
 \item 取り消しフラグ\\
-  拡張機能の1つであり、取り消し線を付与することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
-  例として取り消しフラグを1にした場合、ユーザの拡張機能「取り消し線」を付与する。
-\item 色フラグ\\
-  拡張機能の1つであり、色を付与することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
-  例として色フラグを1にした場合、ユーザの拡張機能「赤色」を付与する。
-\item 斜線フラグ\\
-  拡張機能の1つであり、斜線を付与することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
-  例として斜線フラグを1にした場合、ユーザの拡張機能「斜線」を付与する
+  拡張機能の1つであり、取り消し線を付与することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
+  
+\item 赤色フラグ\\
+  拡張機能の1つであり、赤色を付与することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
+\item 斜体フラグ\\
+  拡張機能の1つであり、斜体を付与することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
+
 \item 太文字フラグ\\
-  拡張機能の1つであり、太文字を寄与することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
-  例として太文字フラグを1にした場合、ユーザの拡張機能「太文字」を付与する。
+  拡張機能の1つであり、太文字を付与することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
+
 \item 管理者フラグ\\
   親管理者と子管理者を識別することを示す値である。値は１桁の0(子管理者)、1(親管理者)の数値にて構成される。\\
-  例として管理者フラグを1にした場合、管理者は「親管理者」と識別される。
 \item 初回ログインフラグ\\
-  初回ログインを識別することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\例として初回ログインフラグを1にした場合、「初回ログイン」と識別される。
-
+  初回ログインを識別することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。
+  
 \item ログイン日数\\
-  ユーザがログインをした日数の回数を記録することを示す値である。値は4桁の数値にて構築される。 例としてログイン日数「9999」がある。
-
+  ユーザがログインをした日数を記録することを示す値である。NULL値は含まない。値は4桁(0001から9999)の数値にて構築される。
+  
   　\end{itemize}
-   \subsection{スレッドテーブル(thread)}
+\newpage
+  \subsubsection{スレッドテーブル(thread)}
   スレッドテーブルではスレッドに関する情報を管理する。このテーブルの詳細は表\ref{tab:thread} に示す。
   \begin{table}[h]
     \caption{スレッドテーブル}
@@ -238,37 +255,38 @@ Pathfinder \\
       \begin{tabular}{|l|l|l|c|c|l|l|} \hline
         \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
         スレッドID&thread\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&\multicolumn{1}{|l|}{PK} \\\hline
-        スレッドカテゴリID&thread\verb|_|category\verb|_|id&int&3&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\verb|_|category \\ \hline
-        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
-        スレッドタイトル名&thread\verb|_|category\verb|_|name&char&50&×&-&- \\ \hline
-        スレッド非表示フラグ&thread\verb|_|hide\verb|_|flag&int&1&×&-&- \\ \hline
-        作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
-        更新日時&updated\verb|_|at&timestamp&-&×&\begin{tabular}{l}default current\verb|_|timestamp on \\updat current\verb|_|timestamp\end{tabular}&- \\ \hline
+          スレッドカテゴリID&thread\verb|_|category\verb|_|id&int&3&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\verb|_|category \\ \hline
+            学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+            スレッドタイトル名&thread\verb|_|category\verb|_|name&varchar&50&×&-&- \\ \hline
+            スレッド非表示フラグ&thread\verb|_|hide\verb|_|flag&int&1&×&-&- \\ \hline
+            作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+            更新日時&updated\verb|_|at&timestamp&-&×&\begin{tabular}{l}default current\verb|_|timestamp on \\update current\verb|_|timestamp\end{tabular}&- \\ \hline
       \end{tabular}
-
+      
       \label{tab:thread}
     \end{center}
   \end{table}
-  \begin{itemize}
+  \begin{itemize}  
   \item スレッドID\\
-    自テーブルの主キーである。値は5桁の数値に構成され自動追加される。\\
-   \item スレッドカテゴリID\\
-    スレッドカテゴリテーブルを参照する際の外部キーである。値は3桁の数値に構成され自動追加される。\\
+    自テーブルの主キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構成され自動追加される。\\
 
+  \item スレッドカテゴリID\\
+    スレッドカテゴリテーブルを参照する際の外部キーである。NULL値は含まない。値は3桁(001から999)の数値にて構成され自動追加される。\\
+    
   \item 学籍番号\\
-    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。\\
-    例として学籍番号「1200***」がある。
+    ユーザテーブルを参照する際の外部キーである。NULL値は含まない。固定7文字の半角英数字にて構成される。\\
+    
   \item スレッドタイトル名\\
-    ユーザが作成したスレッドタイトルを示す値である。値は最大50文字の全角文字にて構成される。\\例としてユーザがスレッドタイトル「研究室どこにしようか」がある。
+    スレッドタイトルを示す値である。NULL値は含まない。値は50文字以下の文字列にて構成される。\\
   \item スレッド非表示フラグ\\
-    管理者の操作権限でスレッドを非表示するを示す値である。値は1桁の数値で0(OFF)、1(ON)の数値にて構成される。\\
-    例としてスレッド非表示フラグを1にした場合、「スレッドを非表示」にする。
+    管理者の操作権限でスレッドを非表示を示す値である。NULL値は含まない。値は1桁の数値で0(OFF)、1(ON)の数値にて構成される。\\
+    例としてスレッド非表示フラグを1にした場合、ユーザ側からはスレッドが非表示になる。
   \item 作成日時\\
-    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加を行う
+    レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加を行う。
   \item 更新日時\\
-    レコードを更新した日付・時刻を示す値である。レコードが更新されるたびに自動更新を行う。
+    レコードを更新した日付・時刻を示す値である。NULL値は含まない。レコードが更新されるたびに自動更新を行う。
   \end{itemize}
-  \subsection{レステーブル(res)}
+  \subsubsection{レステーブル(res)}
   レステーブルではレスに関する情報を管理する。このテーブルの詳細は表\ref{tab:ress} に示す。
   \begin{table}[h]
     \caption{レステーブル}
@@ -277,47 +295,46 @@ Pathfinder \\
       \footnotesize
       \begin{tabular}{|l|l|l|c|c|l|l|} \hline
         \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
-        レスID&res\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK \\\hline
-        スレッドID&thread\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\\\hline
-        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
-        書き込みID&ress\verb|_|write\verb|_|id&char&8&×&-&-\\ \hline
-        書き込み名&write\verb|_|name&varchar&15&×&-&- \\ \hline
-        書き込み内容&write\verb|_|content&varchar&200&×&-&- \\ \hline
-        コレクトプッシュ数&collect\verb|_|push\verb|_|count&int&4&×&-&- \\ \hline
-        レス非表示フラグ&ress\verb|_|hide\verb|_|flag&int&1&×&-&- \\ \hline
-        作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+        レスID&res\verb|_|id&int&4&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK \\\hline
+          スレッドID&thread\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&\begin{tabular}{l}PK(res複合)\\FK:thread\end{tabular}\\\hline
+              学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+              書き込みID&write\verb|_|id&char&8&×&-&-\\ \hline 
+              書き込み名&write\verb|_|name&varchar&15&×&-&- \\ \hline
+              書き込み内容&write\verb|_|content&varchar&200&×&-&- \\ \hline
+              コレクトプッシュ数&collect\verb|_|push\verb|_|count&int&4&×&-&- \\ \hline
+              書き込みID&write\verb|_|id&char&8&×&-&-\\ \hline 
+              レス非表示フラグ&res\verb|_|hide\verb|_|flag&int&1&×&-&- \\ \hline
+              作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
       \end{tabular}
-
+      
       \label{tab:ress}
     \end{center}
   \end{table}
-
+  
   \begin{itemize}
   \item レスID\\
-    自テーブルの主キーである。値は5桁の数値で構成され自動追加される。
+    自テーブルの主キーである。NULL値は含まない。値は4桁(0001から9999)の数値にて構成され自動追加される。
   \item スレッドID\\
-    スレッドテーブルを参照する際の外部キーである。値は5桁の数値に構成され自動追加される。
+    スレッドテーブルを参照する際の外部キーであり、スレIDとの複合主キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構成され自動追加される。
   \item 学籍番号\\
-    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。\\
-      例として学籍番号「1200***」がある。
+    ユーザテーブルを参照する際の外部キーである。NULL値は含まない。固定7文字の半角英数字にて構成される。\\
   \item 書き込みID\\
-    ユーザが書き込みを行う際に表示するIDを示す値である。値は最大8文字の半角英数か半角数字にて構成される。\\
-    例として書き込みID「ero1o23u」がある。
+    ユーザが書き込みを行う際に表示するIDを示す値である。NULL値は含まない。値は固定8文字の半角英数字にて構成される。\\   
   \item 書き込み名\\
-    書き込みを行う際に表示する名前を示す値である。値は15文字以下の全角文字にて構成される。\\
-    例として書き込み名「名無しさん」がある。
+    書き込みを行う際に表示する名前を示す値である。NULL値は含まない。値は15文字以下の文字列にて構成される。\\
   \item 書き込み内容\\
-    書き込み内容を示す値である。値は200文字以下の全角文字にて構成される。\\
-    例として書き込み内容「自分のやりたいことができるとこでええんやで」がある。
+    書き込み内容を示す値である。NULL値は含まない。値は200文字以下の文字列にて構成される。\\
   \item コレクトボタンプッシュ数\\
-    レスに対してコレクトボタンが押された回数を示す値である。値は4桁の数値にて構成される。\\(例としてコレクトボタンプッシュ数「10」がある。
+    レスに対してコレクトボタンが押された回数を示す値である。NULL値は含まない。値は4桁(0001から9999)の数値にて構成される。\\
   \item レス非表示フラグ\\
-    管理者の操作権限でレスを非表示するを示す値である。値は1桁の数値で0(OFF)、1(ON)の数値にて構成される。\\
-    例としてレス非表示フラグを1にした場合、「レスを非表示」にする。
+    管理者の操作権限でレスを非表示を示す値である。NULL値は含まない。値は1桁の数値で0(OFF)、1(ON)の数値にて構成される。\\
+    例としてレス非表示フラグを1にした場合、ユーザ側からはレスが非表示になる。
+    
   \item 作成日時\\
-    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加される。
+    レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加される。    
   \end{itemize}
-   \subsection{スレッドカテゴリテーブル(thread\_category)}
+
+  \subsubsection{スレッドカテゴリテーブル(thread\_category)}
   スレッドカテゴリテーブルは各カテゴリごとに分けられたスレッドの情報を管理する。このテーブルの詳細は表\ref{tab:thread_category} に示す。
   \begin{table}[h]
     \caption{スレッドカテゴリテーブル}
@@ -327,20 +344,21 @@ Pathfinder \\
       \begin{tabular}{|l|l|l|c|c|l|l|} \hline
         \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
         カテゴリID&category\verb|_|no&int&3&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\ \hline
-        カテゴリ名&category\verb|_|name&varchar&15&×&-&-\\\hline
+          カテゴリ名&category\verb|_|name&varchar&15&×&-&-\\\hline
       \end{tabular}
       \label{tab:thread_category}
     \end{center}
   \end{table}
-
+  
   \begin{itemize}
   \item カテゴリID\\
-    自テーブルの主キーである。値は値は3桁の数値に構築され自動追加される。
-  \item カテゴリ名
-    カテゴリの名前を示す値である。値は15文字以下の全角文字にて構成される。\\
-    例としてカテゴリ名「情報学群」がある。
+    自テーブルの主キーである。NULL値は含まない。値は3桁(001から999)の数値にて構築され自動追加される。
+  \item カテゴリ名\\
+    カテゴリの名前を示す値である。NULL値は含まない。値は15文字以下の文字列にて構成される。\\
+    
   \end{itemize}
-   \subsection{お気に入り掲示板テーブル(favorite\_bbs)}
+
+  \subsubsection{お気に入り掲示板テーブル(favorite\_bbs)}
   お気入り掲示板テーブルではブックマークとして登録したスレッド情報を管理する。このテーブルの詳細は表\ref{tab:favorite_bbs} に示す。
   \begin{table}[h]
     \caption{お気に入り掲示板テーブル}
@@ -354,19 +372,18 @@ Pathfinder \\
       \end{tabular}
       \label{tab:favorite_bbs}
     \end{center}
-    \end{table}
-
+  \end{table}
+  
   \begin{itemize}
-  \item 学生番号\\
-    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。\\
-    例として学籍番号「1200***」がある。
+  \item 学籍番号\\
+    ユーザテーブルを参照する際の外部キーである。NULL値は含まない。固定7文字の半角英数字にて構成される。\\
   \item スレッドID\\
-    スレッドテーブルを参照する際の外部キーである。値は5桁の数値に構築され自動追加される。
+    スレッドテーブルを参照する際の外部キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構築され自動追加される。
   \end{itemize}
-
-
-
-  \subsection{コレクトユーザテーブル(collect\_user)}
+  
+  
+  
+  \subsubsection{コレクトユーザテーブル(collect\_user)}
   コレクトユーザテーブルではコレクトボタンを押されたことに関する情報を管理する。このテーブルの詳細は表 \ref{tab:collect_user} に示す。
   \begin{table}[h]
     \caption{コレクトユーザテーブル}
@@ -377,22 +394,22 @@ Pathfinder \\
         \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
         学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
         スレッドID&thread\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\\\hline
-        レスID&res\verb|_|no&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:res \\\hline
+          レスID&res\verb|_|no&int&4&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:res \\\hline
       \end{tabular}
       \label{tab:collect_user}
     \end{center}
   \end{table}
-   \begin{itemize}
-  \item 学生番号\\
-    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。\\
-    例として学籍番号「1200***」がある。
+
+  \begin{itemize}
+  \item 学籍番号\\
+    ユーザテーブルを参照する際の外部キーである。NULL値は含まない。固定7文字の半角英数字にて構成される。\\
   \item スレッドID\\
-    スレッドテーブルを参照する際の外部キーである。値は5桁の数値にて構築され自動追加される。
+    スレッドテーブルを参照する際の外部キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構成され自動追加される。
   \item レスID\\
-    レステーブルを参照する際の外部キーである。値は5桁の数値にて構築され自動追加される。
+    レステーブルを参照する際の外部キーである。NULL値は含まない。値は4桁(0001から9999)の数値にて構成され自動追加される。
   \end{itemize}
-  \newpage
-  \subsection{不適切な単語登録テーブル(inadequacy\_word)}
+
+  \subsubsection{不適切な単語登録テーブル(inadequacy\_word)}
   不適切な単語登録テーブルでは管理者が誹謗中傷や公序良俗に違反していると考えられる単語を登録した情報を管理する。このテーブルの詳細は表 \ref{tab:inadequacy_word} に示す。
   \begin{table}[h]
     \caption{不適切な単語登録テーブル}
@@ -402,20 +419,21 @@ Pathfinder \\
       \begin{tabular}{|l|l|l|c|c|l|l|} \hline
         \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
         単語ID&word\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
-        単語名&word\verb|_|name&varchar&200&×&-&- \\\hline
+          単語名&word\verb|_|name&varchar&200&×&-&- \\\hline
       \end{tabular}
       \label{tab:inadequacy_word}
     \end{center}
   \end{table}
-
+  
   \begin{itemize}
   \item 単語ID\\
-    自テーブルの主キーである。値は5桁の数値に構成され自動追加される。
+    自テーブルの主キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構成され自動追加される。
   \item 単語名\\
-    管理者の操作権限で登録した単語を示す値である。値は200文字以下の全角文字にて構成される。\\例として単語名「バカ」がある。
+    管理者の操作権限で登録した単語を示す値である。NULL値は含まない。値は200文字以下の文字列にて構成される。
   \end{itemize}
 
-  \subsection{通報テーブル(report)}
+  
+  \subsubsection{通報テーブル(report)}
   通報テーブルではユーザが誹謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報した時の情報を管理する。また、通報した内容の情報も管理する。このテーブルの詳細は表 \ref{tab:report} に示す。
   \begin{table}[h]
     \caption{通報テーブル}
@@ -425,36 +443,36 @@ Pathfinder \\
       \begin{tabular}{|l|l|l|c|c|l|l|} \hline
         \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
         通報ID&report\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
-        通報ユーザID&report\verb|_|user\verb|_|id&char&20&×&-&FK:user \\ \hline
-        スレッドID&thread\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\\\hline
-        レスID&res\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:res \\\hline
-        通報内容&report\verb|_|content&varchar&200&○&-&-\\ \hline
-        通報日時&report\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+          通報ユーザID&report\verb|_|user\verb|_|id&varchar&20&×&-&FK:user \\ \hline
+          スレッドID&thread\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\\\hline
+            レスID&res\verb|_|id&int&4&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:res \\\hline
+              通報内容&report\verb|_|content&varchar&200&×&-&-\\ \hline
+              通報日時&report\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
       \end{tabular}
       \label{tab:report}
     \end{center}
   \end{table}
-
+  
   \begin{itemize}
   \item 通報ID\\
-    自テーブルの主キーである。値は5桁の数値に構成され自動追加される。
+    自テーブルの主キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構成され自動追加される。
   \item 通報ユーザID\\
-    ユーザテーブルを参照する際の外部キーである。値は最大20文字の半角英字と半角数字の組み合わせにて構成される。\\
-    例として通報ユーザID「user1234」がある。
+    ユーザテーブルを参照する際の外部キーである。NULL値は含まない。値は20文字以下の半角英数字にて構成される。\\
+
   \item スレッドID\\
-    スレッドテーブルを参照する際の外部キーである。値は5桁の数値に構築され自動追加される。
+    スレッドテーブルを参照する際の外部キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構成され自動追加される。
   \item レスID\\
-    レステーブルを参照する際の外部キーである。値は5桁の数値に構築され自動追加される。
+    レステーブルを参照する際の外部キーである。NULL値は含まない。値は4桁(0001から9999)の数値にて構成され自動追加される。
   \item 通報内容\\
-    通報内容を示す値である。値は200文字以下の全角文字にて構成される。\\
-    例として通報内容「このユーザ○○は誹謗中傷に反している思ったから」がある。
+    通報内容を示す値である。NULL値は含まない。値は200文字以下の文字列にて構成される。\\
+    
   \item 通報日時\\
-    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加を行う。
+    レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加を行う。
   \end{itemize}
-
-  \subsection{凍結ユーザテーブル(suspend)}
+  
+  \subsubsection{凍結ユーザテーブル(suspend)}
   凍結ユーザテーブルでは迷惑行為が改善されないユーザのアカウントを凍結した情報を管理する。このテーブルの詳細は表 \ref{tab:suspend} に示す。
-
+  
   \begin{table}[h]
     \caption{凍結ユーザテーブル}
     \begin{center}
@@ -462,83 +480,84 @@ Pathfinder \\
       \footnotesize
       \begin{tabular}{|l|l|l|c|c|l|l|} \hline
         \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
-        凍結ID&suspend\verb|_|id&int&4&×&\begin{tabular}{l}lunsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
-        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+        凍結ID&suspend\verb|_|id&int&4&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
+          学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
       \end{tabular}
       \label{tab:suspend}
     \end{center}
   \end{table}
-
+  
   \begin{itemize}
   \item 凍結ID\\
-    自テーブルの主キーである。値は4桁の数値に構成され自動追加される。
+    自テーブルの主キーである。NULL値は含まない。値は4桁(0001から9999)の数値にて構成され自動追加される。
   \item 学籍番号\\
-    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。\\
-    例として学籍番号「1200***」がある。
+    ユーザテーブルを参照する際の外部キーである。。NULL値は含まない。値は固定7文字の半角英数字にて構成される。\\
   \end{itemize}
-
-  \subsection{お知らせテーブル(notice)}
-  お知らせテーブルではお知らせに関する情報を管理する。このテーブルの詳細は表 \ref{tab:notice} に示す。
-    \begin{table}[h]
+  
+  \subsubsection{お知らせテーブル(news)}
+  お知らせテーブルではお知らせに関する情報を管理する。このテーブルの詳細は表 \ref{tab:news} に示す。
+  \begin{table}[h]
     \caption{お知らせテーブル}
     \begin{center}
       \fontsize{6.5pt}{30pt}\selectfont
       \footnotesize
       \begin{tabular}{|l|l|l|c|c|l|l|} \hline
         \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
-        お知らせID&notice\verb|_|id&int&5&×&\begin{tabular}{l}lunsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
-        お知らせタイトル&notice\verb|_|title&varchar&50&×&-&-\\\hline
-        お知らせ内容&notice\verb|_|title&varchar&400&×&-&-\\\hline
-        作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
-
+        お知らせID&news\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
+          お知らせタイトル名&news\verb|_|title&varchar&50&×&-&-\\\hline
+          お知らせ内容&news\verb|_|title&varchar&400&×&-&-\\\hline
+          作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+          
       \end{tabular}
-      \label{tab:notice}
+      \label{tab:news}
     \end{center}
   \end{table}
-
+  
   \begin{itemize}
   \item お知らせID\\
-    自テーブルの主キーである。値は4桁の数値に構成され自動追加される。
-  \item お知らせタイトル\\
-    管理者が作成したお知らせタイトルを示す値である。値は50文字以下の全角文字にて構成される。例としてお知らせタイトル「現在確認している不具合について」がある。
+    自テーブルの主キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構成され自動追加される。
+  \item お知らせタイトル名\\
+    お知らせタイトルを示す値である。NULL値は含まない。値は50文字以下の文字列にて構成される。
   \item お知らせ内容\\
-    お知らせ内容を示す値である。値は400文字以下の全角文字にて構成される。\\
-   例としてお知らせ内容「KUTBBS運営事務局です。・・・」がある。
+    お知らせ内容を示す値である。NULL値は含まない。値は400文字以下の文字列にて構成される。\\
+
   \item 作成日時\\
-    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加を行う。
+    レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加を行う。    
   \end{itemize}
-  \subsection{警告注意テーブル(warn\_caution)}
-  警告テーブルでは管理者がユーザに対しての警告・注意喚起に関する情報を管理する。このテーブルの詳細は表 \ref{tab:warn_caution} に示す。
-      \begin{table}[h]
+  \subsubsection{警告注意テーブル(warned\_caution)}
+  警告テーブルでは管理者がユーザに対しての警告・注意喚起に関する情報を管理する。このテーブルの詳細は表 \ref{tab:warned_caution} に示す。
+  \begin{table}[h]
     \caption{警告注意テーブル}
     \begin{center}
       \fontsize{6.5pt}{30pt}\selectfont
       \footnotesize
       \begin{tabular}{|l|l|l|c|c|l|l|} \hline
         \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
-        警告注意ID&notice\verb|_|id&int&4&×&\begin{tabular}{l}lunsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
-        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
-         警告注意タイトル&notice\verb|_|title&varchar&50&×&-&-\\\hline
-        警告注意内容&notice\verb|_|title&varchar&400&×&-&-\\\hline
-        作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+        警告注意ID&warned\verb|_|caution\verb|_|id&int&4&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
+          学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
 
+          警告注意タイトル名&warned\verb|_|caution\verb|_|title&varchar&50&×&-&-\\\hline
+          警告注意内容&warned\verb|_|caution\verb|_|title&varchar&400&×&-&-\\\hline
+          作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+          
       \end{tabular}
-      \label{tab:warn_caution}
+      \label{tab:warned_caution}
     \end{center}
-      \end{table}
-         \begin{itemize}
+  \end{table}
+
+  \begin{itemize}
   \item 警告注意ID\\
-    自テーブルの主キーである。値は4桁の数値に構成され自動追加される。
- \item 学籍番号\\
-    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。\\
-    例として学籍番号「1200***」がある。
-  \item 警告注意タイトル\\
-    管理者が作成した警告注意タイトルを示す値である。値は50文字以下の全角文字にて構成される。例としてお知らせタイトル「警告勧告について」がある。
+    自テーブルの主キーである。NULL値は含まない。値は4桁(0001から9999)の数値にて構成され自動追加される。
+  \item 学籍番号\\
+    ユーザテーブルを参照する際の外部キーである。NULL値は含まない。値は固定7文字の半角英数字にて構成される。\\
+    
+  \item 警告注意タイトル名\\
+    警告注意タイトルを示す値である。NULL値は含まない。値は50文字以下の文字列にて構成される。
   \item 警告注意内容\\
-    警告注意内容を示す値である。値は400文字以下の全角文字にて構成される。\\
-   例としてお知らせ内容「KUTBBS運営事務局です。・・・」がある。
+    警告注意内容を示す値である。NULL値は含まない。値は400文字以下の文字列にて構成される。\\
+    
   \item 作成日時\\
-    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加を行う。
+    レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加を行う。
   \end{itemize}
 
 
@@ -1119,7 +1138,114 @@ search:スレッドタイトル検索機能の処理を行うアクションで�
 -hide: 特定の通報されたスレッドまたはレスを非表示化処理をする。処理後はadmins/reportへリダイレクトする。
 
 
+ \subsection{Model層}
+  %モデル層を記述しました。文章の構成はMVCの小節になると思うのうまく文章構成をお願いします。
+ 名称と概要を以下のように示す。
+  \begin{itemize}
+    
+  \item テーブル名:user\\
+    名称:ユーザ情報管理部\\
+    概要:ユーザテーブルの管理を行う。
 
+  \item テーブル名:thread\\
+    名称:スレッド情報管理部\\
+    概要:スレッドテーブルの管理を行う。
+
+  \item テーブル名:res\\
+    名称:レス情報管理部\\
+    概要:レステーブルの管理を行う。
+
+  \item テーブル名:thread\verb|_|category\\
+    名称:スレッドカテゴリ情報管理部\\
+    概要:スレッドカテゴリテーブルの管理を行う。
+  \item テーブル名:favorite\verb|_|bbs\\
+    名称:お気に入り掲示板情報管理部\\
+    概要:お気に入り掲示板テーブルの管理を行う。
+
+   \item テーブル名:collect\verb|_|user\\
+    名称:コレクトユーザ情報管理部\\
+    概要:コレクトユーザテーブルの管理を行う。
+    
+   \item テーブル名:inadequacy\verb|_|word\\
+     名称:不適切な単語登録情報管理部\\
+    概要:不適切な単語登録テーブルの管理を行う。
+
+
+   \item テーブル名:report\\
+    名称:通報管理部\\
+    概要:通報テーブルの管理を行う。
+
+
+
+   \item テーブル名:suspend\\
+    名称:凍結ユーザ情報管理部\\
+    概要:凍結ユーザテーブルの管理を行う。
+
+  \item テーブル名:news\\
+    名称:お知らせ情報管理部\\
+    概要:お知らせテーブルの管理を行う。
+    
+  \item テーブル名:warned\verb|_|caution\\
+    名称:警告注意情報管理部\\
+    概要:警告注意テーブルの管理を行う。
+
+  \end{itemize}
+  関係性を以下のように示す。
+  \begin{itemize}
+  \item スレッド情報管理部\\
+    関係性:
+    
+    \begin{itemize}
+    \item スレッド情報管理部 N:1 ユーザ情報管理部
+    \item スレッド情報管理部 N:1 スレッドカテゴリ情報管理部 
+    \end{itemize}
+
+  \item レス情報管理部\\
+    関係性:
+    
+    \begin{itemize}
+    \item　レス情報管理部 N:1 スレッド情報管理部
+    \item　スレッド情報管理部 N:M ユーザ情報管理部 
+    \end{itemize}
+
+  \item お気に入り掲示板情報管理部\\
+    関係性:
+    
+    \begin{itemize}
+    \item お気に入り掲示板情報管理部 0かN:0かN ユーザ情報管理部
+    \item お気に入り掲示板情報管理部 N:1 スレッド情報管理部 
+    \end{itemize}
+  \item コレクトユーザ情報管理部\\
+    関係性:
+    
+    \begin{itemize}
+    \item コレクトユーザ情報管理部 1:0か1 ユーザ情報管理部
+    \item コレクトユーザ情報管理部 N:1 スレッド情報管理部
+    \item コレクトユーザ情報管理部 N:0か1 レス情報  
+    \end{itemize}
+    
+  \item 通報情報管理部\\
+    関係性:
+    
+    \begin{itemize}
+    \item 通報情報管理部 N:M ユーザ情報管理部
+    \item 通報情報管理部 N:M スレッド情報管理部
+    \item 通報情報管理部 N:M レス情報管理部
+    \end{itemize}
+  \item 凍結ユーザ情報管理部\\
+    関係性:
+    
+    \begin{itemize}
+    \item 凍結ユーザ情報管理部 1:1 ユーザ情報管理部
+    \end{itemize}
+    
+   \item 警告注意情報管理部\\
+    関係性:
+    
+    \begin{itemize}
+    \item 警告注意情報管理部 1:N ユーザ情報管理部
+    \end{itemize}   
+    \end{itemize}
 \appendix
 
 \end{document}
