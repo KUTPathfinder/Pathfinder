@@ -4,7 +4,7 @@
 \documentclass[a4j]{jarticle}
 
 \usepackage[dvipdfmx]{graphicx}
-\usepackage{epsbox}
+% \usepackage{epsbox}
 \usepackage{url}
 \usepackage{here}
 \usepackage{ascmac}
@@ -362,15 +362,15 @@
   \centering
   \begin{tabular}{|l|l|l||l|} \hline
     No.&   URL 						&METHOD & Controller\#Action \\ \hline \hline
-	 1&	/Login  					 	& GET      & sessions\#new       \\    
+	 1&	/Login  					 	& GET      & sessions\#new       \\
        2&  ~			         			& POST    & sessions\#create	\\
 	 3&	/Logout   				      &DELETE   &sessions\#destroy	\\
 	 4&	/passwords/:id					&GET	  &passwords\#new    \\
 	 5 & /passwords/:id					&PATCH	  &passwords\#change \\
-	 6&	/home   						& GET 	   &home\_pages/\#home    \\  
-       7&	/home   						& PATCH 	   &home\_pages/\#threads\_hide \\   	               
-	 8&	/users/:id     					&  GET  	    &  users\#show       \\      
-	 9&	/users/:id     					 & PATCH   &  users\#update       \\               
+	 6&	/home   						& GET 	   &home\_pages/\#home    \\
+       7&	/home   						& PATCH 	   &home\_pages/\#threads\_hide \\
+	 8&	/users/:id     					&  GET  	    &  users\#show       \\
+	 9&	/users/:id     					 & PATCH   &  users\#update       \\
 	10&	/results/:title         			& GET   	    & results\#search      \\
 	11& /results/:title/categories/:id		&GET		& categories\#search	\\
 	12&	/informations/:id				  & GET       & informations\#show      \\
@@ -380,8 +380,8 @@
 	16&/threads                   		       &  POST    &threads\#create      \\
 	17&/threads/:id/report\_new   		&   GET      &threads\#report\_new  \\
 	18&	/threads/check               		&   GET      & threads\#check       \\
-	19&	/threads                      		 & POST     & threads\#create     \\ 
-	20&	/threads/:id/contents      		 &    GET    & contents\#bbs        \\   
+	19&	/threads                      		 & POST     & threads\#create     \\
+	20&	/threads/:id/contents      		 &    GET    & contents\#bbs        \\
 	21&	/threads/:id/contents/check 	&     GET    &  contents\#check   \\
 	22&	/threads/:id/contents          	 &    POST  & contents\#write     \\
 	23&	/threads/:id/contents          	 &    PATCH  & contents\#responses\_hide     \\
@@ -392,6 +392,46 @@
 \end{tabular}
 
 \end{table}
+
+\subsection{ルーティング(管理者側)一覧}
+※v2でユーザ側と管理者側を統合・修正します。\\
+呼び出されたURLとHTTPメソッドによってRailsで呼び出すControllerのアクションを定義する。
+\begin{table}[H]
+  \centering
+  \caption{ルーティング(管理者側)一覧}
+  \begin{tabular}{|c|l|l|l|}\hline
+    No. & URL & METHOD & Controller\#Action \\ \hline \hline
+    1 & admins/login & GET & admins\_session \\
+    2 & admins/login & POST & admins\_session\#login \\
+    3 & admins/logout & POST & admins\_session\#logout \\ \hline
+    4 & admins/top & GET & admins\_top\#home \\ \hline
+    5 & admins/ng\_word & GET & ng\_word\#home \\
+    6 & admins/ng\_word/create & POST & ng\_word\#create \\
+    7 & admins/ng\_word/destroy & DELETE & ng\_word\#destroy \\ \hline
+    8 & admins/manage & GET & manage\#home \\
+    9 & admins/manage/signup & GET & manage\#signup \\
+    10 & admins/manage/create & POST & manage\#create \\
+    11 & admins/manage/ok & GET & manage\#ok \\
+    12 & admins/manage/destroy\_check & GET & manage\#destroy\_check \\
+    13 & admins/manage/destroy & DELETE & manage\#destroy \\ \hline
+    14 & admins/manage\_user & GET & manage\_user\#home \\
+    15 & admins/manege\_user/signup & GET & manage\_user\#user\_signup \\
+    16 & admins/manage\_user/create & POST & manage\_user\#user\_create \\
+    17 & admins/manage\_user/search & GET & manage\_user\#search \\
+    18 & admins/manage\_user/:id & GET & manage\_user\#info \\
+    19 & admins/manage\_user/warning\_edit & GET & manage\_user\#warning\_edit \\
+    20 & admins/manage\_user/warning\_check & GET & manage\_user\#warning\_check \\
+    21 & admins/manage\_user/warning\_send & POST & manage\_user\#warning\_send \\
+    22 & admins/manage\_user/ban & PATCH & manage\_user\#ban \\ \hline
+    23 & admins/announce & GET & announce\#edit \\
+    24 & admins/announce\_check & GET & announce\#check \\
+    25 & admins/announce\_send & POST & announce\#send \\ \hline
+    26 & admins/report & GET & report\#home \\
+    27 & admins/report/hide & PATCH & report\#hide \\ \hline
+  \end{tabular}
+\end{table}
+
+
 
 \subsection{Controller}
 \subsubsection{sessios\_controller.rb}
@@ -434,7 +474,7 @@ update:拡張機能を開放する(Userテーブルにおけるユーザの各�
 
 \subsubsection{results\_controller.rb}
 \noindent 名称：スレッドタイトル検索処理 \newline
-処理:\newline 
+処理:\newline
 -search:スレッドタイトル検索機能の処理を行うアクションである。検索を行い、該当するスレッドを取得した後は、そのスレッドを一覧として表示する(これがsearch.html.rbとなる）。表示されたスレッドタイトルを押すと、/threads/:id/contentsにGETメソッドでルーティングをリクエストする。\newline
 
 \subsubsection{results\_categories\_controller.rb}
@@ -476,6 +516,84 @@ search:スレッドタイトル検索機能の処理を行うアクションで�
 -report:このアクションは、通報用フォームであるcontents.html.erbを表示させるアクションである。必要事項を入力し通報ボタンを押すと、通報確認ページである/thread/:id/contents/:id/checkにGETメソッドでルーティングをリクエストする。\newline
 -check:通報確認ページであるcheck.html.erbを表示させるアクションである。\newline
 -report\_create通報確認ページで確認ボタンを押すと、通報内容が作成される。その後、POSTメソッドで/thread/:id/contentsにルーティングにリクエストを行う。
+
+
+
+\subsection{Controller層(管理者側)(仮)}
+\subsubsection{admins\_session\_controller.rb}
+\noindent 名称: セッション情報処理 \\
+概要: 管理者のセッション情報を処理する \\
+処理:  \\
+- home: admins.html.erbを表示する。
+- login: 入力されたIDとパスワードを取得する。if文でデータベース上に存在するか判別する。\\
+存在する場合の処理\\
+\begin{itemize}
+\item session変数にデータベース上のユーザidを代入する。
+\item flash変数に「ログインしました」という文字列を代入する。
+\item /admins/topへリダイレクトする。\\
+\end{itemize}
+存在しない場合の処理\\
+\begin{itemize}
+\item エラーメッセージ用の変数にエラーメッセージを代入する。
+\item 入力されたIDとパスワードを初期値として設定する。
+\item /admins/loginへリダイレクトする。\\
+\end{itemize}
+-logout: session変数にnilを代入する。flash変数に「ログアウトしました」という文字列を代入する。/admins/loginへリダイレクトする。
+
+\subsubsection{admins\_top\_controller.rb}
+\noindent 名称: 管理者TOP画面情報処理 \\
+概要: 管理者TOP画面情報を処理する \\
+処理:  \\
+-home: admins/top.htmlを表示する。
+
+\subsubsection{ng\_word\_controller.rb}
+\noindent 名称: 不適切な単語管理処理 \\
+概要: 不適切な単語の登録・削除の処理を行う。 \\
+処理:  \\
+-home: admins/ng\_word.html.erbを表示する。\\
+-create: 入力された文字列を受け取り、受け取った文字列をデータベースに保存する。保存に成功した場合、flash変数に「単語を登録しました」という文字列を代入し、admins/ng\_wordへリダイレクトする。\\
+-destroy: 特定の文字列を受け取り、削除処理をする。削除後、flash変数に「単語を削除しました」という文字列を代入してadmins/ng\_wordへリダイレクトする。
+
+\subsubsection{manage\_controller.rb}
+\noindent 名称: 子管理者管理処理 \\
+概要: 子管理者管理の処理をする。 \\
+処理:  \\
+-home: admins/manage.html.erbを表示する。\\
+-signup: admins/manage/signup.html.erbを表示する。\\
+-create: 子管理者アカウントを発行し、admins/manage/okへリダイレクトする。\\
+-destroy\_check: admins/manage/destroy\_check.html.erbを表示する。\\
+-destroy: 特定の子管理者アカウント情報を受け取り、削除処理をする。flash変数に「子管理者アカウントを削除しました」という文字列を代入し、admins/magnageへリダイレクトする。
+
+\subsubsection{manage\_user\_controller.rb}
+\noindent 名称: ユーザ情報管理処理 \\
+概要: ユーザ情報管理の処理をする。 \\
+処理:  \\
+-home: admins/manage\_user.html.erbを表示する。\\
+-signup: admins/manage\_user/signup.html.erbを表示する。\\
+-create: 受け取った整数の範囲のユーザのIDとパスワードを乱数で生成し、データベースに保存する。保存に成功した場合、flash変数に「ユーザアカウントを作成しました」という文字列を代入し、admins/manage\_userへリダイレクトする。保存に失敗した場合、flash変数にエラーメッセージを代入し、さらに入力されたされた文字列を初期値としてadmins/manage\_user/signupへリダイレクトする。\\
+-search: admins/manage\_user/search.html.erbを表示する。\\
+-info: 特定のユーザのidを受け取り、admins/manage\_user/:id.html.erbを表示する。\\
+-warning\_edit: admins/manage\_user/warning\_edit.html.erbを表示する。\\
+-warning\_check: admins/manage\_user/warning\_check.html.erbを表示する。\\
+-warning\_send: 入力された文字列を受け取り、データベースに保存する。保存に成功した場合、flash変数に「警告・注意喚起を送信しました」という文字列を代入し、admins/manage\_user/:idへリダイレクトする。\\
+-ban: 特定のアカウントの書き込み禁止の処理を行う。処理後はadmin/manage\_user/:idへリダイレクトする。
+
+
+\subsubsection{announce\_controller.rb}
+\noindent 名称: お知らせ情報処理 \\
+概要: お知らせ情報の処理を行う。 \\
+処理:  \\
+-edit: admins/announce.html.erbを表示する。\\
+-check: admins/announce\_check.html.erbを表示する。\\
+-send: 作成したお知らせをデータベースに保存する。保存後はadmins/announceへリダイレクトする。
+
+\subsubsection{report\_controller.rb}
+\noindent 名称: 通報情報処理 \\
+概要: 通報情報の処理を行う。 \\
+処理:  \\
+-home: admins/report.html.erbを表示する。\\
+-hide: 特定の通報されたスレッドまたはレスを非表示化処理をする。処理後はadmins/reportへリダイレクトする。
+
 
 
 \appendix
