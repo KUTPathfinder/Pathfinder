@@ -15,7 +15,531 @@
 \setlength{\textheight}{230mm}
 \setlength{\footskip}{20mm}
 
-\begin{document}
+\title{
+\vspace{30mm}
+{\bf 高知工科大学様}\\
+\vspace{5mm}
+大学掲示板(KUTBBS)\\
+\vspace{5mm}
+{\bf  内部設計書v1.0}
+\vspace{90mm}
+}
+ \author{
+\vspace{5mm}
+グループ10 \\
+\vspace{5mm}
+Pathfinder \\
+\vspace{5mm}
+\vspace{10mm}
+}
+
+ \begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+
+ \section{システム概要}
+本システムは本校の学生同士によって問題提起から問題解決までを匿名で行えるようにするためのシステムである。\\
+本システムはWebブラウザ上で「掲示板システム」「ユーザシステム」「管理者システム」によって構築される\\
+各要素の主な機能は以下に示す。
+\begin{itemize}
+\item 掲示板システム
+	\begin{itemize}
+	\item 掲示板サブシステム
+	\item 検索サブシステム
+	\item コレクトボタンサブシステム
+	\item 通報サブシステム
+	\item 通知サブシステム
+	\end{itemize}
+\item ユーザシステム
+	\begin{itemize}
+	\item アカウント登録サブシステム
+	\item ログインサブシステム
+	\item マイページサブシステム
+	\item ブックマークサブシステム
+	\item お知らせ表示サブシステム
+	\end{itemize}
+\item 管理者システム
+	\begin{itemize}
+	\item 管理者ログインサブシステム
+	\item 子管理者管理サブシステム
+	\item お知らせ編集サブシステム
+	\item 掲示板編集サブシステム
+	\item ユーザ管理サブシステム
+	\end{itemize}
+\end{itemize}
+ \section{動作環境}
+本システムの動作環境は以下の通りである。
+\begin{itemize}
+\item 動作環境
+	\begin{itemize}
+	\item CPU : ARM Cortex-A53 1GHz以上
+	\item GPU : Broadcom VideoCore IV
+	\item メモリ : 2GB以上
+	\item ストレージ : 4GB eMMC / SDカードPIN
+	\item OS
+	\begin{itemize}
+		\item Linux version
+		\item ubuntu version
+		\item MacOS version
+		\item Windowss7 , 8 , 10
+		\item iOS 10.0
+	\end{itemize}
+	\item webサーバ : AWS EC2
+	\item Appサーバ : Ruby on Rails version 5.1.4
+	\item RDBMS : MySQL version 8.0
+	\end{itemize}
+\item 使用ブラウザ : GoogleChrome62.0 , Firefox version 57.0% , Safari11.0.1
+\end{itemize}
+\section{開発環境}
+本システムの開発環境は以下の通りである。
+\begin{itemize}
+\item OS : Linux , ubuntu , MacOS , Windows , iOS10.0
+\item HTML : version５
+\item 使用言語
+	\begin{itemize}
+	\item ruby version 2.4.2
+	\item Ruby on Rails version 5.1.4
+	\item CSS
+	\item JavaScript
+	\end{itemize}
+\item サーバ :
+\item データベース : MySQL version 8.0
+\item webサーバ : AmazonWebServices
+\end{itemize}
+ \section{内部設計書作成方針}
+\subsection{コーディング規約}
+\subsubsection{命名規約}
+\begin{itemize}
+\item 変数名・メソッド名\\
+‐ 小文字始まりとする\\
+‐ 基本的に意味のある単語を使用する\\
+‐
+\end{itemize}
+\begin{itemize}
+\item 定数\\
+‐ 全て大文字を使用する\\
+\end{itemize}
+\begin{itemize}
+\item クラス名・構造体名\\
+‐ 変数名・メソッド名を同様に意味のある単語を使用する\\
+‐ 大文字始まりとする\\
+‐ 複数の単語を組み合わせる際は先頭文字を大文字で表記する\\
+\end{itemize}
+\subsubsection{コーディングスタイル}
+\begin{itemize}
+\item インデント\\
+‐ インデントにはタブを使用する（半角スペース4文字）
+\end{itemize}
+\begin{itemize}
+\item 括弧\\
+‐ 中括弧は改行して始める\\
+‐ 小括弧の前後にはスペースを使用しない
+\end{itemize}
+\begin{itemize}
+\item 演算子\\
+‐ 演算子の前後には半角スペースを一文字使用する
+\end{itemize}
+\subsection{設計書作成環境}
+内部設計書の作成環境は，表\ref{tab:creating_environment}に示します。
+\begin{table}[htb]
+\caption{内部設計書の作成環境環境}
+\begin{center}
+  \begin{tabular}{|c|c|} \hline
+    組版処理システム & LATEX,dvpdfmx\\ \hline
+   文字コード &  UTF-8\\ \hline
+    改行コード & LF(0x0A)  \\ \hline
+  \end{tabular}
+\label{tab:creating_environment}
+\end{center}
+\end{table}
+\subsection{サーバ環境}
+本システムを利用するためにはAmazon Web Services(AWS) の EC2 インスタンスを用いて実現します．サーバ環境は表\ref{tab:server_environment}に示します。
+\begin{table}[htb]
+\caption{サーバ側の動作環境}
+\begin{center}
+  \begin{tabular}{|c|c|} \hline
+    対応OS & Ruby on Rails \\ \hline
+   vCPU & 1\\ \hline
+    メモリ(GiB) & 1  \\ \hline
+    ストレージ & 30GB \\ \hline
+  \end{tabular}
+\label{tab:server_environment}
+\end{center}
+\end{table}
+ \section{テーブル設計}
+本小節ではデータベース構成するテーブルについて示す。また、各カラムについても詳細も示す。
+ \subsection{ユーザテーブル(user)}
+ユーザテーブルではユーザに関する情報を管理する。このテーブルの詳細は表\ref{tab:server_environment} に示す。
+\begin{table}[h]
+   \caption{ユーザテーブル}
+  \begin{center}
+    \footnotesize
+    \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+       \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+      学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{PK} \\\hline
+      ユーザID&user\verb|_|id&char&20&×&-&- \\ \hline
+      パスワード&password&char&20&×&-&- \\ \hline
+      保有ポイント&now\verb|_|point&int&4&×&-&- \\ \hline
+      取り消しフラグ&cancel\verb|_|flag&int&1&×&-&- \\ \hline
+      色フラグ&color\verb|_|flag&int&1&×&-&- \\ \hline
+      斜線フラグ&diagonal\verb|_|flag&int&1&×&-&- \\ \hline
+      太文字フラグ&bold\verb|_|letters\verb|_|flag&int&1&×&-&- \\ \hline
+      管理者フラグ&administrator\verb|_|flag&int&1&○&-&- \\ \hline
+      初回ログインフラグ&first\verb|_|login\verb|_|flag&int&1&×&-&- \\ \hline
+      ログイン日数&count\verb|_|login&int&4&×&-&-\\ \hline
+    \end{tabular}
+   \label{tab:user}
+  \end{center}
+\end{table}
+ \begin{itemize}
+\item 学籍番号\\
+  ユーザの学籍番号を示す値であり、自テーブルの主キーである。値は7文字の半角数字にて構成される。\\例として学籍番号「1200***」がある。
+\item ユーザID\\
+  ユーザを識別するためのIDを示す値である。値は最大20文字の半角英字と半角数字の組み合わせにて構成される。
+  \\例としてユーザID「user1234」がある。
+\item パスワード\\
+  ユーザを識別するためのパスワードを示す値である。値は最大20文字の半角英数字と半角数字の組み合わせにて構成される。\\
+  例としてパスワード「pass1234」がある。
+\item 保有ポイント\\
+  ユーザがログインした日数とコレクトボタンを10回以上押されたことで獲得したポイントを示す値である。値は4桁の数値にて構成される。
+  例として保有ポイント「9999」がある。
+\item 取り消しフラグ\\
+  拡張機能の1つであり、取り消し線を付与することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
+  例として取り消しフラグを1にした場合、ユーザの拡張機能「取り消し線」を付与する。
+\item 色フラグ\\
+  拡張機能の1つであり、色を付与することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
+  例として色フラグを1にした場合、ユーザの拡張機能「赤色」を付与する。
+\item 斜線フラグ\\
+  拡張機能の1つであり、斜線を付与することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
+  例として斜線フラグを1にした場合、ユーザの拡張機能「斜線」を付与する
+\item 太文字フラグ\\
+  拡張機能の1つであり、太文字を寄与することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
+  例として太文字フラグを1にした場合、ユーザの拡張機能「太文字」を付与する。
+\item 管理者フラグ\\
+  親管理者と子管理者を識別することを示す値である。値は１桁の0(子管理者)、1(親管理者)の数値にて構成される。\\
+  例として管理者フラグを1にした場合、管理者は「親管理者」と識別される。
+\item 初回ログインフラグ\\
+  初回ログインを識別することを示す値である。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\例として初回ログインフラグを1にした場合、「初回ログイン」と識別される。
+
+\item ログイン日数\\
+  ユーザがログインをした日数の回数を記録することを示す値である。値は4桁の数値にて構築される。 例としてログイン日数「9999」がある。
+
+  　\end{itemize}
+   \subsection{スレッドテーブル(thread)}
+  スレッドテーブルではスレッドに関する情報を管理する。このテーブルの詳細は表\ref{tab:thread} に示す。
+  \begin{table}[h]
+    \caption{スレッドテーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        スレッドID&thread\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&\multicolumn{1}{|l|}{PK} \\\hline
+        スレッドカテゴリID&thread\verb|_|category\verb|_|id&int&3&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\verb|_|category \\ \hline
+        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+        スレッドタイトル名&thread\verb|_|category\verb|_|name&char&50&×&-&- \\ \hline
+        スレッド非表示フラグ&thread\verb|_|hide\verb|_|flag&int&1&×&-&- \\ \hline
+        作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+        更新日時&updated\verb|_|at&timestamp&-&×&\begin{tabular}{l}default current\verb|_|timestamp on \\updat current\verb|_|timestamp\end{tabular}&- \\ \hline
+      \end{tabular}
+
+      \label{tab:thread}
+    \end{center}
+  \end{table}
+  \begin{itemize}
+  \item スレッドID\\
+    自テーブルの主キーである。値は5桁の数値に構成され自動追加される。\\
+   \item スレッドカテゴリID\\
+    スレッドカテゴリテーブルを参照する際の外部キーである。値は3桁の数値に構成され自動追加される。\\
+
+  \item 学籍番号\\
+    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。\\
+    例として学籍番号「1200***」がある。
+  \item スレッドタイトル名\\
+    ユーザが作成したスレッドタイトルを示す値である。値は最大50文字の全角文字にて構成される。\\例としてユーザがスレッドタイトル「研究室どこにしようか」がある。
+  \item スレッド非表示フラグ\\
+    管理者の操作権限でスレッドを非表示するを示す値である。値は1桁の数値で0(OFF)、1(ON)の数値にて構成される。\\
+    例としてスレッド非表示フラグを1にした場合、「スレッドを非表示」にする。
+  \item 作成日時\\
+    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加を行う
+  \item 更新日時\\
+    レコードを更新した日付・時刻を示す値である。レコードが更新されるたびに自動更新を行う。
+  \end{itemize}
+  \subsection{レステーブル(res)}
+  レステーブルではレスに関する情報を管理する。このテーブルの詳細は表\ref{tab:ress} に示す。
+  \begin{table}[h]
+    \caption{レステーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        レスID&res\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK \\\hline
+        スレッドID&thread\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\\\hline
+        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+        書き込みID&ress\verb|_|write\verb|_|id&char&8&×&-&-\\ \hline
+        書き込み名&write\verb|_|name&varchar&15&×&-&- \\ \hline
+        書き込み内容&write\verb|_|content&varchar&200&×&-&- \\ \hline
+        コレクトプッシュ数&collect\verb|_|push\verb|_|count&int&4&×&-&- \\ \hline
+        レス非表示フラグ&ress\verb|_|hide\verb|_|flag&int&1&×&-&- \\ \hline
+        作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+      \end{tabular}
+
+      \label{tab:ress}
+    \end{center}
+  \end{table}
+
+  \begin{itemize}
+  \item レスID\\
+    自テーブルの主キーである。値は5桁の数値で構成され自動追加される。
+  \item スレッドID\\
+    スレッドテーブルを参照する際の外部キーである。値は5桁の数値に構成され自動追加される。
+  \item 学籍番号\\
+    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。\\
+      例として学籍番号「1200***」がある。
+  \item 書き込みID\\
+    ユーザが書き込みを行う際に表示するIDを示す値である。値は最大8文字の半角英数か半角数字にて構成される。\\
+    例として書き込みID「ero1o23u」がある。
+  \item 書き込み名\\
+    書き込みを行う際に表示する名前を示す値である。値は15文字以下の全角文字にて構成される。\\
+    例として書き込み名「名無しさん」がある。
+  \item 書き込み内容\\
+    書き込み内容を示す値である。値は200文字以下の全角文字にて構成される。\\
+    例として書き込み内容「自分のやりたいことができるとこでええんやで」がある。
+  \item コレクトボタンプッシュ数\\
+    レスに対してコレクトボタンが押された回数を示す値である。値は4桁の数値にて構成される。\\(例としてコレクトボタンプッシュ数「10」がある。
+  \item レス非表示フラグ\\
+    管理者の操作権限でレスを非表示するを示す値である。値は1桁の数値で0(OFF)、1(ON)の数値にて構成される。\\
+    例としてレス非表示フラグを1にした場合、「レスを非表示」にする。
+  \item 作成日時\\
+    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加される。
+  \end{itemize}
+   \subsection{スレッドカテゴリテーブル(thread\_category)}
+  スレッドカテゴリテーブルは各カテゴリごとに分けられたスレッドの情報を管理する。このテーブルの詳細は表\ref{tab:thread_category} に示す。
+  \begin{table}[h]
+    \caption{スレッドカテゴリテーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        カテゴリID&category\verb|_|no&int&3&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\ \hline
+        カテゴリ名&category\verb|_|name&varchar&15&×&-&-\\\hline
+      \end{tabular}
+      \label{tab:thread_category}
+    \end{center}
+  \end{table}
+
+  \begin{itemize}
+  \item カテゴリID\\
+    自テーブルの主キーである。値は値は3桁の数値に構築され自動追加される。
+  \item カテゴリ名
+    カテゴリの名前を示す値である。値は15文字以下の全角文字にて構成される。\\
+    例としてカテゴリ名「情報学群」がある。
+  \end{itemize}
+   \subsection{お気に入り掲示板テーブル(favorite\_bbs)}
+  お気入り掲示板テーブルではブックマークとして登録したスレッド情報を管理する。このテーブルの詳細は表\ref{tab:favorite_bbs} に示す。
+  \begin{table}[h]
+    \caption{お気に入り掲示板テーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+        スレッドID&thread\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\\\hline
+      \end{tabular}
+      \label{tab:favorite_bbs}
+    \end{center}
+    \end{table}
+
+  \begin{itemize}
+  \item 学生番号\\
+    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。\\
+    例として学籍番号「1200***」がある。
+  \item スレッドID\\
+    スレッドテーブルを参照する際の外部キーである。値は5桁の数値に構築され自動追加される。
+  \end{itemize}
+
+
+
+  \subsection{コレクトユーザテーブル(collect\_user)}
+  コレクトユーザテーブルではコレクトボタンを押されたことに関する情報を管理する。このテーブルの詳細は表 \ref{tab:collect_user} に示す。
+  \begin{table}[h]
+    \caption{コレクトユーザテーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+        スレッドID&thread\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\\\hline
+        レスID&res\verb|_|no&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:res \\\hline
+      \end{tabular}
+      \label{tab:collect_user}
+    \end{center}
+  \end{table}
+   \begin{itemize}
+  \item 学生番号\\
+    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。\\
+    例として学籍番号「1200***」がある。
+  \item スレッドID\\
+    スレッドテーブルを参照する際の外部キーである。値は5桁の数値にて構築され自動追加される。
+  \item レスID\\
+    レステーブルを参照する際の外部キーである。値は5桁の数値にて構築され自動追加される。
+  \end{itemize}
+  \newpage
+  \subsection{不適切な単語登録テーブル(inadequacy\_word)}
+  不適切な単語登録テーブルでは管理者が誹謗中傷や公序良俗に違反していると考えられる単語を登録した情報を管理する。このテーブルの詳細は表 \ref{tab:inadequacy_word} に示す。
+  \begin{table}[h]
+    \caption{不適切な単語登録テーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        単語ID&word\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
+        単語名&word\verb|_|name&varchar&200&×&-&- \\\hline
+      \end{tabular}
+      \label{tab:inadequacy_word}
+    \end{center}
+  \end{table}
+
+  \begin{itemize}
+  \item 単語ID\\
+    自テーブルの主キーである。値は5桁の数値に構成され自動追加される。
+  \item 単語名\\
+    管理者の操作権限で登録した単語を示す値である。値は200文字以下の全角文字にて構成される。\\例として単語名「バカ」がある。
+  \end{itemize}
+
+  \subsection{通報テーブル(report)}
+  通報テーブルではユーザが誹謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報した時の情報を管理する。また、通報した内容の情報も管理する。このテーブルの詳細は表 \ref{tab:report} に示す。
+  \begin{table}[h]
+    \caption{通報テーブル}
+    \begin{center}
+      %\fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        通報ID&report\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
+        通報ユーザID&report\verb|_|user\verb|_|id&char&20&×&-&FK:user \\ \hline
+        スレッドID&thread\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:thread\\\hline
+        レスID&res\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&FK:res \\\hline
+        通報内容&report\verb|_|content&varchar&200&○&-&-\\ \hline
+        通報日時&report\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+      \end{tabular}
+      \label{tab:report}
+    \end{center}
+  \end{table}
+
+  \begin{itemize}
+  \item 通報ID\\
+    自テーブルの主キーである。値は5桁の数値に構成され自動追加される。
+  \item 通報ユーザID\\
+    ユーザテーブルを参照する際の外部キーである。値は最大20文字の半角英字と半角数字の組み合わせにて構成される。\\
+    例として通報ユーザID「user1234」がある。
+  \item スレッドID\\
+    スレッドテーブルを参照する際の外部キーである。値は5桁の数値に構築され自動追加される。
+  \item レスID\\
+    レステーブルを参照する際の外部キーである。値は5桁の数値に構築され自動追加される。
+  \item 通報内容\\
+    通報内容を示す値である。値は200文字以下の全角文字にて構成される。\\
+    例として通報内容「このユーザ○○は誹謗中傷に反している思ったから」がある。
+  \item 通報日時\\
+    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加を行う。
+  \end{itemize}
+
+  \subsection{凍結ユーザテーブル(suspend)}
+  凍結ユーザテーブルでは迷惑行為が改善されないユーザのアカウントを凍結した情報を管理する。このテーブルの詳細は表 \ref{tab:suspend} に示す。
+
+  \begin{table}[h]
+    \caption{凍結ユーザテーブル}
+    \begin{center}
+      \fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        凍結ID&suspend\verb|_|id&int&4&×&\begin{tabular}{l}lunsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
+        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+      \end{tabular}
+      \label{tab:suspend}
+    \end{center}
+  \end{table}
+
+  \begin{itemize}
+  \item 凍結ID\\
+    自テーブルの主キーである。値は4桁の数値に構成され自動追加される。
+  \item 学籍番号\\
+    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。\\
+    例として学籍番号「1200***」がある。
+  \end{itemize}
+
+  \subsection{お知らせテーブル(notice)}
+  お知らせテーブルではお知らせに関する情報を管理する。このテーブルの詳細は表 \ref{tab:notice} に示す。
+    \begin{table}[h]
+    \caption{お知らせテーブル}
+    \begin{center}
+      \fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        お知らせID&notice\verb|_|id&int&5&×&\begin{tabular}{l}lunsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
+        お知らせタイトル&notice\verb|_|title&varchar&50&×&-&-\\\hline
+        お知らせ内容&notice\verb|_|title&varchar&400&×&-&-\\\hline
+        作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+
+      \end{tabular}
+      \label{tab:notice}
+    \end{center}
+  \end{table}
+
+  \begin{itemize}
+  \item お知らせID\\
+    自テーブルの主キーである。値は4桁の数値に構成され自動追加される。
+  \item お知らせタイトル\\
+    管理者が作成したお知らせタイトルを示す値である。値は50文字以下の全角文字にて構成される。例としてお知らせタイトル「現在確認している不具合について」がある。
+  \item お知らせ内容\\
+    お知らせ内容を示す値である。値は400文字以下の全角文字にて構成される。\\
+   例としてお知らせ内容「KUTBBS運営事務局です。・・・」がある。
+  \item 作成日時\\
+    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加を行う。
+  \end{itemize}
+  \subsection{警告注意テーブル(warn\_caution)}
+  警告テーブルでは管理者がユーザに対しての警告・注意喚起に関する情報を管理する。このテーブルの詳細は表 \ref{tab:warn_caution} に示す。
+      \begin{table}[h]
+    \caption{警告注意テーブル}
+    \begin{center}
+      \fontsize{6.5pt}{30pt}\selectfont
+      \footnotesize
+      \begin{tabular}{|l|l|l|c|c|l|l|} \hline
+        \multicolumn{1}{|c|}{論理名}&\multicolumn{1}{|c|}{物理名}&\multicolumn{1}{|c|}{データ型}&精度&NULL&\multicolumn{1}{|c|}{オプション}&\multicolumn{1}{|c|}{PK/FK:mode}\\\hline \hline
+        警告注意ID&notice\verb|_|id&int&4&×&\begin{tabular}{l}lunsigned zerofill\\auto\verb|_|increment\end{tabular}&PK\\\hline
+        学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
+         警告注意タイトル&notice\verb|_|title&varchar&50&×&-&-\\\hline
+        警告注意内容&notice\verb|_|title&varchar&400&×&-&-\\\hline
+        作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
+
+      \end{tabular}
+      \label{tab:warn_caution}
+    \end{center}
+      \end{table}
+         \begin{itemize}
+  \item 警告注意ID\\
+    自テーブルの主キーである。値は4桁の数値に構成され自動追加される。
+ \item 学籍番号\\
+    ユーザテーブルを参照する際の外部キーである。値は7文字の半角数字にて構成される。\\
+    例として学籍番号「1200***」がある。
+  \item 警告注意タイトル\\
+    管理者が作成した警告注意タイトルを示す値である。値は50文字以下の全角文字にて構成される。例としてお知らせタイトル「警告勧告について」がある。
+  \item 警告注意内容\\
+    警告注意内容を示す値である。値は400文字以下の全角文字にて構成される。\\
+   例としてお知らせ内容「KUTBBS運営事務局です。・・・」がある。
+  \item 作成日時\\
+    レコードを作成した日付・時刻を示す値である。レコードが作成されるたびに自動追加を行う。
+  \end{itemize}
 
 
 
