@@ -560,338 +560,6 @@ Pathfinder \\
     レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加を行う。
   \end{itemize}
 
-
-
-\section{モジュール設計}
-\subsection{admin\_top.html}
-\noindent
-【名称】\\
-管理者TOP画面\\
-【概要】\\
-管理者がログインを済ませると最初に現れる画面である。ここでは管理者に与えられた権限の選択をすることができる。\\
-【処理フロー】
-\begin{itemize}
-\item 「掲示板はこちらボタン」を押すと、が呼び出される。
-\item 「子管理者管理ボタン」を押すと、admin\_child\_top.htmlが呼び出される。
-\item 「ユーザ管理ボタン」を押すと、が呼び出される。
-\item 「お知らせ編集ボタン」を押すと、が呼び出される。
-\item 「通報状況確認ボタン」を押すと、が呼び出される。
-\item 「不適切な単語登録ボタン」を押すと、が呼び出される。
-\end{itemize}
-
-\subsection{admin\_child\_top.html}
-\noindent
-【名称】\\
-子管理者管理TOP\\
-【概要】\\
-各子管理者について発行・抹消を行うための画面である。\\
-【処理フロー】
-\begin{itemize}
-\item 「子管理者アカウント発行ボタン」を押すと、create\_admin.htmlが呼び出される。
-\item 「子管理者抹消ボタン」を押すと、delete\_admin.htmlが呼び出される。
-\item 「管理者TOPボタン」を押すと、admin\_top.htmlが呼び出される。
-\end{itemize}
-
-\subsection{create\_admin.html}
-\noindent
-【名称】\\
-子管理者アカウント発行画面\\
-【概要】\\
-子管理者アカウントの発行を行うかどうかを決定する画面である。\\
-【処理フロー】
-\begin{itemize}
-\item 「はいボタン」を押すと、.html.erbで処理が行われる。
-\item .html.erbで新たなアカウントの発行が完了するとnew\_admin.htmlが呼び出される。
-\item 「いいえボタン」を押すと、admin\_child\_top.htmlが呼び出される。
-\end{itemize}
-
-\subsection{new\_admin.html}
-\noindent
-【名称】\\
-子管理者アカウント発行完了画面\\
-【概要】\\
-子管理者アカウント発行完了画面が表示される\\
-【処理フロー】
-\begin{itemize}
-\item 「確認ボタン」を押すと、admin\_child\_top.htmlが呼び出される。
-\item 「管理者TOPボタン」を押すと、admin\_top.htmlが呼び出される。
-\end{itemize}
-
-\subsection{delete\_admin.html}
-\noindent
-【名称】\\
-子管理者アカウント抹消画面\\
-【概要】\\
-特定の子管理者アカウントについて抹消するかどうかを決定する画面である。\\
-【処理フロー】
-\begin{itemize}
-\item 「はいボタン」を押すと、.html.erbで処理が行われる
-\item .html.erbで子管理者アカウントの抹消が完了するとdelete\_admin\_ok.htmlが呼び出される。
-\item 「いいえボタン」を押すと、admin\_child\_top.htmlが呼び出される。
-\end{itemize}
-
-\subsection{delete\_admin\_ok.html}
-\noindent
-【名称】\\
-子管理者アカウント抹消完了画面\\
-【概要】\\
-子管理者アカウント抹消完了画面が表示される\\
-【処理フロー】
-\begin{itemize}
-\item 「戻るボタン」を押すと、admin\_child\_top.htmlが呼び出される。
-\end{itemize}
-
-\subsection{user\_admin\_top.html}
-\noindent
-【名称】\\
-ユーザ管理画面\\
-【概要】\\
-ユーザのアカウント発行とユーザ情報検索を行うことができる画面である。\\
-【処理フロー】
-\begin{itemize}
-\item 「ユーザアカウント発行ボタン」を押すと、create\_user.htmlが呼び出される。
-\item 「ユーザ情報検索ボタン」を押すと、search\_user.htmlが呼び出される。
-\end{itemize}
-
-\subsection{create\_user.html}
-\noindent
-【名称】\\
-ユーザアカウント発行画面\\
-【概要】\\
-ユーザアカウントの発行を行うことができる画面である。学籍番号の開始番号と末尾番号を入力することで範囲を指定し、同時に複数のアカウントの発行を行う。\\
-【処理フロー】
-\begin{itemize}
-\item 「開始番号テキストボックス」に新しく発行するユーザの開始番号を入力する。
-\item 「末尾番号テキストボックス」に新しく発行するユーザの末尾番号を入力する。
-\item 「登録ボタン」を押すと、.html.erbで処理が行われる。
-\item .html.erbでユーザのアカウント発行が完了するとnew\_user.htmlが呼び出される。
-\item 「管理者TOPボタン」を押すと、admin\_top.htmlが呼び出される。
-\end{itemize}
-
-\subsection{new\_user.html}
-\noindent
-【名称】\\
-ユーザアカウント発行確認画面\\
-【概要】\\
-ユーザアカウント発行確認画面が表示される\\
-【処理フロー】
-\begin{itemize}
-\item 「確認ボタン」を押すと、user\_admin\_top.htmlが呼び出される。
-\end{itemize}
-
-\subsection{search\_user.html}
-\noindent
-【名称】\\
-ユーザ情報検索画面\\
-【概要】\\
-【処理フロー】
-\begin{itemize}
-\item 「学籍番号検索テキストボックス」にはユーザの情報を入手する際に学籍番号を入力する。
-\item 「検索ボタン」を押すと、.html.erbで処理が行われる。
-\item .html.erbで該当するユーザがあればuser\_info.htmlが呼び出される。
-\end{itemize}
-
-\subsection{user\_info.html}
-\noindent
-【名称】\\
-ユーザ情報画面\\
-【概要】\\
-ユーザ情報の検索結果を表示する画面である。
-【処理フロー】
-\begin{itemize}
-\item 「警告・注意喚起ボタン」を押すと、が呼び出される。
-\item 「アカウント凍結ボタン」を押すと、が呼び出される。
-\item 「パスワード表示ボタン」を押すと、が呼び出される。
-\item 「管理者TOPボタン」を押すと、admin\_top.htmlが呼び出される。
-\end{itemize}
-
-\subsection{.html}
-\noindent
-【名称】\\
-画面\\
-【概要】\\
-【処理フロー】
-\begin{itemize}
-\item 「ボタン」を押すと、が呼び出される。
-\end{itemize}
-
-\subsection{login\_top.html}
-【名称】\\
-ログインTOP画面\\
-【概要】\\
-利用者が本システムを利用する際の初期画面である。ここでは、ユーザとしてログイン、管理者としてログインのいずれかを選択することができる。\\
-【処理フロー】
-\begin{itemize}
-  \item ログインボタンを押すとlogin\_user.htmlが呼び出される。
-  \item 管理者はこちらボタンを押すとlogin\_admin.htmlが呼び出される。
-\end{itemize}
-
-%ユーザ側
-\subsection{login\_user.html}
-【名称】\\
-ユーザログイン画面\\
-【概要】\\
-ユーザがIDとパスワードを入力して本システムにログインするための画面である。\\
-【処理フロー】\\
-\begin{itemize}
-  \item 「ID入力テキストボックス」にユーザのIDを入力する。
-  \item 「パスワード入力テキストボックス」にユーザのパスワードを入力する。
-  \item 初回のログインでは、IDとパスワードが入力された状態で「ENTERボタン」を押すとsubscribe\_user.htmlが呼び出される。
-  \item 2回目以降のログインでは、IDとパスワードが入力された状態で「ENTERボタン」を押すとBBS\_top.htmlが呼び出される。
-  \item データベース上に存在しないIDまたはパスワードが入力された状態で「ENTERボタン」を押すと、.html.erbが呼び出される。
-  \item いずれかのテキストボックスに何も入力されていない状態で「ENTERボタン」を押すと、.html.erbが呼び出される。
-\end{itemize}
-
-
-\subsection{subscribe\_user.html}
-【名称】\\
-新規登録画面\\
-【概要】\\
-初回ログインをしたユーザがIDとパスワードを変更し、本システムに本登録する画面である。\\
-【処理フロー】\\
-\begin{itemize}
-  \item 「ID入力テキストボックス」に変更後のユーザIDを入力する。
-  \item 「パスワード入力テキストボックス」に変更後のユーザのパスワードを入力する。
-  \item 「パスワード再確認入力テキストボックス」に「パスワード入力テキストボックス」に入力したものと同じパスワードを入力する。
-  \item 「ID」「パスワード」「パスワード再確認」のテキストボックスに文字列が入力されており、かつ「パスワード」と「パスワード再確認」のテキストボックスに入力された文字列が一致した場合において、「登録ボタン」を押すとsubscribe\_ok.htmlが呼び出される。
-  \item いずれかのテキストボックスに何も入力されていない状態で「登録ボタン」を押すと、.html.erbが呼び出される。
-  \item 「登録ボタン」を押したときに「パスワード」と「パスワード再確認」に入力された文字列が合致しなかった場合、.html.erbが呼び出される。
-\end{itemize}
-
-
-\subsection{subscribe\_ok.html}
-【名称】\\
-新規登録完了画面\\
-【概要】\\
-新規登録が完了したことを表示する画面である。\\
-【処理フロー】\\
-\begin{itemize}
-  \item 「利用を開始するボタン」を押すと、BBS\_top.htmlが呼び出される。
-\end{itemize}
-
-
-\subsection{read\_news.html}
-【名称】\\
-お知らせ画面
-【概要】\\
-管理者からユーザに対するお知らせの詳細を表示する画面である。\\
-
-%管理者側
-\subsection{login\_admin.html}
-【名称】\\
-管理者ログイン画面\\
-【概要】\\
-管理者がIDとパスワードを入力して本システムにログインするための画面である。\\
-【処理フロー】\\
-\begin{itemize}
-  \item 「管理者ID入力テキストボックス」に管理者のIDを入力する。
-  \item 「管理者パスワード入力テキストボックス」に管理者のパスワードを入力する。
-  \item 入力されたIDとパスワードがともにデータベースに登録されたものと合致している場合、「ENTERボタン」を押すとadmin\_top.htmlが呼び出される。
-  \item 入力されたIDとパスワードのいずれかがデータベースに登録されているものと合致しない場合、「ENTERボタン」を押すと、.html.erbが呼び出される。
-  \item IDとパスワードのいずれかが入力されていない場合、「ENTERボタン」を押すと、.html.erbが呼び出される。
-\end{itemize}
-
-\subsection{news\_edit.html}
-【名称】\\
-お知らせ編集画面\\
-【概要】\\
-管理者がユーザにお知らせを通達する内容を編集する画面である。\\
-【処理フロー】\\
-\begin{itemize}
-  \item お知らせタイトル、内容に文字列が入力されている状態で「送信ボタン」を押すと、news\_edit\_confirm.htmlが呼び出される。
-  \item お知らせタイトル、内容のいずれかに文字列が入力されていない状態で「送信ボタン」を押すと、.html.erbが呼び出される。
-  \item 「管理者TOPボタン」を押すと、admin\_top.htmlが呼び出される。
-\end{itemize}
-
-
-\subsection{news\_edit\_confirm.html}
-【名称】\\
-お知らせ内容確認画面\\
-【概要】\\
-お知らせ編集画面で編集したお知らせ内容を確認する画面である。内容を確認し、送信するか否かを選択する。\\
-【処理フロー】\\
-\begin{itemize}
-  \item 「はいボタン」を押すと、.html.erbが呼び出される。また、news\_edit\_ok.htmlが呼び出される。
-  \item 「いいえボタン」を押すと、news\_edit.htmlが呼び出される。
-\end{itemize}
-
-
-\subsection{news\_edit\_ok.html}
-【名称】\\
-お知らせ作成完了画面\\
-【概要】\\
-お知らせの作成が完了したことを示す画面である。\\
-【処理フロー】\\
-\begin{itemize}
-  \item 「戻るボタン」を押すとadmin\_top.htmlが呼び出される。
-\end{itemize}
-
-%検索画面
-\subsection{search.html}
-【名称】
-\\検索結果画面
-\\【概要】
-\\利用者が検索を行った際に表示される画面。スレッドタイトルを押すとそのスレッドの閲覧画面が表示される。
-\\【処理フロー】
-\\\begin{itemize}
-\item 「スレッドタイトル」を押すと、read\_thread.htmlを呼び出す。
-\end{itemize}
-
-%通報関係
-\subsection{report\_reason.html}
-【名称】
-\\通報画面
-\\【概要】
-\\利用者が通報ボタンを押した際に表示される画面。
-\\【処理フロー】
-\\\begin{itemize}
-\item 「理由テキストボックス」に通報する理由を入力する。
-\item　「送信ボタン」を押すと、report\_confirm.htmlを呼び出す。
-\end{itemize}
-\subsection{report\_confirm.html}
-【名称】
-\\通報確認画面
-\\【概要】
-\\利用者が通報画面にて、「送信ボタン」を押した際に表示される。
-\\【処理フロー】
-\\\begin{itemize}
-\item 「はいボタン」を押すと、report\_ok.htmlを呼び出します。
-\item 「いいえボタン」を押すと、report\_reason.htmlを呼び出す。
-\\\end{itemize}
-\subsection{report\_ok.html}
-【名称】
-\\通報完了画面
-\\【概要】
-\\利用者が通報確認画面にて、「はいボタン」を押した際に表示される画面。
-\\【処理フロー】
-\\\begin{itemize}
-  \item 「戻るボタン」を押すとcategory\_top.htmlを呼び出す。
-\end{itemize}
-
-%不適切な単語関連
-\subsection{NGword.html}
-【名称】
-\\不適切な単語の登録画面
-\\【概要】
-\\管理者が掲示板において不適切な単語を登録する画面。「不適切な単語入力テキストボックス」に入力した
-単語を「不適切な単語登録ボタン」を押すことで、不適切な単語として登録ができる。
-表示されている単語の「削除ボタン」を押すことで、その単語を不適切な単語から外す。
-\\【処理フロー】
-\\\begin{itemize}
-  \item 「不適切な単語入力テキストボックス」に単語を入力し、「不適切な単語登録ボタン」押すことで表示されて
-  いる単語の一覧に入力された単語を追加し、(不適切な単語のデータベース)に追加する。
-  \item 単語の「削除ボタン」を押すことで、不適切な単語の一覧からその単語を外し、(不適切な単語のデータベース)から外す。
-\end{itemize}
-
-\begin{figure}[H]
-\begin{center}
-\resizebox{8cm}{!}{\includegraphics{sequence/subscribe_user.PNG}}
-%\caption {カテゴリトップ画面}
-%\label {fig：category\_top}
-\end{center}
-\end{figure}
-
-
 \section{ルーティング及びMVC一覧}
 この章では、Railsの規約に従ったURL規則を示す。また、HTTPメソッドとURLによって呼び出されるControllerとActionを示す。さらに、View及びModelも示す。
 \newpage
@@ -906,7 +574,7 @@ Pathfinder \\
   \begin{tabular}{|l|l|l||l|} \hline
     No.&   URL 						&METHOD & Controller\#Action \\ \hline \hline
 	 1&	/Login  					 	& GET      & sessions\#new       \\
-       2&  ~			         			& POST    & sessions\#create	\\
+       2&  	~		         			& POST    & sessions\#create	\\
 	 3&	/Logout   				      &DELETE   &sessions\#destroy	\\
 	 4&	/passwords/:id					&GET	  &passwords\#new    \\
 	 5 & /passwords/:id					&PATCH	  &passwords\#change \\
@@ -937,7 +605,7 @@ Pathfinder \\
 \end{table}
 
 \subsection{ルーティング(管理者側)一覧}
-※v2でユーザ側と管理者側を統合・修正します。\\
+\underline{\bf（ v2でユーザ側と管理者側を統合・修正します。）}\\
 呼び出されたURLとHTTPメソッドによってRailsで呼び出すControllerのアクションを定義する。
 \begin{table}[H]
   \centering
@@ -977,7 +645,7 @@ Pathfinder \\
 
 
 \subsection{Controller}
-\subsubsection{sessios\_controller.rb}
+\subsubsection{sessions\_controller.rb}
 \noindent 名称：セッション情報処理	\newline
 処理： \newline
 -new:ログインフォームであるsessions\_new.html.erbを表示させる。\newline
@@ -990,21 +658,18 @@ Pathfinder \\
 \noindent 名称:パスワード変更処理	\newline
 処理：\newline
 -new:初回ログインを行なった該当するユーザに対して、パスワード変更用フォームであるpasswords\_new.html.erbを表示させる。\newline
-	-change:あらかじめ登録されていたユーザのパスワード情報を、変更用フォームから入力された新しいパスワードに更新する。更新後、/homeに対してGETメソッドでルーティングにリクエストする。
+-change:あらかじめ登録されていたユーザのパスワード情報を、変更用フォームから入力された新しいパスワードに更新する。更新後、/homeに対してGETメソッドでルーティングにリクエストする。
 
-%'「該当する」という文言は、ユーザのidやスレッドのtitle等、DB上からなんらかの(一意な)属性の値を取得する処理が存在することを意味する
+%「該当する」という文言は、ユーザのidやスレッドのtitle等、DB上からなんらかの(一意な)属性の値を取得する処理が存在することを意味する
 
 
 
 \subsubsection{home\_controller.rb}
 \noindent 名称：ホーム画面処理 \newline
 処理:\newline
--home:ホーム画面であるhome.html.erbを表示する。検索窓に検索したいスレッドタイトルを入力し、検索ボタンを押すと、/results/:idにGETメソッドでルーティングにリクエストを行う。お知らせを押すと、/infomations/:idにGETメソッドでルーティングを行う。マイページボタンを押すと、/user/:idにゲットメソッドでルーティングを行う。\newline
-
+-home:ホーム画面であるhome.html.erbを表示する。スレッドタイトル入力テキストボックスに検索したいスレッドタイトルを入力し、検索ボタンを押すと、/results/:idにGETメソッドでルーティングにリクエストを行う。お知らせを押すと、/infomations/:idにGETメソッドでルーティングを行う。マイページボタンを押すと、/user/:idにGETメソッドでルーティングを行う。\newline
 %管理者が推すと管理者ページへ戻る？
-
-
-threads\_hide:不適切なスレッドを非表示化する。この処理は、管理者以外行うことはできない(非表示化ボタン自体が存在しない)。このアクションを行うと、/homeに対してPATCHメソッドでルーティングにリクエストする。
+-threads\_hide:不適切なスレッドを非表示化する。この処理は、管理者以外行うことはできない(非表示化ボタン自体が存在しない)。このアクションを行うと、/homeに対してPATCHメソッドでルーティングにリクエストする。
 
 
 
@@ -1012,18 +677,18 @@ threads\_hide:不適切なスレッドを非表示化する。この処理は、
 \noindent 名称：マイページ画面処理 \newline
 処理:\newline
 -show:マイページ画面であるshow.html.erbを表示する。\newline
-update:拡張機能を開放する(Userテーブルにおけるユーザの各種拡張フラグを1に更新する)アクションである。解放後、/user/:idにPATCHメソッドでルーティングにリクエストする。
+-update:拡張機能を開放する(Userテーブルにおけるユーザの各種拡張フラグを1に更新する)アクションである。解放後、/user/:idにPATCHメソッドでルーティングにリクエストする。
 
 
 \subsubsection{results\_controller.rb}
 \noindent 名称：スレッドタイトル検索処理 \newline
 処理:\newline
--search:スレッドタイトル検索機能の処理を行うアクションである。検索を行い、該当するスレッドを取得した後は、そのスレッドを一覧として表示する(これがsearch.html.rbとなる）。表示されたスレッドタイトルを押すと、/threads/:id/contentsにGETメソッドでルーティングをリクエストする。\newline
+-search:スレッドタイトル検索機能の処理を行うアクションである。検索を行い、該当するスレッドを取得した後は、そのスレッドを一覧として表示する(これがsearch.html.erbとなる）。表示されたスレッドタイトルを押すと、/threads/:id/contentsにGETメソッドでルーティングをリクエストする。\newline
 
 \subsubsection{results\_categories\_controller.rb}
 \noindent 名称：カテゴリ別スレッドタイトル検索処理 \newline
 処理:\newline
-search:スレッドタイトル検索機能の処理を行うアクションである。先ほど述べたスレッドタイトル検索処理とほとんど同じであるが、スレッドタイトル以外にも、該当するカテゴリであるかどうかを条件として検索を行う処理である。検索条件以外の処理に違いは存在しない。\newline
+-search:スレッドタイトル検索機能の処理を行うアクションである。先ほど述べたスレッドタイトル検索処理とほとんど同じであるが、スレッドタイトル以外にも、該当するカテゴリであるかどうかを条件として検索を行う処理である。検索条件以外の処理に違いは存在しない。\newline
 
 
 
@@ -1037,7 +702,7 @@ search:スレッドタイトル検索機能の処理を行うアクションで�
 \subsubsection{categories\_controller.rb}
 \noindent 名称：カテゴリ別トップ画面処理 \newline
 処理:\newline
--new:カテゴリ別トップ画面であるcategories.html.erbを表示する。この画面もトップ画面同様、検索窓が存在しているがこちらから検索を行うと、/results/:title/categories/:idにGETメソッドでルーティングをリクエストする。マイページに遷移するボタンの処理は、トップ画面と同様である。また、スレッドタイトルを押した場合は、/threads/:id/contentsにGETメソッドでルーティングをリクエストする。\newline
+-new:カテゴリ別トップ画面であるcategories.html.erbを表示する。この画面もトップ画面同様、スレッドタイトル入力テキストボックスが存在しているがこちらから検索を行うと、/results/:title/categories/:idにGETメソッドでルーティングをリクエストする。マイページに遷移するボタンの処理は、トップ画面と同様である。また、スレッドタイトルを押した場合は、/threads/:id/contentsにGETメソッドでルーティングをリクエストする。\newline
 
 
 
@@ -1045,7 +710,7 @@ search:スレッドタイトル検索機能の処理を行うアクションで�
 \noindent 名称：スレッド作成処理 \newline
 処理:\newline
 -new::スレッドを新規作成するフォームであるnew\_html.erbを表示させる。作成ボタンを押した後は/threads/checkにGETメソッドでルーティングをリクエストする。\newline
--check:スレッド作成確認画面であるcheck.html.erbを表示させる。確認ボタンを押すと、/thread/create\newline
+-check:スレッド作成確認画面であるcheck.html.erbを表示させる。確認ボタンを押すと、/threadsにPOSTメソッドでルーティングをリクエストする。\newline
 -create:newアクションで入力されたスレッドタイトルと最初の書き込み内容を反映したスレッドを作成するアクションである。スレッドを作成した後は、カテゴリ別トップページである/categories/:idにGETメソッドでルーティングをリクエストする。
 
 
@@ -1053,7 +718,7 @@ search:スレッドタイトル検索機能の処理を行うアクションで�
 \noindent 名称：スレッド閲覧処理 \newline
 処理:\newline
 -bbs::スレッドを閲覧するページを表示するアクションである。通報ボタンを押すと、/thread/:id/contents/:id/reportにGETメソッドでルーティングをリクエストする。書き込みボタンを押すと、/thread/:id/contents/checkにGETメソッドでルーティングをリクエストする。\newline
--check:書き込み確認ページであるcontents\_check.html.rbを表示するアクションである。\newline
+-check:書き込み確認ページであるcontents\_check.html.erbを表示するアクションである。\newline
 -write:threadに書き込みを行うアクションである。書き込み確認ページに存在する書き込みボタンを押すとこのアクションが実行され、その後/thread/:id/contents/にPOSTメソッドでルーティングをリクエストする。\newline
 -responses\_hide:このアクションを実行できるのは管理者だけである。このアクションを実行すると、PATCHメソッドで/thread/:id/contentsにルーティングをリクエストする。\newline
 -report:このアクションは、通報用フォームであるcontents.html.erbを表示させるアクションである。必要事項を入力し通報ボタンを押すと、通報確認ページである/thread/:id/contents/:id/checkにGETメソッドでルーティングをリクエストする。\newline
@@ -1137,115 +802,251 @@ search:スレッドタイトル検索機能の処理を行うアクションで�
 -home: admins/report.html.erbを表示する。\\
 -hide: 特定の通報されたスレッドまたはレスを非表示化処理をする。処理後はadmins/reportへリダイレクトする。
 
+\subsection{View層}
+\underline{\bf (現時点では掲示板の画面詳細のみ記述しています。v2で管理者側の画面詳細の追記とこの章全体の修正をします。)}\\
+\subsubsection{sessions/new.html.erb}
+\noindent
+【名称】\\
+ユーザログイン画面\\
+【概要】\\
+ユーザがIDとパスワードを入力して本システムにログインするための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item ENTERボタンを押すと、入力されたIDとパスワードを情報として/LoginにPOSTリクエストでルーティングにリクエストする。
+\end{itemize}
 
- \subsection{Model層}
-  %モデル層を記述しました。文章の構成はMVCの小節になると思うのうまく文章構成をお願いします。
- 名称と概要を以下のように示す。
+
+\subsubsection{passwords/new.html.erb}
+\noindent
+【名称】\\
+新規登録画面\\
+【概要】\\
+初回ログインをしたユーザがIDとパスワードを変更し、本システムに本登録する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 登録ボタンを押すと、入力されたIDとパスワードを情報として/passwords/:idにPATCHメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{home\_pages/home.html.erb}
+\noindent
+【名称】\\
+掲示板TOP画面
+【概要】\\
+掲示板TOP画面を表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 検索ボタンを押すと、/result/:titleにGETメソッドでルーティングにリクエストする。
+  \item カテゴリボタンを押すと、/categories/:idにGETメソッドでルーティングにリクエストする。
+  \item お知らせタイトルを押すと、/information/:idにGETメソッドでルーティングにリクエストする。
+  \item ログアウトボタンを押すと、/LogoutにDELETEメソッドでルーティングにリクエストする。
+%  スティッキーヘッダーに該当する箇所は別にルーティングを置くようにするか…？
+\end{itemize}
+
+\subsubsection{users/show.html.erb}
+\noindent
+【名称】\\
+マイページ画面\\
+【概要】\\
+ユーザのマイページを表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 拡張機能の開放ボタンを押すと、保有ポイントを情報として、/users/:idにPATCHメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{informations/show.html.erb}
+\noindent
+【名称】\\
+お知らせ画面
+【概要】\\
+管理者からユーザに対するお知らせの詳細を表示する画面である。\\
+
+
+\subsubsection{categories/index.html.erb}
+\noindent
+【名称】\\
+カテゴリTOP画面\\
+【概要】\\
+各カテゴリのカテゴリIDに該当するスレッドを表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item スレッドタイトルを押すと、/thread/:id/contentsにGETメソッドでルーティングにリクエストする。
+  \item 検索ボタンを押すと、/result/:title/categories/:idにGETメソッドでルーティングにリクエストする。
+  \item スレッド新規作成ボタンを押すと、/thread/newにGETメソッドでルーティングにリクエストする。
+  \item 通報ボタンを押すと、/thread/report\_newにGETメソッドでルーティングにリクエストする。
+%  \item 非表示ボタンを押すと、???に対してPATCHメソッドでルーティングにリクエストする。%(非表示が/homeにルーティングを取る辺りの扱いが分からない… スレッドの一覧表示する画面じゃないのか…？hmm…)
+\end{itemize}
+
+\subsubsection{threads/new.html.erb}
+\noindent
+【名称】\\
+スレッド作成画面\\
+【概要】\\
+スレッドの新規作成フォームを表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 作成ボタンを押すと、/threads/checkにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{threads/check.html.erb}
+\noindent
+【名称】\\
+スレッド作成確認画面\\
+【概要】\\
+新規作成するスレッドの内容確認を表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item はいボタンを押すと、スレッドタイトル名と書き込み内容を情報として、/threadsにPOSTメソッドでルーティングにリクエストする。
+  \item いいえボタンを押すと、/threads/newにGETメソッドでルーティングにリクエストする。  
+\end{itemize}
+
+\subsubsection{contents/bbs.html.erb}
+\noindent
+【名称】\\
+スレッド閲覧画面\\
+【概要】\\
+スレッドの書き込み及び書き込みの入力フォームを表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 送信ボタンを押すと、/threads/:id/contents/checkにGETメソッドでルーティングにリクエストする。
+  \item 通報ボタンを押すと、/threads/:id/contents/reportにGETメソッドでルーティングにリクエストする。
+  \item 非表示ボタンを押すと、レスIDを情報として、/threads/:id/contents/にPATCHメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{contents/check.html.erb}
+\noindent
+【名称】\\
+レス書き込み内容確認画面\\
+【概要】\\
+スレッドに書き込むレスの内容確認を表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item はいボタンを押すと、書き込み内容を情報として、/contents/writeにPOSTメソッドでルーティングにリクエストする。
+  \item いいえボタンを押すと、/threads/:id/contents/にGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{contents/report.html.erb}
+\noindent
+【名称】\\
+通報画面\\
+【概要】\\
+不適切な書き込みを通報する入力フォームを表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 送信ボタンを押すと、/threads/:id/contents/:id/checkにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{contents/check.html.erb}
+%(レス書き込み確認画面とアクション名が被っている…修正?)
+\noindent
+【名称】\\
+通報内容確認画面\\
+【概要】\\
+通報の内容確認を表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item はいボタンを押すと、通報内容を情報として、/threads/:id/contentsにPOSTメソッドでルーティングにリクエストする。
+  \item いいえボタンを押すと、/threads/:id/contents/:id/reportにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsection{Model層}
+%モデル層を記述しました。文章の構成はMVCの小節になると思うのうまく文章構成をお願いします。
+  
+\subsubsection{tb\_user.rb}
+  \noindent 
+  名称:ユーザ情報管理部\\
+  概要:ユーザテーブルの管理を行う。\\
+
+\subsubsection{tb\_thread.rb}
+  \noindent 
+  名称:スレッド情報管理部\\
+  概要:スレッドテーブルの管理を行う。\\
+  関係:  
   \begin{itemize}
-    
-  \item テーブル名:user\\
-    名称:ユーザ情報管理部\\
-    概要:ユーザテーブルの管理を行う。
-
-  \item テーブル名:thread\\
-    名称:スレッド情報管理部\\
-    概要:スレッドテーブルの管理を行う。
-
-  \item テーブル名:res\\
-    名称:レス情報管理部\\
-    概要:レステーブルの管理を行う。
-
-  \item テーブル名:thread\verb|_|category\\
-    名称:スレッドカテゴリ情報管理部\\
-    概要:スレッドカテゴリテーブルの管理を行う。
-  \item テーブル名:favorite\verb|_|bbs\\
-    名称:お気に入り掲示板情報管理部\\
-    概要:お気に入り掲示板テーブルの管理を行う。
-
-   \item テーブル名:collect\verb|_|user\\
-    名称:コレクトユーザ情報管理部\\
-    概要:コレクトユーザテーブルの管理を行う。
-    
-   \item テーブル名:inadequacy\verb|_|word\\
-     名称:不適切な単語登録情報管理部\\
-    概要:不適切な単語登録テーブルの管理を行う。
-
-
-   \item テーブル名:report\\
-    名称:通報管理部\\
-    概要:通報テーブルの管理を行う。
-
-
-
-   \item テーブル名:suspend\\
-    名称:凍結ユーザ情報管理部\\
-    概要:凍結ユーザテーブルの管理を行う。
-
-  \item テーブル名:news\\
-    名称:お知らせ情報管理部\\
-    概要:お知らせテーブルの管理を行う。
-    
-  \item テーブル名:warned\verb|_|caution\\
-    名称:警告注意情報管理部\\
-    概要:警告注意テーブルの管理を行う。
-
+  \item スレッド情報管理部 N:1 ユーザ情報管理部
+  \item スレッド情報管理部 N:1 スレッドカテゴリ情報管理部 
   \end{itemize}
-  関係性を以下のように示す。
+
+\subsubsection{tb\_res.rb}
+  \noindent 
+  名称:レス情報管理部\\
+  概要:レステーブルの管理を行う。\\
+  関係:
+  
   \begin{itemize}
-  \item スレッド情報管理部\\
-    関係性:
-    
-    \begin{itemize}
-    \item スレッド情報管理部 N:1 ユーザ情報管理部
-    \item スレッド情報管理部 N:1 スレッドカテゴリ情報管理部 
-    \end{itemize}
+  \item　レス情報管理部 N:1 スレッド情報管理部
+  \item　スレッド情報管理部 N:M ユーザ情報管理部 
+  \end{itemize}
 
-  \item レス情報管理部\\
-    関係性:
-    
-    \begin{itemize}
-    \item　レス情報管理部 N:1 スレッド情報管理部
-    \item　スレッド情報管理部 N:M ユーザ情報管理部 
-    \end{itemize}
+\subsubsection{tb\_thread\_category.rb}
+  \noindent 
+  名称:スレッドカテゴリ情報管理部\\
+  概要:スレッドカテゴリテーブルの管理を行う。\\
+  
+\subsubsection{tb\_favorite\_bbs.rb}
+  \noindent 
+  名称:お気に入り掲示板情報管理部\\
+  概要:お気に入り掲示板テーブルの管理を行う。\\
+  関係:  
+  \begin{itemize}
+  \item お気に入り掲示板情報管理部 0かN:0かN ユーザ情報管理部
+  \item お気に入り掲示板情報管理部 N:1 スレッド情報管理部 
+  \end{itemize}
 
-  \item お気に入り掲示板情報管理部\\
-    関係性:
-    
-    \begin{itemize}
-    \item お気に入り掲示板情報管理部 0かN:0かN ユーザ情報管理部
-    \item お気に入り掲示板情報管理部 N:1 スレッド情報管理部 
-    \end{itemize}
-  \item コレクトユーザ情報管理部\\
-    関係性:
-    
-    \begin{itemize}
-    \item コレクトユーザ情報管理部 1:0か1 ユーザ情報管理部
-    \item コレクトユーザ情報管理部 N:1 スレッド情報管理部
-    \item コレクトユーザ情報管理部 N:0か1 レス情報  
-    \end{itemize}
-    
-  \item 通報情報管理部\\
-    関係性:
-    
-    \begin{itemize}
-    \item 通報情報管理部 N:M ユーザ情報管理部
-    \item 通報情報管理部 N:M スレッド情報管理部
-    \item 通報情報管理部 N:M レス情報管理部
-    \end{itemize}
-  \item 凍結ユーザ情報管理部\\
-    関係性:
-    
-    \begin{itemize}
-    \item 凍結ユーザ情報管理部 1:1 ユーザ情報管理部
-    \end{itemize}
-    
-   \item 警告注意情報管理部\\
-    関係性:
-    
-    \begin{itemize}
-    \item 警告注意情報管理部 1:N ユーザ情報管理部
-    \end{itemize}   
-    \end{itemize}
+\subsubsection{tb\_collect\_user.rb}
+  \noindent 
+  名称:コレクトユーザ情報管理部\\
+  概要:コレクトユーザテーブルの管理を行う。\\
+  関係:  
+  \begin{itemize}
+  \item コレクトユーザ情報管理部 1:0か1 ユーザ情報管理部
+  \item コレクトユーザ情報管理部 N:1 スレッド情報管理部
+  \item コレクトユーザ情報管理部 N:0か1 レス情報  
+  \end{itemize}
+  
+\subsubsection{tb\_inadequacy\_word.rb}
+  \noindent 
+  名称:不適切な単語登録情報管理部\\
+  概要:不適切な単語登録テーブルの管理を行う。\\
+
+
+\subsubsection{tb\_report.rb}
+  \noindent 
+  名称:通報情報管理部\\
+  概要:通報テーブルの管理を行う。\\
+  関係:  
+  \begin{itemize}
+  \item 通報情報管理部 N:M ユーザ情報管理部
+  \item 通報情報管理部 N:M スレッド情報管理部
+  \item 通報情報管理部 N:M レス情報管理部
+  \end{itemize}
+
+
+
+\subsubsection{tb\_suspend.rb}
+  \noindent 
+  名称:凍結ユーザ情報管理部\\
+  概要:凍結ユーザテーブルの管理を行う。\\
+  関係:  
+  \begin{itemize}
+  \item 凍結ユーザ情報管理部 1:1 ユーザ情報管理部
+  \end{itemize}
+
+\subsubsection{tb\_news.rb}
+  \noindent 
+  名称:お知らせ情報管理部\\
+  概要:お知らせテーブルの管理を行う。\\
+  
+\subsubsection{tb\_warned\_caution.rb}
+  \noindent 
+  名称:警告注意情報管理部\\
+  概要:警告注意テーブルの管理を行う。\\
+  関係:  
+  \begin{itemize}
+  \item 警告注意情報管理部 1:N ユーザ情報管理部
+  \end{itemize}   
+
+
+
 \appendix
 
 \end{document}
