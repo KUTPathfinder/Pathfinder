@@ -199,7 +199,7 @@ Pathfinder \\
       太文字フラグ&bold\verb|_|letters\verb|_|flag&int&1&×&-&- \\ \hline
       管理者フラグ&administrator\verb|_|flag&int&1&○&-&- \\ \hline
       初回ログインフラグ&first\verb|_|login\verb|_|flag&int&1&×&-&- \\ \hline
-      ログイン日数&count\verb|_|login&int&4&×&-&-\\ \hline 
+      ログイン日数&count\verb|_|login&int&4&×&-&-\\ \hline
     \end{tabular}
     \label{tab:user}
   \end{center}
@@ -215,13 +215,13 @@ Pathfinder \\
 \item ハンドルネーム\\
       ユーザがレス書き込みを行う際に表示する名前を示す値である。NULL値は含まない。値は15文字以下の文字列にて構成される。\\
 
-  
+
 \item 保有ポイント\\
   ユーザがログインした日数とコレクトボタンを10回以上押されたことで獲得したポイントを示す値である。NULL値は含まない。4桁(0001から9999)の数値にて構成される。
 
 \item 取り消しフラグ\\
   拡張機能の1つであり、取り消し線を付与することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
-  
+
 \item 赤色フラグ\\
   拡張機能の1つであり、赤色を付与することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
 \item 斜体フラグ\\
@@ -234,10 +234,10 @@ Pathfinder \\
   親管理者と子管理者を識別することを示す値である。値は１桁の0(子管理者)、1(親管理者)の数値にて構成される。\\
 \item 初回ログインフラグ\\
   初回ログインを識別することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。
-  
+
 \item ログイン日数\\
   ユーザがログインをした日数を記録することを示す値である。NULL値は含まない。値は4桁(0001から9999)の数値にて構築される。
-  
+
   　\end{itemize}
 \newpage
   \subsubsection{スレッドテーブル(thread)}
@@ -257,20 +257,20 @@ Pathfinder \\
             作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
             更新日時&updated\verb|_|at&timestamp&-&×&\begin{tabular}{l}default current\verb|_|timestamp on \\update current\verb|_|timestamp\end{tabular}&- \\ \hline
       \end{tabular}
-      
+
       \label{tab:thread}
     \end{center}
   \end{table}
-  \begin{itemize}  
+  \begin{itemize}
   \item スレッドID\\
     自テーブルの主キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構成され自動追加される。\\
 
   \item スレッドカテゴリID\\
     スレッドカテゴリテーブルを参照する際の外部キーである。NULL値は含まない。値は3桁(001から999)の数値にて構成され自動追加される。\\
-    
+
   \item 学籍番号\\
     ユーザテーブルを参照する際の外部キーである。NULL値は含まない。固定7文字の半角英数字にて構成される。\\
-    
+
   \item スレッドタイトル名\\
     スレッドタイトルを示す値である。NULL値は含まない。値は50文字以下の文字列にて構成される。\\
   \item スレッド非表示フラグ\\
@@ -293,17 +293,17 @@ Pathfinder \\
         レスID&res\verb|_|id&int&4&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&PK \\\hline
           スレッドID&thread\verb|_|id&int&5&×&\begin{tabular}{l}unsigned zerofill\\auto\verb|_|increment\end{tabular}&\begin{tabular}{l}PK(res複合)\\FK:thread\end{tabular}\\\hline
               学籍番号&student\verb|_|id&char&7&×&-&\multicolumn{1}{|l|}{FK:user} \\\hline
-              書き込みID&write\verb|_|id&char&8&×&-&-\\ \hline 
+              書き込みID&write\verb|_|id&char&8&×&-&-\\ \hline
               書き込み内容&write\verb|_|content&varchar&200&×&-&- \\ \hline
               コレクトプッシュ数&collect\verb|_|push\verb|_|count&int&4&×&-&- \\ \hline
               レス非表示フラグ&res\verb|_|hide\verb|_|flag&int&1&×&-&- \\ \hline
               作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
       \end{tabular}
-      
+
       \label{tab:ress}
     \end{center}
   \end{table}
-  
+
   \begin{itemize}
   \item レスID\\
     自テーブルの主キーである。NULL値は含まない。値は4桁(0001から9999)の数値にて構成され自動追加される。
@@ -312,7 +312,7 @@ Pathfinder \\
   \item 学籍番号\\
     ユーザテーブルを参照する際の外部キーである。NULL値は含まない。固定7文字の半角英数字にて構成される。\\
   \item 書き込みID\\
-    ユーザが書き込みを行う際に表示するIDを示す値である。NULL値は含まない。値は固定8文字の半角英数字にて構成される。\\   
+    ユーザが書き込みを行う際に表示するIDを示す値である。NULL値は含まない。値は固定8文字の半角英数字にて構成される。\\
   \item 書き込み内容\\
     書き込み内容を示す値である。NULL値は含まない。値は200文字以下の文字列にて構成される。\\
   \item コレクトボタンプッシュ数\\
@@ -320,9 +320,9 @@ Pathfinder \\
   \item レス非表示フラグ\\
     管理者の操作権限でレスを非表示を示す値である。NULL値は含まない。値は1桁の数値で0(OFF)、1(ON)の数値にて構成される。\\
     例としてレス非表示フラグを1にした場合、ユーザ側からはレスが非表示になる。
-    
+
   \item 作成日時\\
-    レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加される。    
+    レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加される。
   \end{itemize}
 
   \subsubsection{スレッドカテゴリテーブル(thread\_category)}
@@ -340,13 +340,13 @@ Pathfinder \\
       \label{tab:thread_category}
     \end{center}
   \end{table}
-  
+
   \begin{itemize}
   \item カテゴリID\\
     自テーブルの主キーである。NULL値は含まない。値は3桁(001から999)の数値にて構築され自動追加される。
   \item カテゴリ名\\
     カテゴリの名前を示す値である。NULL値は含まない。値は15文字以下の文字列にて構成される。\\
-    
+
   \end{itemize}
 
   \subsubsection{お気に入り掲示板テーブル(favorite\_bbs)}
@@ -364,16 +364,16 @@ Pathfinder \\
       \label{tab:favorite_bbs}
     \end{center}
   \end{table}
-  
+
   \begin{itemize}
   \item 学籍番号\\
     ユーザテーブルを参照する際の外部キーである。NULL値は含まない。固定7文字の半角英数字にて構成される。\\
   \item スレッドID\\
     スレッドテーブルを参照する際の外部キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構築され自動追加される。
   \end{itemize}
-  
-  
-  
+
+
+
   \subsubsection{コレクトユーザテーブル(collect\_user)}
   コレクトユーザテーブルではコレクトボタンを押されたことに関する情報を管理する。このテーブルの詳細は表 \ref{tab:collect_user} に示す。
   \begin{table}[h]
@@ -415,7 +415,7 @@ Pathfinder \\
       \label{tab:inadequacy_word}
     \end{center}
   \end{table}
-  
+
   \begin{itemize}
   \item 単語ID\\
     自テーブルの主キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構成され自動追加される。
@@ -423,7 +423,7 @@ Pathfinder \\
     管理者の操作権限で登録した単語を示す値である。NULL値は含まない。値は200文字以下の文字列にて構成される。
   \end{itemize}
 
-  
+
   \subsubsection{通報テーブル(report)}
   通報テーブルではユーザが誹謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報した時の情報を管理する。また、通報した内容の情報も管理する。このテーブルの詳細は表 \ref{tab:report} に示す。
   \begin{table}[h]
@@ -443,7 +443,7 @@ Pathfinder \\
       \label{tab:report}
     \end{center}
   \end{table}
-  
+
   \begin{itemize}
   \item 通報ID\\
     自テーブルの主キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構成され自動追加される。
@@ -456,14 +456,14 @@ Pathfinder \\
     レステーブルを参照する際の外部キーである。NULL値は含まない。値は4桁(0001から9999)の数値にて構成され自動追加される。
   \item 通報内容\\
     通報内容を示す値である。NULL値は含まない。値は200文字以下の文字列にて構成される。\\
-    
+
   \item 通報日時\\
     レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加を行う。
   \end{itemize}
-  
+
   \subsubsection{凍結ユーザテーブル(suspend)}
   凍結ユーザテーブルでは迷惑行為が改善されないユーザのアカウントを凍結した情報を管理する。このテーブルの詳細は表 \ref{tab:suspend} に示す。
-  
+
   \begin{table}[h]
     \caption{凍結ユーザテーブル}
     \begin{center}
@@ -477,14 +477,14 @@ Pathfinder \\
       \label{tab:suspend}
     \end{center}
   \end{table}
-  
+
   \begin{itemize}
   \item 凍結ID\\
     自テーブルの主キーである。NULL値は含まない。値は4桁(0001から9999)の数値にて構成され自動追加される。
   \item 学籍番号\\
     ユーザテーブルを参照する際の外部キーである。。NULL値は含まない。値は固定7文字の半角英数字にて構成される。\\
   \end{itemize}
-  
+
   \subsubsection{お知らせテーブル(news)}
   お知らせテーブルではお知らせに関する情報を管理する。このテーブルの詳細は表 \ref{tab:news} に示す。
   \begin{table}[h]
@@ -498,12 +498,12 @@ Pathfinder \\
           お知らせタイトル名&news\verb|_|title&varchar&50&×&-&-\\\hline
           お知らせ内容&news\verb|_|title&varchar&400&×&-&-\\\hline
           作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
-          
+
       \end{tabular}
       \label{tab:news}
     \end{center}
   \end{table}
-  
+
   \begin{itemize}
   \item お知らせID\\
     自テーブルの主キーである。NULL値は含まない。値は5桁(00001から99999)の数値にて構成され自動追加される。
@@ -513,7 +513,7 @@ Pathfinder \\
     お知らせ内容を示す値である。NULL値は含まない。値は400文字以下の文字列にて構成される。\\
 
   \item 作成日時\\
-    レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加を行う。    
+    レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加を行う。
   \end{itemize}
   \subsubsection{警告注意テーブル(warned\_caution)}
   警告テーブルでは管理者がユーザに対しての警告・注意喚起に関する情報を管理する。このテーブルの詳細は表 \ref{tab:warned_caution} に示す。
@@ -530,7 +530,7 @@ Pathfinder \\
           警告注意タイトル名&warned\verb|_|caution\verb|_|title&varchar&50&×&-&-\\\hline
           警告注意内容&warned\verb|_|caution\verb|_|title&varchar&400&×&-&-\\\hline
           作成日時&created\verb|_|at&timestamp&-&×&default current\verb|_|timestamp&- \\ \hline
-          
+
       \end{tabular}
       \label{tab:warned_caution}
     \end{center}
@@ -541,12 +541,12 @@ Pathfinder \\
     自テーブルの主キーである。NULL値は含まない。値は4桁(0001から9999)の数値にて構成され自動追加される。
   \item 学籍番号\\
     ユーザテーブルを参照する際の外部キーである。NULL値は含まない。値は固定7文字の半角英数字にて構成される。\\
-    
+
   \item 警告注意タイトル名\\
     警告注意タイトルを示す値である。NULL値は含まない。値は50文字以下の文字列にて構成される。
   \item 警告注意内容\\
     警告注意内容を示す値である。NULL値は含まない。値は400文字以下の文字列にて構成される。\\
-    
+
   \item 作成日時\\
     レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加を行う。
   \end{itemize}
@@ -560,76 +560,102 @@ Pathfinder \\
 
 
 \begin{table}[htb]
-  \caption{ルーティング一覧}
+  \caption{ルーティング一覧No.1}
   \centering
-  \begin{tabular}{|l|l|l||l|} \hline
-    No.&   URL 						&METHOD & Controller\#Action \\ \hline \hline
-	 1&	/Login  					 	& GET      & sessions\#new       \\
-       2&  	~		         			& POST    & sessions\#create	\\
-	 3&	/Logout   				      &DELETE   &sessions\#destroy	\\
-	 4&	/passwords/:id					&GET	  &passwords\#new    \\
-	 5 & /passwords/:id					&PATCH	  &passwords\#change \\
-	 6&	/home   						& GET 	   &home\_pages/\#home    \\
-       7&	/home   						& PATCH 	   &home\_pages/\#threads\_hide \\
-	 8&	/users/:id     					&  GET  	    &  users\#show       \\
-	 9&	/users/:id     					 & PATCH   &  users\#update       \\
-	10&	/results/:title         			& GET   	    & results\#search      \\
-	11& /results/:title/categories/:id		&GET		& categories\#search	\\
-	12&	/informations/:id				  & GET       & informations\#show      \\
-	13&	/categories/:id    		   		 &   GET      & categories\#index    \\
-	14&	/threads/new      	 	  		 &  GET      &  threads\#new         \\
-	15&/threads/check      		       &  GET      & threads\#check       \\
-	16&/threads                   		       &  POST    &threads\#create      \\
-	17&/threads/:id/report\_new   		&   GET      &threads\#report\_new  \\
-	18&	/threads/check               		&   GET      & threads\#check       \\
-	19&	/threads                      		 & POST     & threads\#create     \\
-	20&	/threads/:id/contents      		 &    GET    & contents\#bbs        \\
-	21&	/threads/:id/contents/check 	&     GET    &  contents\#check   \\
-	22&	/threads/:id/contents          	 &    POST  & contents\#write     \\
-	23&	/threads/:id/contents          	 &    PATCH  & contents\#responses\_hide     \\
-	24&	/threads/:id/contents/:id/report	 &    GET    & contents\#report    \\
-	25&	/threads/:id/contents/:id/check   &   GET    &  contents\#check      \\
-	26&	/threads/:id/contents            	 &   POST   & contents\#report\_create \\ \hline
+  \begin{tabular}{|c|l|l||l|} \hline
+   No. & URL & METHOD & Controller\#Action \\ \hline \hline
+
+   1 & /top & GET & top\#home \\ \hline
+
+	 2 & /login & GET & sessions\#new \\
+   3 & /login & POST & sessions\#create \\
+	 4 & /logout & DELETE & sessions\#destroy \\ \hline
+
+	 5 &	/passwords/:id & GET & passwords\#new \\
+	 6 & /passwords/:id	& PATCH	& passwords\#update \\
+   7 & /passwords/:id/signup & GET & passwords\#signup \\ \hline
+
+	 8 &	/home	& GET & home\_pages\#home \\ \hline
+
+	 9 &	/users/:id & GET & users\#show \\
+	 10 &	/users/:id/name\_update & PATCH & users\#name\_update \\
+   11 & /users/:id/notification & PATCH & users\#notification \\
+   12 & /users/:id/warning & GET & users\#warning \\
+   13 & /users/:id/extension & PATCH & users\#extension \\ \hline
+
+	14 &	/results & GET & results\#search \\ \hline
+
+	15 &	/categories/:id & GET & categories\#index \\ \hline
+
+	16 &	/threads/new  & GET & threads\#new \\
+	17 & /threads/check & GET & threads\#check \\
+	18 & /threads & POST & threads\#create \\
+  19 & /threads/:id & GET & threads\#show \\ \hline
+
+	% 17 & /threads/:id/report\_new & GET & threads\#report\_new \\
+
+	20 & /threads/:id/contents/check	& GET & contents\#check \\
+	21 & /threads/:id/contents/create & POST  & contents\#create \\
+	22 & /threads/:id/contents/correct & PATCH & contents\#correct \\ \hline
+
+  23 & /threads/:id/report\_form & GET & report\#new \\
+  24 & /threads/:id/contents/:id/report\_form & GET & report\#new \\
+  25 & /threads/:id/report\_check & GET & report\#check \\
+  26 & /threads/:id/contents/:id/report\_check & GET & report\#check \\
+  27 & /threads/:id/report & POST & report\#craete \\
+  28 & /threads/:id/contents/:id/report & POST & report\#create \\
+  29 & /admins/report & GET & report\#index \\ \hline
+
+  30 & /threads/:id/bookmark\_create & POST & bookmark\#create \\
+  31 & /threads/:id/bookmark\_destroy & DELETE & bookmark\#destroy \\ \hline
 
 \end{tabular}
 
 \end{table}
 
-\subsection{ルーティング(管理者側)一覧}
-\underline{\bf（ v2でユーザ側と管理者側を統合・修正します。）}\\
-呼び出されたURLとHTTPメソッドによってRailsで呼び出すControllerのアクションを定義する。
+
 \begin{table}[H]
   \centering
-  \caption{ルーティング(管理者側)一覧}
-  \begin{tabular}{|c|l|l|l|}\hline
+  \caption{ルーティング一覧No.2}
+  \begin{tabular}{|c|l|l||l|}\hline
     No. & URL & METHOD & Controller\#Action \\ \hline \hline
-    1 & admins/login & GET & admins\_session \\
-    2 & admins/login & POST & admins\_session\#login \\
-    3 & admins/logout & POST & admins\_session\#logout \\ \hline
-    4 & admins/top & GET & admins\_top\#home \\ \hline
-    5 & admins/ng\_word & GET & ng\_word\#home \\
-    6 & admins/ng\_word/create & POST & ng\_word\#create \\
-    7 & admins/ng\_word/destroy & DELETE & ng\_word\#destroy \\ \hline
-    8 & admins/manage & GET & manage\#home \\
-    9 & admins/manage/signup & GET & manage\#signup \\
-    10 & admins/manage/create & POST & manage\#create \\
-    11 & admins/manage/ok & GET & manage\#ok \\
-    12 & admins/manage/destroy\_check & GET & manage\#destroy\_check \\
-    13 & admins/manage/destroy & DELETE & manage\#destroy \\ \hline
-    14 & admins/manage\_user & GET & manage\_user\#home \\
-    15 & admins/manege\_user/signup & GET & manage\_user\#user\_signup \\
-    16 & admins/manage\_user/create & POST & manage\_user\#user\_create \\
-    17 & admins/manage\_user/search & GET & manage\_user\#search \\
-    18 & admins/manage\_user/:id & GET & manage\_user\#info \\
-    19 & admins/manage\_user/warning\_edit & GET & manage\_user\#warning\_edit \\
-    20 & admins/manage\_user/warning\_check & GET & manage\_user\#warning\_check \\
-    21 & admins/manage\_user/warning\_send & POST & manage\_user\#warning\_send \\
-    22 & admins/manage\_user/ban & PATCH & manage\_user\#ban \\ \hline
-    23 & admins/announce & GET & announce\#edit \\
-    24 & admins/announce\_check & GET & announce\#check \\
-    25 & admins/announce\_send & POST & announce\#send \\ \hline
-    26 & admins/report & GET & report\#home \\
-    27 & admins/report/hide & PATCH & report\#hide \\ \hline
+
+    32 & /threads/:id/hide & PATCH & hide\#thread\_hide \\
+    33 & /threads/:id/contents/:id/hide & PATCH & hide\#res\_hide \\
+    34 & /admins/threads/:id/hide & GET & hide\#thread\_index \\
+    35 & /admins/threads/:id/contents/:id/hide & GET & hide\#res\_index \\ \hline
+
+    36 & /admins/login & GET & admins\_session\#new \\
+    37 & /admins/login & POST & admins\_session\#login \\
+    38 & /admins/logout & POST & admins\_session\#logout \\ \hline
+
+    39 & /admins/top & GET & admins\_top\#home \\ \hline
+
+    40 & /admins/ng\_word & GET & ng\_word\#home \\
+    41 & /admins/ng\_word/create & POST & ng\_word\#create \\
+    42 & /admins/ng\_word/destroy & DELETE & ng\_word\#destroy \\ \hline
+
+    43 & /admins/manage & GET & manage\#home \\
+    44 & /admins/manage/signup & GET & manage\#signup \\
+    45 & /admins/manage/signup & POST & manage\#create \\
+    46 & /admins/manage/ok & GET & manage\#ok \\
+    47 & /admins/manage/destroy & GET & manage\#destroy\_check \\
+    48 & /admins/manage/destroy & DELETE & manage\#destroy \\ \hline
+
+    49 & /admins/manage\_user & GET & manage\_user\#home \\
+    50 & /admins/manege\_user/signup & GET & manage\_user\#user\_signup \\
+    51 & /admins/manage\_user/signup & POST & manage\_user\#user\_create \\
+    52 & /admins/manage\_user/search & GET & manage\_user\#search \\
+    53 & /admins/manage\_user/:id & GET & manage\_user\#show \\
+    54 & /admins/manage\_user/edit & GET & manage\_user\#warning\_edit \\
+    55 & /admins/manage\_user/check & GET & manage\_user\#warning\_check \\
+    56 & /admins/manage\_user/create & POST & manage\_user\#warning\_create \\
+    57 & /admins/manage\_user/ban & PATCH & manage\_user\#ban \\ \hline
+
+    58 & /admins/announce & GET & announce\#edit \\
+    59 & /admins/announce\_check & GET & announce\#check \\
+    60 & /admins/announce\_create & POST & announce\#create \\
+    61 & /home/announce/:id & GET & announce\#show \\ \hline
   \end{tabular}
 \end{table}
 
@@ -887,7 +913,7 @@ Pathfinder \\
 【処理フロー】
 \begin{itemize}
   \item はいボタンを押すと、スレッドタイトル名と書き込み内容を情報として、/threadsにPOSTメソッドでルーティングにリクエストする。
-  \item いいえボタンを押すと、/threads/newにGETメソッドでルーティングにリクエストする。  
+  \item いいえボタンを押すと、/threads/newにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
 \subsubsection{contents/bbs.html.erb}
@@ -941,70 +967,70 @@ Pathfinder \\
 
 \subsection{Model層}
 %モデル層を記述しました。文章の構成はMVCの小節になると思うのうまく文章構成をお願いします。
-  
+
 \subsubsection{tb\_user.rb}
-  \noindent 
+  \noindent
   名称:ユーザ情報管理部\\
   概要:ユーザテーブルの管理を行う。\\
 
 \subsubsection{tb\_thread.rb}
-  \noindent 
+  \noindent
   名称:スレッド情報管理部\\
   概要:スレッドテーブルの管理を行う。\\
-  関係:  
+  関係:
   \begin{itemize}
   \item スレッド情報管理部 N:1 ユーザ情報管理部
-  \item スレッド情報管理部 N:1 スレッドカテゴリ情報管理部 
+  \item スレッド情報管理部 N:1 スレッドカテゴリ情報管理部
   \end{itemize}
 
 \subsubsection{tb\_res.rb}
-  \noindent 
+  \noindent
   名称:レス情報管理部\\
   概要:レステーブルの管理を行う。\\
   関係:
-  
+
   \begin{itemize}
   \item　レス情報管理部 N:1 スレッド情報管理部
-  \item　スレッド情報管理部 N:M ユーザ情報管理部 
+  \item　スレッド情報管理部 N:M ユーザ情報管理部
   \end{itemize}
 
 \subsubsection{tb\_thread\_category.rb}
-  \noindent 
+  \noindent
   名称:スレッドカテゴリ情報管理部\\
   概要:スレッドカテゴリテーブルの管理を行う。\\
-  
+
 \subsubsection{tb\_favorite\_bbs.rb}
-  \noindent 
+  \noindent
   名称:お気に入り掲示板情報管理部\\
   概要:お気に入り掲示板テーブルの管理を行う。\\
-  関係:  
+  関係:
   \begin{itemize}
   \item お気に入り掲示板情報管理部 0かN:0かN ユーザ情報管理部
-  \item お気に入り掲示板情報管理部 N:1 スレッド情報管理部 
+  \item お気に入り掲示板情報管理部 N:1 スレッド情報管理部
   \end{itemize}
 
 \subsubsection{tb\_collect\_user.rb}
-  \noindent 
+  \noindent
   名称:コレクトユーザ情報管理部\\
   概要:コレクトユーザテーブルの管理を行う。\\
-  関係:  
+  関係:
   \begin{itemize}
   \item コレクトユーザ情報管理部 1:0か1 ユーザ情報管理部
   \item コレクトユーザ情報管理部 N:1 スレッド情報管理部
-  \item コレクトユーザ情報管理部 N:0か1 レス情報  
+  \item コレクトユーザ情報管理部 N:0か1 レス情報
   \end{itemize}
-  
+
 \subsubsection{tb\_inadequacy\_word.rb}
-  \noindent 
+  \noindent
   名称:不適切な単語登録情報管理部\\
   概要:不適切な単語登録テーブルの管理を行う。\\
 
 
 \subsubsection{tb\_report.rb}
-  \noindent 
+  \noindent
   名称:通報情報管理部\\
   概要:通報テーブルの管理を行う。\\
-  関係:  
+  関係:
   \begin{itemize}
   \item 通報情報管理部 N:M ユーザ情報管理部
   \item 通報情報管理部 N:M スレッド情報管理部
@@ -1014,27 +1040,27 @@ Pathfinder \\
 
 
 \subsubsection{tb\_suspend.rb}
-  \noindent 
+  \noindent
   名称:凍結ユーザ情報管理部\\
   概要:凍結ユーザテーブルの管理を行う。\\
-  関係:  
+  関係:
   \begin{itemize}
   \item 凍結ユーザ情報管理部 1:1 ユーザ情報管理部
   \end{itemize}
 
 \subsubsection{tb\_news.rb}
-  \noindent 
+  \noindent
   名称:お知らせ情報管理部\\
   概要:お知らせテーブルの管理を行う。\\
-  
+
 \subsubsection{tb\_warned\_caution.rb}
-  \noindent 
+  \noindent
   名称:警告注意情報管理部\\
   概要:警告注意テーブルの管理を行う。\\
-  関係:  
+  関係:
   \begin{itemize}
   \item 警告注意情報管理部 1:N ユーザ情報管理部
-  \end{itemize}   
+  \end{itemize}
 
 
 
