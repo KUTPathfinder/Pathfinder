@@ -629,7 +629,7 @@ Pathfinder \\
 
     36 & /admins/login & GET & admins\_session\#new \\
     37 & /admins/login & POST & admins\_session\#login \\
-    38 & /admins/logout & POST & admins\_session\#logout \\ \hline
+    38 & /admins/logout & DELETE & admins\_session\#logout \\ \hline
 
     39 & /admins/top & GET & admins\_top\#home \\ \hline
 
@@ -652,12 +652,12 @@ Pathfinder \\
     54 & /admins/manage\_user/edit & GET & manage\_user\#warning\_edit \\
     55 & /admins/manage\_user/check & GET & manage\_user\#warning\_check \\
     56 & /admins/manage\_user/create & POST & manage\_user\#warning\_create \\
-    57 & /admins/manage\_user/ban & PATCH & manage\_user\#ban \\ \hline
-
-    58 & /admins/announce & GET & announce\#edit \\
-    59 & /admins/announce\_check & GET & announce\#check \\
-    60 & /admins/announce\_create & POST & announce\#create \\
-    61 & /home/announce/:id & GET & announce\#show \\ \hline
+    57 & /admins/manage\_user/id/ban\_create & PATCH & manage\_user\#ban\_create \\ \hline
+    58 & /admins/manage\_user/id/ban\_destroy & PATCH & manage\_user\#ban\_destroy \\ \hline
+    59 & /admins/announce & GET & announce\#edit \\
+    60 & /admins/announce\_check & GET & announce\#check \\
+    61 & /admins/announce\_create & POST & announce\#create \\
+    62 & /home/announce/:id & GET & announce\#show \\ \hline
   \end{tabular}
 \end{table}
 
@@ -686,9 +686,9 @@ Pathfinder \\
 \noindent 名称：セッション情報処理	\newline
 処理： \newline
 -new:ログインフォームであるsessions\_new.html.erbを表示させる。\newline
--create:ユーザのIDとパスワードで認証を行い、認証されるとそのユーザのセッションを作成する。必要なパラメータparamsハッシュから取り出し、取り出した情報をUser.find_byメソッドとauthenticateメソッドで用いてデータベースとの照合を行う。
+-create:ユーザのIDとパスワードで認証を行い、認証されるとそのユーザのセッションを作成する。必要なパラメータparamsハッシュから取り出し、取り出した情報をUser.find\_byメソッドとauthenticateメソッドで用いてデータベースとの照合を行う。
 セッションの作成に成功した場合、セッションを作成したユーザによって以下にリダイレクトを行う。\newline
-ユーザが管理者:/adminに対してリダイレクトを行う。ユーザが一般ユーザ:/homeに対してリダイレクトを行う。また、そのユーザが初回ログインの場合は、/passwordsにリダイレクトを行う。また、一般ユーザの場合ログインボーナスの処理を行う。具体的には、(createアクション中で）そのユーザのupdated_atカラム（最終ログイン日時）の情報を取得した後、Timeオブジェクトを作成し、そのオブジェクトのインスタンス変数から日付を取得する。それらの情報を比較して、一致しないならばログインボーナスの処理（保有ポイントの追加）をupdateメソッドで行う。情報の変更に成功した場合、フラッシュメッセージで、「ログインに成功しました。」と表示する。
+ユーザが管理者:/adminに対してリダイレクトを行う。ユーザが一般ユーザ:/homeに対してリダイレクトを行う。また、そのユーザが初回ログインの場合は、/passwordsにリダイレクトを行う。また、一般ユーザの場合ログインボーナスの処理を行う。具体的には、(createアクション中で）そのユーザのupdated\_atカラム（最終ログイン日時）の情報を取得した後、Timeオブジェクトを作成し、そのオブジェクトのインスタンス変数から日付を取得する。それらの情報を比較して、一致しないならばログインボーナスの処理（保有ポイントの追加）をupdateメソッドで行う。情報の変更に成功した場合、フラッシュメッセージで、「ログインに成功しました。」と表示する。
 
 
 なお、認証が失敗した場合は再度/Loginに対してリダイレクトを行う。\newline
@@ -699,7 +699,7 @@ Pathfinder \\
 \noindent 名称:ID・パスワード変更処理	\newline
 処理：\newline
 -new:初回ログインを行なった（初回ログインフラグが1）のユーザに対して、ID・パスワード変更用フォームであるpasswords\_new.html.erbを表示させる。\newline
--change:あらかじめ登録されていたユーザのパスワード情報を、変更用フォームから入力された新しいパスワードに更新する処理をUser.update_attributeメソッドで行う。正しく更新が行われた場合、「更新を完了しました。」というフラッシュメッセージを表示する。
+-change:あらかじめ登録されていたユーザのパスワード情報を、変更用フォームから入力された新しいパスワードに更新する処理をUser.update\_attributeメソッドで行う。正しく更新が行われた場合、「更新を完了しました。」というフラッシュメッセージを表示する。
 更新が正常に完了したら、/signupにリダイレクトする。\newline
 -signup:IDとパスワードを更新した後、更新完了画面であるsignup.html.erbを表示する。
 
@@ -745,7 +745,7 @@ Pathfinder \\
 \subsubsection{categories\_controller.rb}
 \noindent 名称：カテゴリ別トップ画面処理 \newline
 処理:\newline
--new:カテゴリ別トップ画面であるcategories.html.erbを表示する。この画面もトップ画面同様、スレッドタイトル入力テキストボックスが存在しているがこちらから検索を行うと、/results/:title/categories/:idにGETメソッドでルーティングをリクエストする。マイページに遷移するボタンの処理は、トップ画面と同様である。また、スレッドタイトルを押した場合は、/threads/:id/contentsにGETメソッドでルーティングをリクエストする。スレッドタイトルの通報ボタンを押した場合は、/thread/:id/report_formにGETメソッドでルーティングを行う。\newline
+-new:カテゴリ別トップ画面であるcategories.html.erbを表示する。この画面もトップ画面同様、スレッドタイトル入力テキストボックスが存在しているがこちらから検索を行うと、/results/:title/categories/:idにGETメソッドでルーティングをリクエストする。マイページに遷移するボタンの処理は、トップ画面と同様である。また、スレッドタイトルを押した場合は、/threads/:id/contentsにGETメソッドでルーティングをリクエストする。スレッドタイトルの通報ボタンを押した場合は、/thread/:id/report\_formにGETメソッドでルーティングを行う。\newline
 
 
 
@@ -760,11 +760,11 @@ Pathfinder \\
 \subsubsection{contents\_controller.rb}
 \noindent 名称：スレッド閲覧処理 \newline
 処理:\newline
--bbs::スレッドを閲覧するページを表示するアクションである。通報ボタンを押すと、/thread/:id/contents/:id/reportにGETメソッドでルーティングをリクエストする。書き込みボタンを押すと、/thread/:id/contents/checkにGETメソッドでルーティングをリクエストする。コレクトボタンを押すと、/correctにPATCHメソッドでルーティングをリクエストする。また、ブックマークボタンをおすと、/threads/:id/bookmark_createにPOSTメソッドでルーティングをリクエストする。\newline
+-bbs::スレッドを閲覧するページを表示するアクションである。通報ボタンを押すと、/thread/:id/contents/:id/reportにGETメソッドでルーティングをリクエストする。書き込みボタンを押すと、/thread/:id/contents/checkにGETメソッドでルーティングをリクエストする。コレクトボタンを押すと、/correctにPATCHメソッドでルーティングをリクエストする。また、ブックマークボタンをおすと、/threads/:id/bookmark\_createにPOSTメソッドでルーティングをリクエストする。\newline
 -check:書き込み確認ページであるcontents\_check.html.erbを表示するアクションである。\newline
 -write:threadに書き込みを行うアクションである。書き込み確認ページに存在する書き込みボタンを押すとこのアクションが実行され、その後/thread/:id/contents/にPOSTメソッドでルーティングをリクエストする。\newline
 -responses\_hide:このアクションを実行できるのは管理者だけである。このアクションを実行すると、PATCHメソッドで/thread/:id/contentsにルーティングをリクエストする。\newline
--report:このアクションは、通報用フォームであるreport\_form.html.erbを表示させるアクションである。通報ボタンを押すと、通報確認ページである/thread/:id/contents/:id/report_formにGETメソッドでルーティングをリクエストする。\newline
+-report:このアクションは、通報用フォームであるreport\_form.html.erbを表示させるアクションである。通報ボタンを押すと、通報確認ページである/thread/:id/contents/:id/report\_formにGETメソッドでルーティングをリクエストする。\newline
 -check:通報確認ページであるcheck.html.erbを表示させるアクションである。\newline
 -correct:コレクトボタンを押したレスに対する処理を行う。
 
@@ -867,6 +867,19 @@ create:ブックマーク処理を行うアクションである。処理とし�
 
 \subsection{View層}
 \underline{\bf (現時点では掲示板の画面詳細のみ記述しています。v2で管理者側の画面詳細の追記とこの章全体の修正をします。)}\\
+
+\subsubsection{top/home.html.erb}
+\noindent
+【名称】\\
+ログインTOP画面\\
+【概要】\\
+ユーザ・管理者のログイン画面に遷移するためのボタンを表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item ログインボタンを押すと、/loginにGETメソッドでルーティングにリクエストする。
+  \item 管理者はこちらボタンを押すと、/admins/loginにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
 \subsubsection{sessions/new.html.erb}
 \noindent
 【名称】\\
@@ -875,20 +888,33 @@ create:ブックマーク処理を行うアクションである。処理とし�
 ユーザがIDとパスワードを入力して本システムにログインするための画面である。\\
 【処理フロー】
 \begin{itemize}
-  \item ENTERボタンを押すと、入力されたIDとパスワードを情報として/LoginにPOSTリクエストでルーティングにリクエストする。
+  \item ENTERボタンを押すと、入力されたIDとパスワードを情報として/loginにPOSTメソッドでルーティングにリクエストする。
+  \item 初回ログインである場合に限り、ENTERボタンを押すと、/passwords/:idにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
 
 \subsubsection{passwords/new.html.erb}
 \noindent
 【名称】\\
-新規登録画面\\
+ID・パスワード変更画面\\
 【概要】\\
 初回ログインをしたユーザがIDとパスワードを変更し、本システムに本登録する画面である。\\
 【処理フロー】
 \begin{itemize}
   \item 登録ボタンを押すと、入力されたIDとパスワードを情報として/passwords/:idにPATCHメソッドでルーティングにリクエストする。
 \end{itemize}
+
+\subsubsection{passwords/signup.html.erb}
+\noindent
+【名称】\\
+ID・パスワード変更完了画面\\
+【概要】\\
+初回ログインをしたユーザがIDとパスワードの変更が完了したことを確認する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 利用開始ボタンを押すと、/homeにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
 
 \subsubsection{home\_pages/home.html.erb}
 \noindent
@@ -898,12 +924,18 @@ create:ブックマーク処理を行うアクションである。処理とし�
 掲示板TOP画面を表示する画面である。\\
 【処理フロー】
 \begin{itemize}
-  \item 検索ボタンを押すと、/result/:titleにGETメソッドでルーティングにリクエストする。
-  \item カテゴリボタンを押すと、/categories/:idにGETメソッドでルーティングにリクエストする。
-  \item お知らせタイトルを押すと、/information/:idにGETメソッドでルーティングにリクエストする。
-  \item ログアウトボタンを押すと、/LogoutにDELETEメソッドでルーティングにリクエストする。
-%  スティッキーヘッダーに該当する箇所は別にルーティングを置くようにするか…？
+  \item 検索ボタンを押すと、/resultsにGETメソッドでルーティングにリクエストする。
+  \item お知らせタイトルを押すと、/home/announce/:idにGETメソッドでルーティングにリクエストする。
 \end{itemize}
+
+\subsubsection{announce/show.html.erb}
+\noindent
+【名称】\\
+お知らせ画面
+【概要】\\
+管理者からユーザに対するお知らせの詳細を表示する画面である。\\
+【処理フロー】
+-
 
 \subsubsection{users/show.html.erb}
 \noindent
@@ -913,16 +945,25 @@ create:ブックマーク処理を行うアクションである。処理とし�
 ユーザのマイページを表示する画面である。\\
 【処理フロー】
 \begin{itemize}
+  \item ハンドルネームの変更ボタンを押すと、入力された名前を情報として、/users/:id/name\_updateにPATCHメソッドでルーティングにリクエストする。
+  \item 通知設定のラジオボタンを押すと、ラジオボタンの入力を情報として、/users/:id/notificationにPATCHメソッドでルーティングにリクエストする。
+  \item 警告・注意喚起確認ボタンを押すと、/users/:id/warningにGETメソッドでルーティングにリクエストする。
   \item 拡張機能の開放ボタンを押すと、保有ポイントを情報として、/users/:idにPATCHメソッドでルーティングにリクエストする。
 \end{itemize}
 
-\subsubsection{informations/show.html.erb}
+\subsubsection{results/search.html.erb}
 \noindent
 【名称】\\
-お知らせ画面
+検索結果画面\\
 【概要】\\
-管理者からユーザに対するお知らせの詳細を表示する画面である。\\
-
+スレッドの検索結果を表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 検索ボタンを押すと、/resultsにGETメソッドでルーティングにリクエストする。
+  \item スレッドタイトルを押すと、/threads/:idにGETメソッドでルーティングにリクエストする。
+  \item 通報ボタンを押すと、/threads/:id/report\_formにGETメソッドでルーティングにリクエストする。
+  \item 非表示ボタンを押すと、スレッドIDを情報として、/threads/:id/hideに対してPATCHメソッドでルーティングにリクエストする。
+\end{itemize}
 
 \subsubsection{categories/index.html.erb}
 \noindent
@@ -932,11 +973,11 @@ create:ブックマーク処理を行うアクションである。処理とし�
 各カテゴリのカテゴリIDに該当するスレッドを表示する画面である。\\
 【処理フロー】
 \begin{itemize}
-  \item スレッドタイトルを押すと、/thread/:id/contentsにGETメソッドでルーティングにリクエストする。
-  \item 検索ボタンを押すと、/result/:title/categories/:idにGETメソッドでルーティングにリクエストする。
   \item スレッド新規作成ボタンを押すと、/thread/newにGETメソッドでルーティングにリクエストする。
-  \item 通報ボタンを押すと、/thread/report\_newにGETメソッドでルーティングにリクエストする。
-%  \item 非表示ボタンを押すと、???に対してPATCHメソッドでルーティングにリクエストする。%(非表示が/homeにルーティングを取る辺りの扱いが分からない… スレッドの一覧表示する画面じゃないのか…？hmm…)
+  \item 検索ボタンを押すと、/resultにGETメソッドでルーティングにリクエストする。
+  \item スレッドタイトルを押すと、/thread/:id/にGETメソッドでルーティングにリクエストする。
+  \item 通報ボタンを押すと、/threads/:id/report\_formにGETメソッドでルーティングにリクエストする。
+  \item 非表示ボタンを押すと、スレッドIDを情報として、/threads/:id/hideに対してPATCHメソッドでルーティングにリクエストする。
 \end{itemize}
 
 \subsubsection{threads/new.html.erb}
@@ -962,7 +1003,7 @@ create:ブックマーク処理を行うアクションである。処理とし�
   \item いいえボタンを押すと、/threads/newにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
-\subsubsection{contents/bbs.html.erb}
+\subsubsection{threads/show.html.erb}
 \noindent
 【名称】\\
 スレッド閲覧画面\\
@@ -970,9 +1011,12 @@ create:ブックマーク処理を行うアクションである。処理とし�
 スレッドの書き込み及び書き込みの入力フォームを表示する画面である。\\
 【処理フロー】
 \begin{itemize}
-  \item 送信ボタンを押すと、/threads/:id/contents/checkにGETメソッドでルーティングにリクエストする。
+  \item レスの書き込みフォームは、凍結ユーザには表示されない。
+  \item ブックマークボタンを押すと、スレッドIDを情報として、/bookmark/createにPOSTメソッドでルーティングにリクエストする。
+  \item ブックマークボタンを押すと、スレッドIDを情報として、/bookmark/createにPOSTメソッドでルーティングにリクエストする。
   \item 通報ボタンを押すと、/threads/:id/contents/reportにGETメソッドでルーティングにリクエストする。
-  \item 非表示ボタンを押すと、レスIDを情報として、/threads/:id/contents/にPATCHメソッドでルーティングにリクエストする。
+  \item 非表示ボタンを押すと、スレッドIDとレスIDを情報として、/threads/:id/contents/にPATCHメソッドでルーティングにリクエストする。
+  \item 送信ボタンを押すと、/threads/:id/contents/checkにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
 \subsubsection{contents/check.html.erb}
@@ -984,10 +1028,10 @@ create:ブックマーク処理を行うアクションである。処理とし�
 【処理フロー】
 \begin{itemize}
   \item はいボタンを押すと、書き込み内容を情報として、/contents/writeにPOSTメソッドでルーティングにリクエストする。
-  \item いいえボタンを押すと、/threads/:id/contents/にGETメソッドでルーティングにリクエストする。
+  \item いいえボタンを押すと、/threads/showにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
-\subsubsection{contents/report.html.erb}
+\subsubsection{report/new.html.erb}
 \noindent
 【名称】\\
 通報画面\\
@@ -995,11 +1039,12 @@ create:ブックマーク処理を行うアクションである。処理とし�
 不適切な書き込みを通報する入力フォームを表示する画面である。\\
 【処理フロー】
 \begin{itemize}
+  \item 通報対象がスレッドの場合、スレッドタイトルのみを表示する。
+  \item 通報対象がレスの場合、スレッドタイトルとレスを表示する。
   \item 送信ボタンを押すと、/threads/:id/contents/:id/checkにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
-\subsubsection{contents/check.html.erb}
-%(レス書き込み確認画面とアクション名が被っている…修正?)
+\subsubsection{report/check.html.erb}
 \noindent
 【名称】\\
 通報内容確認画面\\
@@ -1010,6 +1055,255 @@ create:ブックマーク処理を行うアクションである。処理とし�
   \item はいボタンを押すと、通報内容を情報として、/threads/:id/contentsにPOSTメソッドでルーティングにリクエストする。
   \item いいえボタンを押すと、/threads/:id/contents/:id/reportにGETメソッドでルーティングにリクエストする。
 \end{itemize}
+
+\subsubsection{admins/login.html.erb}
+\noindent
+【名称】\\
+管理者ログイン画面\\
+【概要】\\
+管理者がIDとパスワードを入力して本システムにログインするための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item ENTERボタンを押すと、入力されたIDとパスワードを情報として/admins/loginにPOSTメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{admins\_top/home.html.erb}
+\noindent
+【名称】\\
+管理者TOP画面\\
+【概要】\\
+管理者が各管理画面に遷移するための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 掲示板はこちらボタンを押すと、/homeにGETメソッドでルーティングにリクエストする。
+  \item 子管理者管理ボタンを押すと、/admins/manageにGETメソッドでルーティングにリクエストする。なお、管理者フラグが親管理者の状態であるもののみ、このボタンが表示される。
+  \item ユーザ管理ボタンを押すと、/admins/manage\_userにGETメソッドでルーティングにリクエストする。
+  \item お知らせ編集ボタンを押すと、/admins/announceにGETメソッドでルーティングにリクエストする。
+  \item 通報状況確認ボタンを押すと、/admins/reportにGETメソッドでルーティングにリクエストする。
+  \item 不適切な単語登録ボタンを押すと、/admins/ng\_wordsにGETメソッドでルーティングにリクエストする。
+  \item 非表示一覧表示ボタンを押すと、/admins/threads/:id/hideにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{manage/home.html.erb}
+\noindent
+【名称】\\
+子管理者管理画面\\
+【概要】\\
+親管理者が子管理者を管理するための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 子管理者アカウント発行ボタンを押すと、/admins/manage/signupにGETメソッドでルーティングにリクエストする。
+  \item 抹消ボタンを押すと、/admins/manage/destoroyにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{manage/signup.html.erb}
+\noindent
+【名称】\\
+子管理者アカウント発行画面\\
+【概要】\\
+親管理者が子管理者のアカウントを発行するための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item はいボタンを押すと、乱数により子管理者のIDとパスワードを生成し、それらを情報として、/admins/manage/signupにPOSTメソッドでルーティングにリクエストする。
+  \item いいえボタンを押すと、/admins/manageにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{manage/ok.html.erb}
+\noindent
+【名称】\\
+子管理者アカウント発行完了画面\\
+【概要】\\
+親管理者が子管理者のアカウントの発行完了を確認するための画面である。また、この画面にて、発行した子管理者のIDとパスワードを表示する。\\
+【処理フロー】
+\begin{itemize}
+  \item 確認ボタンを押すと、/admins/manageにPOSTメソッドでルーティングにリクエストする。
+  \item 管理者TOPボタンを押すと、/admins\_top/homeにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{manage/destroy\_check.html.erb}
+\noindent
+【名称】\\
+子管理者アカウント抹消画面\\
+【概要】\\
+親管理者が子管理者のアカウントの抹消を行うための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item はいボタンを押すと、/admins/manage/destroyにDELETEメソッドでルーティングにリクエストする。
+  \item いいえボタンを押すと、/admins/manageにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{manage\_user/home.html.erb}
+\noindent
+【名称】\\
+ユーザ管理画面\\
+【概要】\\
+管理者がユーザの各管理をするための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item ユーザアカウント発行ボタンを押すと、/admins/manage\_user/signupにGETメソッドでルーティングにリクエストする。
+  \item ユーザ情報検索ボタンを押すと、/admins/manage\_user/searchにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{manage\_user/user\_signup.html.erb}
+\noindent
+【名称】\\
+ユーザアカウント発行画面\\
+【概要】\\
+管理者がユーザの各管理をするための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 発行ボタンを押すと、入力された学籍番号（開始番号・末尾番号）を情報として、/admins/manage/signupにPOSTメソッドでルーティングにリクエストする。
+  \item 管理者TOPボタンを押すと、/admins\_top/homeにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{manage\_user/search.html.erb}
+\noindent
+【名称】\\
+ユーザ情報検索画面\\
+【概要】\\
+管理者がユーザの情報を検索するための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 検索ボタンを押すと、/admins/manage/:idにGETメソッドでルーティングにリクエストする。
+  \item 管理者TOPボタンを押すと、/admins\_top/homeにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{manage\_user/show.html.erb}
+\noindent
+【名称】\\
+ユーザ情報画面\\
+【概要】\\
+管理者がユーザの情報を閲覧するための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 警告・注意喚起ボタンを押すと、/admins/manage\_user/editにGETメソッドでルーティングにリクエストする。
+  \item ユーザが凍結ユーザでない場合にアカウント凍結ボタンを押すと、IDと学籍番号を情報として、/manage\_user/:id/banにPOSTメソッドでルーティングにリクエストする。
+  \item ユーザが凍結ユーザである場合にアカウント凍結解除ボタンを押すと、/admins\_top/:id/banにDELETEメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{manage\_user/search.html.erb}
+\noindent
+【名称】\\
+ユーザ情報検索画面\\
+【概要】\\
+管理者がユーザの情報を検索するための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 検索ボタンを押すと、/admins/manage/:idにGETメソッドでルーティングにリクエストする。
+  \item 管理者TOPボタンを押すと、/admins\_top/homeにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{manage\_user/warning\_edit.html.erb}
+\noindent
+【名称】\\
+警告・注意喚起画面\\
+【概要】\\
+管理者がユーザに送信する警告・注意喚起を記述するための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 送信ボタンを押すと、/admins/manage\_user/checkにGETメソッドでルーティングにリクエストする。
+  \item ユーザ情報ページに戻るボタンを押すと、/admins/manage\_userにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{manage\_user/warning\_check.html.erb}\
+\noindent
+【名称】\\
+警告・注意喚起確認画面\\
+【概要】\\
+管理者がユーザに送信する警告・注意喚起の内容確認をするための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item はいボタンを押すと、入力された警告・注意喚起内容を情報として、/admins/manage\_user/createにPOSTメソッドでルーティングにリクエストする。
+  \item いいえボタンを押すと、/admins/manage\_userにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{announce/edit.html.erb}
+\noindent
+【名称】\\
+お知らせ編集画面\\
+【概要】\\
+管理者がお知らせを編集するための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 送信ボタンを押すと、/admins/announce\_check/にGETメソッドでルーティングにリクエストする。
+  \item 管理者TOPボタンを押すと、/admins\_top/homeにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{announce/check.html.erb}
+\noindent
+【名称】\\
+お知らせ編集確認画面\\
+【概要】\\
+管理者がお知らせを編集するための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item はいボタンを押すと、入力されたお知らせタイトルと内容をを情報として、/admins/ng\_words/createにPOSTメソッドでルーティングにリクエストする。
+  \item いいえボタンを押すと、/admins/announceにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+
+\subsubsection{admins/login.html.erb}
+\noindent
+【名称】\\
+通報状況画面\\
+【概要】\\
+通報の一覧を表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 非表示ボタンを押すと、スレッドIDとレスIDを情報として、/threads/:id/contents/にPATCHメソッドでルーティングにリクエストする。
+  \item 非表示ボタンを押すと、入力されたIDとパスワードを情報として/admins/loginにPOSTメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{ng\_words/home.html.erb}
+\noindent
+【名称】\\
+不適切な単語登録画面\\
+【概要】\\
+管理者が不適切であると判断した単語を登録するための画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 登録ボタンを押すと、入力された単語を情報として、/admins/ng\_words/createにPOSTメソッドでルーティングにリクエストする。
+  \item 削除ボタンを押すと、/admins/ng\_words/destroyにDELETEメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{hide/thread\_index.html.erb}
+\noindent
+【名称】\\
+非表示スレッド一覧画面\\
+【概要】\\
+管理者が非表示にしたスレッドの一覧を表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item レスはこちらボタンを押すと、/amins/thread/:id/contents/:id/hideにGETメソッドでルーティングにリクエストする。
+  \item 管理者TOPボタンを押すと、/admins\_top/homeにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{hide/res\_index.html.erb}
+\noindent
+【名称】\\
+非表示レス一覧画面\\
+【概要】\\
+管理者が非表示にしたレスの一覧を表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item スレッドはこちらボタンを押すと、/admins/thread/:id/hideにGETメソッドでルーティングにリクエストする。
+  \item 管理者TOPボタンを押すと、/admins\_top/homeにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+%\subsubsection{application.html.erb}
+%\noindent
+%【名称】\\
+%共通項目\\
+%
+%【概要】\\
+%掲示板の共通項目
+%【処理フロー】
+%\begin{itemize}
+%  \item メニューリスト内のカテゴリボタンを押すと、/categories/:idにGETメソッドでルーティングにリクエストする。
+%  \item ロゴボタンを押すと、/homeにGETメソッドでルーティングにリクエストする。
+%  \item マイページボタンを押すと、/users/:idにGETメソッドでルーティングにリクエストする。
+%  \item ログアウトボタンを押すと、/logoutにDELETEメソッドでルーティングにリクエストする。
+%\end{itemize}
 
 \subsection{Model層}
 %モデル層を記述しました。文章の構成はMVCの小節になると思うのうまく文章構成をお願いします。
