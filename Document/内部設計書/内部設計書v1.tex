@@ -200,7 +200,7 @@ Pathfinder \\
       通知フラグ&report\verb|_|flag&int&1&×&-&- \\ \hline
       管理者フラグ&administrator\verb|_|flag&int&1&○&-&- \\ \hline
       初回ログインフラグ&first\verb|_|login\verb|_|flag&int&1&×&-&- \\ \hline
-      ログイン日数&count\verb|_|login&int&4&×&-&-\\ \hline 
+      ログイン日数&count\verb|_|login&int&4&×&-&-\\ \hline
     \end{tabular}
     \label{tab:user}
   \end{center}
@@ -216,13 +216,13 @@ Pathfinder \\
 \item ハンドルネーム\\
       ユーザがレス書き込みを行う際に表示する名前を示す値である。NULL値は含まない。値は15文字以下の文字列にて構成される。
 
-  
+
 \item 保有ポイント\\
   ユーザがログインした日数とコレクトボタンを10回以上押されたことで獲得したポイントを示す値である。NULL値は含まない。4桁(0001から9999)の数値にて構成される。
 
 \item 取り消しフラグ\\
   拡張機能の1つであり、取り消し線を付与することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。
-  
+
 \item 赤色フラグ\\
   拡張機能の1つであり、赤色を付与することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。\\
 \item 斜体フラグ\\
@@ -236,7 +236,7 @@ Pathfinder \\
   親管理者と子管理者を識別することを示す値である。値は１桁の0(子管理者)、1(親管理者)の数値にて構成される。\\
 \item 初回ログインフラグ\\
   初回ログインを識別することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。
-  
+
 \item ログイン日数\\
   ユーザがログインをした日数を記録することを示す値である。NULL値は含まない。値は4桁(0001から9999)の数値にて構築される。
 
@@ -663,6 +663,14 @@ Pathfinder \\
 
 
 \subsection{Controller}
+\subsubsection{application\_controller.rb}
+\noindent
+処理:\\
+-set\_current\_user:現在ログインしているユーザIDを取得する。\\
+-authenticate\_user:ログインしていないユーザに対してアクセス制限をかける。ログインしていないユーザがアクセス制限がかかっているURLにリクエストした場合、flashメッセージで「ログインが必要です」と表示して/loginへリダイレクトする。\\
+-forbid\_login\_user:既にログインしているユーザに対してアクセス制限をかける。ログインしているユーザがアクセス制限がかかっているURLにリクエストした場合、flashメッセージで「既にログインしています」と表示して/homeへリダイレクトする。
+
+
 \subsubsection{top\_controller.rb}
 \noindent 名称：セッション情報処理	\newline
 処理： \newline
@@ -776,28 +784,23 @@ create:通報内容をデータベースに反映する処理を行うアクシ�
 create:ブックマーク処理を行うアクションである。処理としては、データベースのbookmarkテーブルにスレッドのID及び登録したユーザのIDを挿入する。処理後、/threads/:id/contentsに
 
 
+\subsubsection{hide\_controller.rb}
+\noindent
+処理:\\
+-thread\_hide: 特定のスレッドを非表示にする。スレッドIDを取得し、該当するスレッド非表示フラグを1に変更する。\\
+-res\_hide: 特定のレスを非表示にする。レスIDを取得し、該当するレス非表示するフラグを1に変更する。\\
+-thread\_index: /admins/threads/:id/hide.html.erbを表示する。また、スレッドIDから非表示フラグが1であるスレッドを検出する。\\
+-res\_index: /admins/threads/:id/contents/:id/hide.html.erbを表示する。また、レスIDから非表示フラグが1であるレスを検出する。\\
 
-
-
-
-
-
-
-
-
-
-
-\subsection{Controller層(管理者側)(仮)}
 \subsubsection{admins\_session\_controller.rb}
-\noindent 名称: セッション情報処理 \\
-概要: 管理者のセッション情報を処理する \\
+\noindent
 処理:  \\
-- home: admins.html.erbを表示する。
+- new: /admins/login.html.erbを表示する。
 - login: 入力されたIDとパスワードを取得する。if文でデータベース上に存在するか判別する。\\
 存在する場合の処理\\
 \begin{itemize}
 \item session変数にデータベース上のユーザidを代入する。
-\item flash変数に「ログインしました」という文字列を代入する。
+\item flashメッセージで「ログインしました」と表示する。
 \item /admins/topへリダイレクトする。\\
 \end{itemize}
 存在しない場合の処理\\
@@ -806,61 +809,61 @@ create:ブックマーク処理を行うアクションである。処理とし�
 \item 入力されたIDとパスワードを初期値として設定する。
 \item /admins/loginへリダイレクトする。\\
 \end{itemize}
--logout: session変数にnilを代入する。flash変数に「ログアウトしました」という文字列を代入する。/admins/loginへリダイレクトする。
+-logout: session変数にnilを代入する。flashメッセージで「ログアウトしました」と表示する。/admins/loginへリダイレクトする。
 
 \subsubsection{admins\_top\_controller.rb}
-\noindent 名称: 管理者TOP画面情報処理 \\
-概要: 管理者TOP画面情報を処理する \\
+\noindent
 処理:  \\
--home: admins/top.htmlを表示する。
+-home: /admins/top.htmlを表示する。
 
 \subsubsection{ng\_word\_controller.rb}
-\noindent 名称: 不適切な単語管理処理 \\
-概要: 不適切な単語の登録・削除の処理を行う。 \\
+\noindent
 処理:  \\
 -home: admins/ng\_word.html.erbを表示する。\\
--create: 入力された文字列を受け取り、受け取った文字列をデータベースに保存する。保存に成功した場合、flash変数に「単語を登録しました」という文字列を代入し、admins/ng\_wordへリダイレクトする。\\
--destroy: 特定の文字列を受け取り、削除処理をする。削除後、flash変数に「単語を削除しました」という文字列を代入してadmins/ng\_wordへリダイレクトする。
+-create: 入力された文字列を受け取り、受け取った文字列をデータベースに保存する。保存に成功した場合、flashメッセージで「単語を登録しました」と表示し、/admins/ng\_wordへリダイレクトする。\\
+-destroy: 特定の文字列を受け取り、削除処理をする。削除後、flashメッセージで「単語を削除しました」と表示して/admins/ng\_wordへリダイレクトする。
 
 \subsubsection{manage\_controller.rb}
-\noindent 名称: 子管理者管理処理 \\
-概要: 子管理者管理の処理をする。 \\
+\noindent
 処理:  \\
--home: admins/manage.html.erbを表示する。\\
--signup: admins/manage/signup.html.erbを表示する。\\
--create: 子管理者アカウントを発行し、admins/manage/okへリダイレクトする。\\
--destroy\_check: admins/manage/destroy\_check.html.erbを表示する。\\
--destroy: 特定の子管理者アカウント情報を受け取り、削除処理をする。flash変数に「子管理者アカウントを削除しました」という文字列を代入し、admins/magnageへリダイレクトする。
+-home: /admins/manage.html.erbを表示する。\\
+-signup: /admins/manage/signup.html.erbを表示する。\\
+-create: 入力されたIDとパスワードを取得し、データベースに保存する。保存後、/admins/manage/okへリダイレクトする。\\
+-ok: /admins/manage/ok.htmlを表示する。
+-destroy\_check: /admins/manage/destroy.html.erbを表示する。\\
+-destroy: 特定の子管理者アカウント情報を受け取り、削除処理をする。flashメッセージで「子管理者アカウントを削除しました」と表示し、/admins/magnageへリダイレクトする。
 
 \subsubsection{manage\_user\_controller.rb}
-\noindent 名称: ユーザ情報管理処理 \\
-概要: ユーザ情報管理の処理をする。 \\
+\noindent
 処理:  \\
--home: admins/manage\_user.html.erbを表示する。\\
--signup: admins/manage\_user/signup.html.erbを表示する。\\
--create: 受け取った整数の範囲のユーザのIDとパスワードを乱数で生成し、データベースに保存する。保存に成功した場合、flash変数に「ユーザアカウントを作成しました」という文字列を代入し、admins/manage\_userへリダイレクトする。保存に失敗した場合、flash変数にエラーメッセージを代入し、さらに入力されたされた文字列を初期値としてadmins/manage\_user/signupへリダイレクトする。\\
--search: admins/manage\_user/search.html.erbを表示する。\\
--info: 特定のユーザのidを受け取り、admins/manage\_user/:id.html.erbを表示する。\\
--warning\_edit: admins/manage\_user/warning\_edit.html.erbを表示する。\\
--warning\_check: admins/manage\_user/warning\_check.html.erbを表示する。\\
--warning\_send: 入力された文字列を受け取り、データベースに保存する。保存に成功した場合、flash変数に「警告・注意喚起を送信しました」という文字列を代入し、admins/manage\_user/:idへリダイレクトする。\\
--ban: 特定のアカウントの書き込み禁止の処理を行う。処理後はadmin/manage\_user/:idへリダイレクトする。
+-home: /admins/manage\_user.html.erbを表示する。\\
+-signup: /admins/manage\_user/signup.html.erbを表示する。\\
+-create: 受け取った整数の範囲のユーザのIDとパスワードを乱数で生成し、データベースに保存する。保存に成功した場合、flashメッセージで「ユーザアカウントを作成しました」と表示し、/admins/manage\_userへリダイレクトする。保存に失敗した場合、エラーメッセージを表示し、さらに入力された文字列を初期値として/admins/manage\_user/signupへリダイレクトする。\\
+-search: 入力された学籍番号を受け取り、/admins/manage\_user/search.html.erbを表示する。\\
+-show: 特定のユーザのidを受け取り、/admins/manage\_user/:id.html.erbを表示する。\\
+-warning\_edit: admins/manage\_user/:id/warning\_edit.html.erbを表示する。\\
+-warning\_check: admins/manage\_user/:id/warning\_check.html.erbを表示する。\\
+-warning\_create: 入力された文字列を受け取り、データベースに保存する。保存に成功した場合、flashメッセージで「警告・注意喚起を作成しました」と表示し、admins/manage\_user/:idへリダイレクトする。\\
+-ban\_create: 特定のユーザIDを凍結ユーザテーブルに保存する。処理後はadmins/manage\_user/:idへリダイレクトする。\\
+-ban\_destroy:特定のユーザIDを凍結ユーザテーブルから削除する。処理後はadmins/manage\_user/:idへリダイレクトする。
 
 
 \subsubsection{announce\_controller.rb}
-\noindent 名称: お知らせ情報処理 \\
-概要: お知らせ情報の処理を行う。 \\
+\noindent
 処理:  \\
--edit: admins/announce.html.erbを表示する。\\
--check: admins/announce\_check.html.erbを表示する。\\
--send: 作成したお知らせをデータベースに保存する。保存後はadmins/announceへリダイレクトする。
+-edit: /admins/announce.html.erbを表示する。\\
+-check: /admins/announce\_check.html.erbを表示する。\\
+-create: 入力されたお知らせ内容をデータベースに保存する。保存後はadmins/announceへリダイレクトする。
+-show: /home/announce/:id.html.erbを表示する。
 
-\subsubsection{report\_controller.rb}
-\noindent 名称: 通報情報処理 \\
-概要: 通報情報の処理を行う。 \\
-処理:  \\
--home: admins/report.html.erbを表示する。\\
--hide: 特定の通報されたスレッドまたはレスを非表示化処理をする。処理後はadmins/reportへリダイレクトする。
+
+
+
+
+
+
+
+
 
 \subsection{View層}
 \underline{\bf (現時点では掲示板の画面詳細のみ記述しています。v2で管理者側の画面詳細の追記とこの章全体の修正をします。)}\\
