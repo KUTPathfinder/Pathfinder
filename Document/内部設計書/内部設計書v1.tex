@@ -553,6 +553,317 @@ Pathfinder \\
     レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加を行う。
   \end{itemize}
 
+    \section{サブシテムとシーケンズ図}
+ 本システムが用いているサブシステムの構成を示す。また各サブシステムごとの機能についてもシーケンズ図を用いて示す。
+  \subsection{アカウント登録サブシステム(ユーザ用)}
+アカウント登録サブシステムでは仮IDと仮パスワードからユーザ専用のIDとパスワードへ変更し、アカウント登録を行う。
+アカウント登録サブシステムの機能は小節で示す。
+
+\subsubsection{新規登録機能}
+新規登録機能では新規登録時、ID・パスワード入力画面に遷移する。仮IDと仮パスワードを入力することで、ID・パスワード変更画面に遷移することができる。その後、ユーザは各自でIDとパスワードを変更し、登録を行うことができる。なお、IDとパスワードを登録しなければ、本システムは利用することができないようになっている。
+新規登録機能のシーケンス図は図\ref{fig:account_new-account.png}に示す。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/account_new-account.png}}
+\caption{新規登録機能のシーケンス図}
+\label{fig:account_new-account.png}
+\end{figure}
+\subsection{ログインサブシステム(ユーザ用)}
+ログインサブシステムではユーザが設定したIDとパスワードを入力を行う。ログイン時にデータベース登録されているIDとパスワードの認証を行い一致すれば自分のアカウントにログインをすることできる。\\
+ログインサブシステムの機能は小節で示す。
+    \subsubsection{ユーザ認証機能}
+    ユーザ認証機能では本システムを利用するユーザが、本学の在学生であるかの認証を、IDとパスワードを用いて行う。認証に成功したユーザは、本システムの正当なユーザとして本システムを利用することができる。ユーザ認証機能のシーケンス図は図\ref{fig:login_user.png}に示す。
+\begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/login_user.png}}
+\caption{ユーザ認証機能のシーケンス図}
+\label{fig:login_user.png}
+\end{figure}
+    \subsubsection{ログインボーナス機能}
+    ログインボーナス機能ではユーザが本システムにログインしたとき、拡張機能と交換できるポイントが付与される。ポイントが付与される頻度は、1日1回に設定している。1回で付与されるポイント数は10ポイントである。ログインボーナス機能のシーケンス図は図\ref{fig:login_login-bonus.png}に示す。
+    \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/login_login-bonus.png}}
+\caption{ログインボーナス機能のシーケンス図}
+\label{fig:login_login-bonus.png}
+\end{figure}
+    \subsubsection{ログアウト機能}
+ログアウト機能ではユーザが本システムにログインしている状態であるとき、「ログアウト」ボタンを押すことで本システムからログアウトすることができる。ログアウト機能のシーケンス図は図\ref{fig:login_logout.png}に示す。
+    \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/login_logout.png}}
+\caption{ログアウト機能のシーケンス図}
+\label{fig:login_logout.png}
+\end{figure}
+\subsection{検索サブシステム(ユーザ用)}
+検索サブシステムではカテゴリ検索・キーワード検索においてカテゴリを選択、もしくはテキストを入力されたキーワードに該当するスレッドの一覧を表示することができる。\\
+検索サブシステムの機能は小節で示す。
+\subsubsection{検索機能}
+    検索機能では所定の検索テキストボックスに任意の文字列を入力し、その文字列に関連したスレッドを一覧で表示することができる。検索方法はand検索、or検索が使用可能である。
+    検索機能のシーケンス図は図\ref{fig:search_keyword.png}に示す。
+        \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/search_keyword.png}}
+\caption{検索機能のシーケンス図}
+\label{fig:search_keyword.png}
+\end{figure}
+    \subsubsection{カテゴリ選択機能}
+    カテゴリ選択機能では所定の検索テキストボックスの横に設置されたカテゴリ選択ボタンで特定のカテゴリを選択すると、選択されたカテゴリ内に存在するスレッドの中から検索することができる。また、スティキーヘッダーからカテゴリ検索を行うこともできる。
+カテゴリ選択機能のシーケンス図は図に\ref{fig:search_category.png}示す。
+        \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/search_category.png}}
+\caption{カテゴリ選択機能のシーケンス図}
+\label{fig:search_category.png}
+\end{figure}
+\subsection{掲示板サブシステム(ユーザ用)}
+掲示板サブシステムではユーザがスレッドの作成・レスの書き込みを行うことができる。\\
+掲示板サブシステムの機能は小節で示す。
+\subsubsection{スレッド作成機能}
+スレッド作成機能ではユーザがスレッドタイトルと最初のレスを入力して、新規のスレッドを作成することができる。
+スレッド作成機能のシーケンス図は図\ref{fig:bbs_thread.png}に示す。
+        \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/bbs_thread.png}}
+\caption{スレッド作成機能のシーケンス図}
+\label{fig:bbs_thread.png}
+\end{figure}
+\subsubsection{レス書き込み機能}
+レス書き込み機能では既存のスレッド内に、レスを書き込むことができる。このとき、レス番号・ハンドルネーム・日付・レスIDが表示される。レスの書き込み主がハンドルネームを設定している場合、そのハンドルネームが表示される。
+レス書き込み機能のシーケンス図は図に\ref{fig:bbs_res.png}示す。
+        \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/bbs_res.png}}
+\caption{レス書き込み機能のシーケンス図}
+\label{fig:bbs_res.png}
+\end{figure}
+
+\subsection{お知らせサブシステム(ユーザ用)}
+管理者からユーザに向けて通知されたお知らせ情報を閲覧することができる。\\
+お知らせサブシステムの機能は小節で示す。
+  \subsubsection{お知らせ閲覧機能}
+  お知らせ閲覧機能では管理者から通達されたお知らせを閲覧することができる。
+  お知らせ閲覧機能のシーケンス図は図に\ref{fig:news_reading.png}示す。
+  
+        \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/news_reading.png}}
+\caption{お知らせ閲覧機能のシーケンス図}
+\label{fig:news_reading.png}
+\end{figure}
+\subsection{通報サブシステム(ユーザ用)}
+通報サブシステムでは、誹謗中傷や公序良俗に違反してると考えれるスレッドやレスを管理者に通知することができる。\\
+通報サブシステムの機能は小節で示す。
+\subsubsection{スレッド・レス通報機能}
+  スレッド・レス通報機能ではユーザが誹謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報することができる。このとき、通報者は通報理由を明記する。
+スレッド・レス通報機能のシーケンス図は図()に示す。
+
+\subsection{コレクトボタンサブシステム(ユーザ用)}
+コレクトボタンサブシステムでは、ユーザがレスの内容に対して確からしいと判断した際にコレクトボタンを押すことで、コレクト認定(信頼性の認定)をすることができる。\\
+コレクトボタンサブシステムの機能は小節で示す。
+
+  \subsubsection{コレクト認定機能}
+  コレクト認定機能ではユーザが特定のレスに対して、その内容が確からしいと判断した場合、コレクトボタンを押してコレクト認定をすることができる。レスの傍らにコレクト認定された回数が表示されるため、コレクト認定は、ユーザがそのレスの内容が確からしいと判断した指標となる。よって、コレクト認定された回数が多いレスは、信憑性のある情報として、ユーザの情報の取捨選択の判断材料となる。なお、1つのレスに対してコレクト認定できる回数は1回のみであり、コレクトボタンを偶数回押すと、コレクト認定を解除することができる。
+コレクト認定機能のシーケンス図は図()に示す。
+  \subsubsection{ポイント獲得機能}
+  ポイント獲得機能ではユーザが書き込んだレスに他のユーザからコレクト認定された場合、レスの書き込み主は拡張機能を解放するためのポイントを獲得することができる。拡張機能とは、スレッドでレスを行う際にレスの表示が変化する機能である。
+  ポイント獲得の相場は、1回のコレクト認定につき1ポイントである。１つのレスにおいて、1人のユーザからポイント獲得できる回数は1回のみである(2回目以降のコレクト認定はポイント獲得できない)。また、コレクト認定が解除されたとしても獲得済のポイントが減ることはない。
+ポイント獲得機能のシーケンス図は図()に示す。
+
+\subsection{マイページサブシステム(ユーザ用)}
+マイページサブシステムでは、スティッキーヘッダによって表示されているマーク部分を押すことでユーザ情報・ブックマーク閲覧・拡張機能・通知機能を設定することができる。\\
+マイページサブシステムの機能は小節で示す。
+  \subsubsection{ユーザ情報設定機能}
+  ユーザ情報設定機能ではユーザのハンドルネームの設定ができる。ハンドルネームが設定されていない場合は、「名無し」と表示される。
+ユーザ情報設定機能のシーケンス図は図()に示す。
+  \subsubsection{ブックマーク閲覧機能}
+  ブックマーク閲覧機能では登録したブックマークの一覧を表示することができる。その中から、任意のスレッドに遷移することができる。
+ブックマーク閲覧機能のシーケンス図は図()に示す。
+  \subsubsection{拡張機能}
+  拡張機能では本システムを利用して得られたポイントと引き換えに、拡張機能が使用可能となる。主な拡張機能としては、取り消し線、太文字、赤字、斜体などが存在する。1つの拡張機能につき、600ポイントを引き換えると想定する。拡張機能は、今後の仕様変更で追加する可能性がある。
+拡張機能のシーケンス図は図()に示す。
+  \subsubsection{通知設定機能}
+  通知設定機能では通知機能のON/OFFの設定をすることができる。
+通知設定機能のシーケンス図は図()に示す。
+
+
+\subsection{通知サブシステム(ユーザ用)}
+通知サブシステムでは、各ユーザに対してスレッドの書き込み・レスへの返信があった際に処理を行う。
+通知サブシステムの機能は小節で示す。
+  \subsubsection{通知機能}
+  通知機能ではユーザが作成したスレッドに新たな書き込みがあった場合、またはユーザが書き込んだレスに対して返信が書き込まれた場合に、その旨を通知する。
+通知機能のシーケンス図は図()に示す。
+
+\subsection{ブックマークサブシステム(ユーザ用)}
+任意のスレッドをブックマークとして登録する際と解除する際に押すことで処理が行われる。
+ブックマークサブシステムの機能は小節で示す。
+  \subsubsection{ブックマーク登録機能}
+  ブックマーク登録機能では任意のスレッドをブックマークとしてマイページに登録することができる。
+ブックマーク登録機能のシーケンス図は図()に示す。
+  \subsubsection{ブックマーク解除機能}
+  ブックマーク解除機能ではマイページに存在する任意のブックマークの登録を解除することができる。
+ブックマーク解除機能のシーケンス図は図()に示す。
+
+
+  \subsection{子管理者管理サブシステム(管理者用)}
+  子管理者サブシステムでは親管理者が子管理者のアカウントを管理するサブシステムである。親管理者がIDとパスワードを発行することで、本システムを管理する子管理者を登録することができる。また、不要になった子管理者のアカウントを抹消することがきる。\\
+  子管理者管理サブシステムの機能は小節で示す。
+ \subsubsection{子管理者用ID・パスワード発行機能}
+ 子管理者用ID・パスワード発行機能では親管理者は手動で子管理者のIDとパスワードを登録し、発行することができる。子管理者にはこの機能は存在しない。子管理者用ID・パスワード発行機能のシーケンス図は図\ref{fig:admin_children_id-pass.png}に示す。
+         \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_children_id-pass.png}}
+\caption{子管理者用ID・パスワード発行機能のシーケンス図}
+\label{fig:admin_children_id-pass.png}
+\end{figure}
+ 
+ \subsubsection{子管理者アカウント抹消機能}
+ 子管理者アカウント抹消機能では親管理者は手動で不要になった子管理者のアカウントを抹消することができる。子管理者アカウント抹消機能のシーケンズ図は図\ref{fig:admin_children-delete.png}に示す。
+          \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_children-delete.png}}
+\caption{子管理者アカウント抹消機能のシーケンス図}
+\label{fig:admin_children-delete.png}
+\end{figure}
+ 
+ \subsubsection{子管理者情報閲覧機能}
+ 子管理者情報閲覧機能では親管理者は子管理者のIDとパスワードを閲覧することができる。子管理者情報閲覧機能のシーケンス図は図\ref{fig:admin_children-reading.png}に示す。
+           \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_children-reading.png}}
+\caption{子管理者情報閲覧機能のシーケンス図}
+\label{fig:admin_children-reading.png}
+\end{figure}
+   \subsection{お知らせ編集サブシステム(管理者用)}
+ お知らせ編集サブシステムでは管理者からユーザ全体に対して任意のお知らせを通達することができる。\\
+ お知らせ編集サブシステムの機能は小節で示す。
+ \subsubsection{お知らせ編集機能}
+ お知らせ編集機能では管理者は、ユーザに対して通達するお知らせタイトルとその内容を編集することができる。お知らせ編集機能のシーケンス図は図\ref{fig:admin_news.png}に示す。
+            \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_news.png}}
+\caption{お知らせ編集機能のシーケンス図}
+\label{fig:admin_news.png}
+\end{figure}
+ \subsubsection{お知らせ表示機能}
+ お知らせ表示機能本システムのトップページに、お知らせ編集機能で編集した日付とタイトルを表示することができる。お知らせ表示機能のシーケンス図は図\ref{fig:admin_news_display.png}に示す。
+             \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_news_display.png}}
+\caption{お知らせ表示機能のシーケンス図}
+\label{fig:admin_news_display.png}
+\end{figure}
+ \subsubsection{お知らせリンク機能}
+   お知らせ編集機能で編集したお知らせ内容を本システムトップページに表示されているお知らせタイトルにリンクを追加することができる。
+ \subsection{掲示板編集サブシステム(管理者用)}
+ 掲示板編集サブシステムでは管理者は不適切であると判断したスレッドやレスを非表示することができる。また、不適切な単語を登録することで自動置換する。ユーザから送られてきたスレッドやレスに対しての通報内容を閲覧することもできる。\\
+ 掲示板編集サブシステムの機能は小節で示す。
+ \subsubsection{スレッド非表示化機能}
+ スレッド非表示化機能は管理者が、データベースに存在するスレッド及びスレッドに格納された全てのレスを非表示化することができる。スレッド非表示化機能のシーケンス図は図 \ref{fig:admin_bbs_thread-hide.png} に示す。
+              \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_bbs_thread-hide.png}}
+\caption{スレッド非表示化機能のシーケンス図}
+\label{fig:admin_bbs_thread-hide.png}
+\end{figure}
+ \subsubsection{レス非表示化機能}
+ レス非表示化機能では管理者が、データベースに存在するスレッド内のレスを非表示化することができる。レス非表示化機能のシーケンス図は図 \ref{fig:admin_bbs_res-hide.png} に示す。
+              \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_bbs_res-hide.png}}
+\caption{レス非表示化機能のシーケンス図}
+\label{fig:admin_bbs_res-hide.png}
+\end{figure}
+ \subsection{非表示化履歴閲覧機能}
+ 非表示化履歴閲覧機能では管理者は、非表示化したスレッドまたはレスを一覧で閲覧することができる。非表示化履歴閲覧機能のシーケンス図は図 \ref{fig:admin_bbs_hide-history.png} に示す。
+              \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_bbs_hide-history.png}}
+\caption{非表示化履歴閲覧機能のシーケンス図}
+\label{fig:admin_bbs_hide-history.png}
+\end{figure}
+ \subsubsection{不適切な単語登録機能}
+ 不適切な単語登録機能では管理者が、誹謗中傷や公序良俗に違反していると考えられる単語を登録することができる。不適切な単語登録機能のシーケンス図は図 \ref{fig:admin_bbs_wordentry.png} に示す。
+              \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_bbs_wordentry.png}}
+\caption{不適切な単語登録機能のシーケンス図}
+\label{fig:admin_bbs_wordentry.png}
+\end{figure}
+ \subsubsection{不適切な単語自動置換機能}
+ 不適切な単語自動置換機能では管理者が設定した不適切な単語を検出し次第、自動で伏せ字に置換することができる。不適切な単語自動置換機能のシーケンス図は、図 \ref{fig:admin_bbs-replace.png} に不適切な単語登録機能で単語登録された時に不適切な単語を検出した場合について示し、図 \ref{fig:admin_bbs_replace-res.png} にユーザがレス書き込みを行った場合に不適切な単語を含んでいた場合について示す。
+              \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_bbs-replace.png}}
+\caption{不適切な単語自動置換機能のシーケンス図(不適切な単語を検出した時)}
+\label{fig:admin_bbs-replace.png}
+              \end{figure}
+              
+                           \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_bbs_replace-res.png}}
+\caption{不適切な単語自動置換機能のシーケンス図(レス書き込みの時)}
+\label{fig:admin_bbs_replace-res.png}
+\end{figure}
+ \subsubsection{通報内容閲覧機能}
+ 通報内容閲覧機能ユーザによって通報されたスレッドまたはレスの内容の一覧を、通報理由と共に閲覧することができる。このとき、通報者のユーザ情報、通報されたスレッド主またはレスの書き込み主のユーザ情報も同時に表示される。通報内容閲覧機能のシーケンス図は図 \ref{fig:admin_bbs_report-reading.png} に示す。
+              \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_bbs_report-reading.png}}
+\caption{通報内容閲覧機能のシーケンス図}
+\label{fig:admin_bbs_report-reading.png}
+\end{figure}
+
+ \subsection{ユーザ管理サブシステム(管理者用)}
+ 管理者はユーザの情報を検索し、閲覧することができる。また、不適切なスレッドやレスを書き込んだユーザに対して警告やアカウント凍結などの処置を行うことができる。\\
+ ユーザ管理サブシステムの機能は小節で示す。
+ \subsubsection{ユーザ情報機能検索機能、ユーザ情報閲覧機能機能}
+ ユーザ情報機能検索機能とユーザ情報閲覧機能機能では管理者が、データベースに登録されているユーザ情報の中から特定のユーザ情報を検索しユーザの情報を閲覧することができる。ユーザ情報検索機能とユーザ情報閲覧機能のシーケンス図は図 \ref{fig:admin_user_reading-search.png} に示す。
+               \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_user_reading-search.png}}
+\caption{ユーザ情報機能検索機能とユーザ情報閲覧機能機能のシーケンス図}
+\label{fig:admin_user_reading-search.png}
+\end{figure}
+ \subsubsection{ユーザに対する警告通知送信機能}
+ ユーザに対する警告通知送信機能では管理者が、不適切な内容のスレッド作成またはレスの書き込みを度々行ったユーザに対して、注意喚起の旨をユーザのマイページに通知することができる。ユーザに対する警告通知送信機能のシーケンス図は図 \ref{fig:admin_user_warning.png} に示す。
+ \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_user_warning.png}}
+\caption{ユーザに対する警告通知送信機能のシーケンス図}
+\label{fig:admin_user_warning.png}
+\end{figure}
+ \subsubsection{ユーザアカウント凍結機能}
+ ユーザアカウント凍結機能管理者が、度重なる注意を通達したにも関わらず、迷惑行為が改善されないユーザのアカウントに対して、書き込み不可能にすることができる。ユーザアカウント凍結機能のシーケンス図は図 \ref{fig:admin_user-suspend.png} に示す。
+               \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_user-suspend.png}}
+\caption{ユーザアカウント凍結機能のシーケンス図}
+\label{fig:admin_user-suspend.png}
+\end{figure}
+ \subsection{ユーザ登録サブシステム(管理者用)}
+ 管理者はユーザの仮IDと仮パスワードの発行を行うことができる。仮IDと仮パスワードを用いて、ユーザは本システムに新規登録することができる。\\
+ ユーザ登録サブシステムの機能は小節で示す。
+   \subsubsection{仮ID・仮パスワード発行機能}
+   仮ID・仮パスワード発行機能では管理者が仮IDと仮パスワードを発行することができる。仮IDと仮パスワードの生成には、乱数を用いる。 仮ID・仮パスワード発行機能のシーケンス図は図 \ref{fig:admin_user_id-pass.png} に示す。
+                 \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_user_id-pass.png}}
+\caption{仮ID・仮パスワード発行機能のシーケンス図}
+\label{fig:admin_user_id-pass.png}
+\end{figure}
+ \subsection{管理者ログインサブシステム(管理者用)}
+ 管理者は学内LANに接続された電子デバイスからのみ、管理者のIDとパスワードを入力することで、管理者として本システムにログインすることができる。\\
+ 管理者ログインサブシステムの機能は小節で示す。
+ \subsubsection{管理者認証機能}
+ 管理者認証では本システムの管理作業を行うユーザが、管理者であるかの認証を、IDとパスワードを用いて行う。認証に成功したユーザは管理者として本システムの管理を行うことができる。管理者認証機能のシーケンス図は図 \ref{fig:admin_admin-login.png} に示す。
+               \begin{figure}[H]
+\centering
+\resizebox{14cm}{!}{\includegraphics{subsystem/admin_admin-login.png}}
+\caption{管理者認証機能のシーケンス図}
+\label{fig:admin_admin-login.png}
+\end{figure}
+
 \section{ルーティング及びMVC一覧}
 この章では、Railsの規約に従ったURL規則を示す。また、HTTPメソッドとURLによって呼び出されるControllerとActionを示す。さらに、View及びModelも示す。
 \newpage
