@@ -21,7 +21,7 @@
 \vspace{5mm}
 大学掲示板(KUTBBS)\\
 \vspace{5mm}
-{\bf  内部設計書v1.0}
+{\bf  内部設計書v2.0}
 \vspace{90mm}
 }
  \author{
@@ -41,7 +41,7 @@ Pathfinder \\
 
 
  \section{システム概要}
-本システムは、学生が陥りやすいトラブルや、学生自身の学習における課題や悩みを自主的に解決するため の掲示板型のウェブアプリケーションである。 学生同士が問題をネット上でかつ匿名に解決できるようにするために開発するシステムが、本システムである。 利用する対象は、本校の学生である。また管理者は、本校の事務員を想定している。\\
+本システムは、学生が陥りやすいトラブルや、学生自身の学習における課題や悩みを自主的に解決するため の掲示板型のウェブアプリケーションである。 学生同士が問題をネット上で匿名に解決できるようにするために開発するシステムが、本システムである。 利用する対象は、本校の学生である。また管理者は、本校の事務員を想定している。\\
 　本システムは、メインシステムとして下記に示す「ユーザシステム」、「掲示板システム」、「管理者システム」 の 3 つを実装しており、各システムを構成するサブシステムも併せて以下に示す。
 \begin{itemize}
 \item 掲示板システム
@@ -67,6 +67,7 @@ Pathfinder \\
 	\item お知らせ編集サブシステム
 	\item 掲示板編集サブシステム
 	\item ユーザ管理サブシステム
+  \item ユーザ登録サブシステム
 	\end{itemize}
 \end{itemize}
  \section{動作環境}
@@ -81,14 +82,11 @@ Pathfinder \\
 	\item OS
 	\begin{itemize}
 		\item Linux version 7
-		\item ubuntu version 18.04
-		\item MacOS
-		\item Windowss7 , 8 , 10
+		\item MacOS High Sierra 10.13.6
+		\item Windows8 , 10
+    \item Android 7.0
 		\item iOS 10.0
 	\end{itemize}
-	\item webサーバ : AWS EC2
-	\item Appサーバ : Ruby on Rails version 5.1.4
-	\item RDBMS : MySQL version 8.0
 	\end{itemize}
 \item 使用ブラウザ : GoogleChrome62.0 , Firefox version 57.0% , Safari11.0.1
 \end{itemize}
@@ -97,32 +95,34 @@ Pathfinder \\
 \begin{itemize}
 \item OS
 	\begin{itemize}
-		\item Linux version 7
-		\item ubuntu version 18.04
-		\item MacOS
-		\item Windowss7 , 8 , 10
-		\item iOS 10.0
+		\item MacOS High Sierra 10.13.6
+		\item Windows10
 	\end{itemize}
 \item HTML : version５
 \item 使用言語
 	\begin{itemize}
-	\item ruby version 2.4.2
+	\item Ruby version 2.4.2
 	\item Ruby on Rails version 5.1.4
 	\item CSS
 	\item JavaScript
 	\end{itemize}
-\item サーバ :
-\item データベース : MySQL version 8.0
-\item webサーバ : AmazonWebServices
+\item サーバ : AmazonWebServices EC2
+\item データベース : MySQL version 5.6
 \end{itemize}
- \section{内部設計書作成方針}
-\subsection{コーディング規約}
-\subsubsection{命名規約}
+
+\section{コーディング規約}
+この章では、プログラムコードを記述する際のコーディング規約について示す。なお、原則としてRailsの命名規則に従うものとする。
+\subsection{命名規約}
+
 \begin{itemize}
+  \item ファイル名\\
+  - 小文字始まりとする\\
+  - 複数の単語を組み合わせる際はアンダーバー(\_)で区切る\\
+
 \item 変数名・メソッド名\\
 ‐ 小文字始まりとする\\
 ‐ 基本的に意味のある単語を使用する\\
-‐
+
 \end{itemize}
 \begin{itemize}
 \item 定数\\
@@ -134,10 +134,10 @@ Pathfinder \\
 ‐ 大文字始まりとする\\
 ‐ 複数の単語を組み合わせる際は先頭文字を大文字で表記する\\
 \end{itemize}
-\subsubsection{コーディングスタイル}
+\subsection{コーディングスタイル}
 \begin{itemize}
 \item インデント\\
-‐ インデントにはタブを使用する（半角スペース4文字）
+‐ インデントにはタブを使用する（半角スペース2文字）
 \end{itemize}
 \begin{itemize}
 \item 括弧\\
@@ -163,7 +163,7 @@ Pathfinder \\
 \end{table}
 \subsection{サーバ環境}
 本システムを利用するためにはAmazon Web Services(AWS) の EC2 インスタンスを用いて実現します．サーバ環境は表\ref{tab:server_environment}に示します。
-\begin{table}[htb]
+\begin{table}[H]
 \caption{サーバ側の動作環境}
 \begin{center}
   \begin{tabular}{|c|c|} \hline
@@ -175,10 +175,10 @@ Pathfinder \\
 \label{tab:server_environment}
 \end{center}
 \end{table}
-\subsection{テーブル設計}
+\section{テーブル設計}
 本小節ではデータベース構成するテーブルについて示す。また、各カラムについても詳細も示す。
 
-\subsubsection{ユーザテーブル(user)}
+\subsection{ユーザテーブル(users)}
 ユーザテーブルではユーザに関する情報を管理する。このテーブルの詳細は表\ref{tab:user} に示す。
 \begin{table}[h]
 
@@ -198,7 +198,7 @@ Pathfinder \\
       斜体フラグ&diagonal\verb|_|flag&int&1&×&-&- \\ \hline
       太文字フラグ&bold\verb|_|letters\verb|_|flag&int&1&×&-&- \\ \hline
       通知フラグ&report\verb|_|flag&int&1&×&-&- \\ \hline
-      管理者フラグ&administrator\verb|_|flag&int&1&○&-&- \\ \hline
+      管理者フラグ&administrator\verb|_|flag&int&1&×&-&- \\ \hline
       初回ログインフラグ&first\verb|_|login\verb|_|flag&int&1&×&-&- \\ \hline
       ログイン日数&count\verb|_|login&int&4&×&-&-\\ \hline
     \end{tabular}
@@ -230,10 +230,10 @@ Pathfinder \\
 
 \item 太文字フラグ\\
   拡張機能の1つであり、太文字を付与することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。
-\item　通知フラグ\\
+\item 通知フラグ\\
   通知設定の切り替えを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。
 \item 管理者フラグ\\
-  親管理者と子管理者を識別することを示す値である。値は１桁の0(子管理者)、1(親管理者)の数値にて構成される。\\
+  親管理者と子管理者を識別することを示す値である。NULL値は含まない。値は１桁の0(ユーザ)、1(子管理者)、2(親管理者)の数値にて構成される。\\
 \item 初回ログインフラグ\\
   初回ログインを識別することを示す値である。NULL値は含まない。値は１桁の0(OFF)、1(ON)の数値にて構成される。
 
@@ -242,7 +242,7 @@ Pathfinder \\
 
   　\end{itemize}
 \newpage
-  \subsubsection{スレッドテーブル(thread)}
+  \subsection{スレッドテーブル(threads)}
   スレッドテーブルではスレッドに関する情報を管理する。このテーブルの詳細は表\ref{tab:thread} に示す。
   \begin{table}[h]
     \caption{スレッドテーブル}
@@ -283,7 +283,7 @@ Pathfinder \\
   \item 更新日時\\
     レコードを更新した日付・時刻を示す値である。NULL値は含まない。レコードが更新されるたびに自動更新を行う。
   \end{itemize}
-  \subsubsection{レステーブル(res)}
+  \subsection{レステーブル(res)}
   レステーブルではレスに関する情報を管理する。このテーブルの詳細は表\ref{tab:ress} に示す。
   \begin{table}[h]
     \caption{レステーブル}
@@ -327,7 +327,7 @@ Pathfinder \\
     レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加される。
   \end{itemize}
 
-  \subsubsection{スレッドカテゴリテーブル(thread\_category)}
+  \subsection{スレッドカテゴリテーブル(categories)}
   スレッドカテゴリテーブルは各カテゴリごとに分けられたスレッドの情報を管理する。このテーブルの詳細は表\ref{tab:thread_category} に示す。
   \begin{table}[h]
     \caption{スレッドカテゴリテーブル}
@@ -351,7 +351,7 @@ Pathfinder \\
 
   \end{itemize}
 
-  \subsubsection{お気に入り掲示板テーブル(favorite\_bbs)}
+  \subsection{お気に入り掲示板テーブル(bookmarks)}
   お気入り掲示板テーブルではブックマークとして登録したスレッド情報を管理する。このテーブルの詳細は表\ref{tab:favorite_bbs} に示す。
   \begin{table}[h]
     \caption{お気に入り掲示板テーブル}
@@ -376,7 +376,7 @@ Pathfinder \\
 
 
 
-  \subsubsection{コレクトユーザテーブル(collect\_user)}
+  \subsection{コレクトユーザテーブル(correct\_users)}
   コレクトユーザテーブルではコレクトボタンを押されたことに関する情報を管理する。このテーブルの詳細は表 \ref{tab:collect_user} に示す。
   \begin{table}[h]
     \caption{コレクトユーザテーブル}
@@ -402,7 +402,7 @@ Pathfinder \\
     レステーブルを参照する際の外部キーである。NULL値は含まない。値は4桁(0001から9999)の数値にて構成され自動追加される。
   \end{itemize}
 
-  \subsubsection{不適切な単語登録テーブル(inadequacy\_word)}
+  \subsection{不適切な単語登録テーブル(ng\_words)}
   不適切な単語登録テーブルでは管理者が誹謗中傷や公序良俗に違反していると考えられる単語を登録した情報を管理する。このテーブルの詳細は表 \ref{tab:inadequacy_word} に示す。
   \begin{table}[h]
     \caption{不適切な単語登録テーブル}
@@ -426,7 +426,7 @@ Pathfinder \\
   \end{itemize}
 
 
-  \subsubsection{通報テーブル(report)}
+  \subsection{通報テーブル(reports)}
   通報テーブルではユーザが誹謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報した時の情報を管理する。また、通報した内容の情報も管理する。このテーブルの詳細は表 \ref{tab:report} に示す。
   \begin{table}[h]
     \caption{通報テーブル}
@@ -463,7 +463,7 @@ Pathfinder \\
     レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加を行う。
   \end{itemize}
 
-  \subsubsection{凍結ユーザテーブル(suspend)}
+  \subsection{凍結ユーザテーブル(freezes)}
   凍結ユーザテーブルでは迷惑行為が改善されないユーザのアカウントを凍結した情報を管理する。このテーブルの詳細は表 \ref{tab:suspend} に示す。
 
   \begin{table}[h]
@@ -487,7 +487,7 @@ Pathfinder \\
     ユーザテーブルを参照する際の外部キーである。。NULL値は含まない。値は固定7文字の半角英数字にて構成される。\\
   \end{itemize}
 
-  \subsubsection{お知らせテーブル(news)}
+  \subsection{お知らせテーブル(announces)}
   お知らせテーブルではお知らせに関する情報を管理する。このテーブルの詳細は表 \ref{tab:news} に示す。
   \begin{table}[h]
     \caption{お知らせテーブル}
@@ -517,7 +517,7 @@ Pathfinder \\
   \item 作成日時\\
     レコードを作成した日付・時刻を示す値である。NULL値は含まない。レコードが作成されるたびに自動追加を行う。
   \end{itemize}
-  \subsubsection{警告注意テーブル(warned\_caution)}
+  \subsection{警告注意テーブル(alerts)}
   警告テーブルでは管理者がユーザに対しての警告・注意喚起に関する情報を管理する。このテーブルの詳細は表 \ref{tab:warned_caution} に示す。
   \begin{table}[h]
     \caption{警告注意テーブル}
@@ -568,10 +568,10 @@ Pathfinder \\
     \label{fig:account_new-account.png}
   \end{figure}
   \subsection{ログインサブシステム(ユーザ用)}
-  ログインサブシステムではユーザが設定したIDとパスワードを入力を行う。ログイン時にデータベース登録されているIDとパスワードの認証を行い一致すれば自分のアカウントにログインをすることできる。\\
+  ログインサブシステムでは、ユーザが設定したIDとパスワードを入力を行う。ログイン時にデータベース登録されているIDとパスワードの認証を行い、一致すれば自分のアカウントにログインをすることできる。\\
   ログインサブシステムの機能は小節で示す。
   \subsubsection{ユーザ認証機能}
-  ユーザ認証機能では本システムを利用するユーザが、本学の在学生であるかの認証を、IDとパスワードを用いて行う。認証に成功したユーザは、本システムの正当なユーザとして本システムを利用することができる。ユーザ認証機能のシーケンス図は図\ref{fig:login_user.png}に示す。
+  ユーザ認証機能では、本システムを利用するユーザが本学の在学生であるかの認証を、IDとパスワードを用いて行う。認証に成功したユーザは、本システムの正当なユーザとして本システムを利用することができる。ユーザ認証機能のシーケンス図は図\ref{fig:login_user.png}に示す。
   \begin{figure}[H]
     \centering
     \resizebox{10cm}{!}{\includegraphics{subsystem/login_user.png}}
@@ -579,7 +579,7 @@ Pathfinder \\
     \label{fig:login_user.png}
   \end{figure}
   \subsubsection{ログインボーナス機能}
-  ログインボーナス機能ではユーザが本システムにログインしたとき、拡張機能と交換できるポイントが付与される。ポイントが付与される頻度は、1日1回に設定している。1回で付与されるポイント数は10ポイントである。ログインボーナス機能のシーケンス図は図\ref{fig:login_login-bonus.png}に示す。
+  ログインボーナス機能では、ユーザが本システムにログインしたとき、拡張機能と交換できるポイントが付与される。ポイントが付与される頻度は、1日1回に設定している。1回で付与されるポイント数は10ポイントである。ログインボーナス機能のシーケンス図は図\ref{fig:login_login-bonus.png}に示す。
   \begin{figure}[H]
     \centering
     \resizebox{10cm}{!}{\includegraphics{subsystem/login_login-bonus.png}}
@@ -587,7 +587,7 @@ Pathfinder \\
     \label{fig:login_login-bonus.png}
   \end{figure}
   \subsubsection{ログアウト機能}
-  ログアウト機能ではユーザが本システムにログインしている状態であるとき、「ログアウト」ボタンを押すことで本システムからログアウトすることができる。ログアウト機能のシーケンス図は図\ref{fig:login_logout.png}に示す。
+  ログアウト機能では、ユーザが本システムにログインしている状態であるとき、「ログアウト」ボタンを押すことで本システムからログアウトすることができる。ログアウト機能のシーケンス図は図\ref{fig:login_logout.png}に示す。
   \begin{figure}[H]
     \centering
     \resizebox{10cm}{!}{\includegraphics{subsystem/login_logout.png}}
@@ -607,8 +607,8 @@ Pathfinder \\
     \label{fig:search_keyword.png}
   \end{figure}
   \subsubsection{カテゴリ選択機能}
-  カテゴリ選択機能では所定の検索テキストボックスの横に設置されたカテゴリ選択ボタンで特定のカテゴリを選択すると、選択されたカテゴリ内に存在するスレッドの中から検索することができる。また、スティキーヘッダーからカテゴリ検索を行うこともできる。
-  カテゴリ選択機能のシーケンス図は図に\ref{fig:search_category.png}示す。
+  カテゴリ選択機能では所定の検索テキストボックスの横に設置されたカテゴリ選択ボタンで特定のカテゴリを選択すると、選択されたカテゴリ内に存在するスレッドの中から検索することができる。また、スティッキーヘッダーからカテゴリ検索を行うこともできる。
+  カテゴリ選択機能のシーケンス図は図\ref{fig:search_category.png}に示す。
   \begin{figure}[H]
     \centering
     \resizebox{10cm}{!}{\includegraphics{subsystem/search_category.png}}
@@ -629,7 +629,7 @@ Pathfinder \\
   \end{figure}
   \subsubsection{レス書き込み機能}
   レス書き込み機能では既存のスレッド内に、レスを書き込むことができる。このとき、レス番号・ハンドルネーム・日付・レスIDが表示される。レスの書き込み主がハンドルネームを設定している場合、そのハンドルネームが表示される。
-  レス書き込み機能のシーケンス図は図に\ref{fig:bbs_res.png}示す。
+  レス書き込み機能のシーケンス図は図\ref{fig:bbs_res.png}に示す。
   \begin{figure}[H]
     \centering
     \resizebox{10cm}{!}{\includegraphics{subsystem/bbs_res.png}}
@@ -641,7 +641,7 @@ Pathfinder \\
   お知らせサブシステムの機能は小節で示す。
   \subsubsection{お知らせ閲覧機能}
   お知らせ閲覧機能では管理者から通達されたお知らせを閲覧することができる。
-  お知らせ閲覧機能のシーケンス図は図に\ref{fig:news_reading.png}示す。
+  お知らせ閲覧機能のシーケンス図は図\ref{fig:news_reading.png}に示す。
 
   \begin{figure}[H]
     \centering
@@ -654,47 +654,137 @@ Pathfinder \\
   通報サブシステムの機能は小節で示す。
   \subsubsection{スレッド・レス通報機能}
   スレッド・レス通報機能ではユーザが誹謗中傷や公序良俗に違反するなどの不適切な内容であると判断したスレッドまたはレスを管理者に通報することができる。このとき、通報者は通報理由を明記する。
-  スレッド・レス通報機能のシーケンス図は図()に示す。
+  スレッド・レス通報機能のシーケンス図は図\ref{fig:bbs_report.png}に示す。
+  \begin{figure}[H]
+    \centering
+    \resizebox{10cm}{!}{\includegraphics{subsystem/bbs\_report.png}}
+    \caption{スレッド・レス通報機能のシーケンス図}
+    \label{fig:bbs_report.png}
+  \end{figure}
+
+
+
+
   \subsection{コレクトボタンサブシステム(ユーザ用)}
   コレクトボタンサブシステムでは、ユーザがレスの内容に対して確からしいと判断した際にコレクトボタンを押すことで、コレクト認定(信頼性の認定)をすることができる。\\
   コレクトボタンサブシステムの機能は小節で示す。
   \subsubsection{コレクト認定機能}
   コレクト認定機能ではユーザが特定のレスに対して、その内容が確からしいと判断した場合、コレクトボタンを押してコレクト認定をすることができる。レスの傍らにコレクト認定された回数が表示されるため、コレクト認定は、ユーザがそのレスの内容が確からしいと判断した指標となる。よって、コレクト認定された回数が多いレスは、信憑性のある情報として、ユーザの情報の取捨選択の判断材料となる。なお、1つのレスに対してコレクト認定できる回数は1回のみであり、コレクトボタンを偶数回押すと、コレクト認定を解除することができる。
-  コレクト認定機能のシーケンス図は図()に示す。
+  コレクト認定機能のシーケンス図は図\ref{fig:correct_correct.png}に示す。
+
+  \begin{figure}[H]
+    \centering
+    \resizebox{10cm}{!}{\includegraphics{subsystem/correct\_correct.png}}
+    \caption{コレクト認定機能のシーケンス図}
+    \label{fig:correct_correct.png}
+  \end{figure}
+
+
+
   \subsubsection{ポイント獲得機能}
   ポイント獲得機能ではユーザが書き込んだレスに他のユーザからコレクト認定された場合、レスの書き込み主は拡張機能を解放するためのポイントを獲得することができる。拡張機能とは、スレッドでレスを行う際にレスの表示が変化する機能である。
   ポイント獲得の相場は、1回のコレクト認定につき1ポイントである。１つのレスにおいて、1人のユーザからポイント獲得できる回数は1回のみである(2回目以降のコレクト認定はポイント獲得できない)。また、コレクト認定が解除されたとしても獲得済のポイントが減ることはない。
-  ポイント獲得機能のシーケンス図は図()に示す。
+  ポイント獲得機能のシーケンス図は図\ref{fig:correct_point.png}に示す。
+
+  \begin{figure}[H]
+    \centering
+    \resizebox{10cm}{!}{\includegraphics{subsystem/correct\_point.png}}
+    \caption{ポイント獲得機能のシーケンス図}
+    \label{fig:correct_point.png}
+  \end{figure}
+
+
   \subsection{マイページサブシステム(ユーザ用)}
   マイページサブシステムでは、スティッキーヘッダによって表示されているマーク部分を押すことでユーザ情報・ブックマーク閲覧・拡張機能・通知機能を設定することができる。\\
   マイページサブシステムの機能は小節で示す。
   \subsubsection{ユーザ情報設定機能}
   ユーザ情報設定機能ではユーザのハンドルネームの設定ができる。ハンドルネームが設定されていない場合は、「名無し」と表示される。
-  ユーザ情報設定機能のシーケンス図は図()に示す。
+  ユーザ情報設定機能のシーケンス図は図\ref{fig:mypage_user.png}に示す。
+  \begin{figure}[H]
+    \centering
+    \resizebox{10cm}{!}{\includegraphics{subsystem/mypage\_user.png}}
+    \caption{ユーザ情報設定のシーケンス図}
+    \label{fig:mypage_user.png}
+  \end{figure}
+
+
   \subsubsection{ブックマーク閲覧機能}
   ブックマーク閲覧機能では登録したブックマークの一覧を表示することができる。その中から、任意のスレッドに遷移することができる。
-  ブックマーク閲覧機能のシーケンス図は図()に示す。
+  ブックマーク閲覧機能のシーケンス図は図\ref{fig:mypage_bookmark.png}に示す。
+
+  \begin{figure}[H]
+    \centering
+    \resizebox{10cm}{!}{\includegraphics{subsystem/mypage\_bookmark.png}}
+    \caption{ブックマーク閲覧機能のシーケンス図}
+    \label{fig:mypage_bookmark.png}
+  \end{figure}
+
+
   \subsubsection{拡張機能}
   拡張機能では本システムを利用して得られたポイントと引き換えに、拡張機能が使用可能となる。主な拡張機能としては、取り消し線、太文字、赤字、斜体などが存在する。1つの拡張機能につき、600ポイントを引き換えると想定する。拡張機能は、今後の仕様変更で追加する可能性がある。
-  拡張機能のシーケンス図は図()に示す。
+  拡張機能のシーケンス図は図\ref{fig:mypage_extension.png}に示す。
+
+  \begin{figure}[H]
+    \centering
+    \resizebox{10cm}{!}{\includegraphics{subsystem/mypage\_extension.png}}
+    \caption{拡張機能のシーケンス図}
+    \label{fig:mypage_extension.png}
+  \end{figure}
+
   \subsubsection{通知設定機能}
   通知設定機能では通知機能のON/OFFの設定をすることができる。
-  通知設定機能のシーケンス図は図()に示す。
+  通知設定機能のシーケンス図は図\ref{fig:mypage_notice.png}に示す。
+  \begin{figure}[H]
+    \centering
+    \resizebox{10cm}{!}{\includegraphics{subsystem/mypage\_notice.png}}
+    \caption{通知設定機能のシーケンス図}
+    \label{fig:mypage_notice.png}
+  \end{figure}
+
+
   \subsection{通知サブシステム(ユーザ用)}
   通知サブシステムでは、各ユーザに対してスレッドの書き込み・レスへの返信があった際に処理を行う。
   通知サブシステムの機能は小節で示す。
   \subsubsection{通知機能}
   通知機能ではユーザが作成したスレッドに新たな書き込みがあった場合、またはユーザが書き込んだレスに対して返信が書き込まれた場合に、その旨を通知する。
-  通知機能のシーケンス図は図()に示す。
+  通知機能のシーケンス図は図\ref{fig:bbs_notice.png}に示す。
+  \begin{figure}[H]
+    \centering
+    \resizebox{10cm}{!}{\includegraphics{subsystem/bbs\_notice.png}}
+    \caption{通知機能のシーケンス図}
+    \label{fig:bbs_notice.png}
+  \end{figure}
+
+
+
+
   \subsection{ブックマークサブシステム(ユーザ用)}
   任意のスレッドをブックマークとして登録する際と解除する際に押すことで処理が行われる。
   ブックマークサブシステムの機能は小節で示す。
   \subsubsection{ブックマーク登録機能}
   ブックマーク登録機能では任意のスレッドをブックマークとしてマイページに登録することができる。
-  ブックマーク登録機能のシーケンス図は図()に示す。
+  ブックマーク登録機能のシーケンス図は図\ref{fig:bookmark_register.png}に示す。
+  \begin{figure}[H]
+    \centering
+    \resizebox{10cm}{!}{\includegraphics{subsystem/bookmark\_register.png}}
+    \caption{ブックマーク登録機能のシーケンス図}
+    \label{fig:bookmark_register.png}
+  \end{figure}
+
+
+
   \subsubsection{ブックマーク解除機能}
   ブックマーク解除機能ではマイページに存在する任意のブックマークの登録を解除することができる。
-  ブックマーク解除機能のシーケンス図は図()に示す。
+  ブックマーク解除機能のシーケンス図は図\ref{fig:bookmark_release.png}に示す。
+  \begin{figure}[H]
+    \centering
+    \resizebox{10cm}{!}{\includegraphics{subsystem/bookmark\_release.png}}
+    \caption{ブックマーク解除機能のシーケンス図}
+    \label{fig:bookmark_release.png}
+  \end{figure}
+
+
+
   \subsection{子管理者管理サブシステム(管理者用)}
   子管理者サブシステムでは親管理者が子管理者のアカウントを管理するサブシステムである。親管理者がIDとパスワードを発行することで、本システムを管理する子管理者を登録することができる。また、不要になった子管理者のアカウントを抹消することがきる。\\
   子管理者管理サブシステムの機能は小節で示す。
@@ -728,7 +818,7 @@ Pathfinder \\
   お知らせ編集サブシステムでは管理者からユーザ全体に対して任意のお知らせを通達することができる。\\
   お知らせ編集サブシステムの機能は小節で示す。
   \subsubsection{お知らせ編集機能}
-  お知らせ編集機能では管理者は、ユーザに対して通達するお知らせタイトルとその内容を編集することができる。お知らせ編集機能のシーケンス図は図\ref{fig:admin_news.png}に示す。
+  お知らせ編集機能では、管理者はユーザに対して通達するお知らせタイトルとその内容を編集することができる。お知らせ編集機能のシーケンス図は図\ref{fig:admin_news.png}に示す。
   \begin{figure}[H]
     \centering
     \resizebox{10cm}{!}{\includegraphics{subsystem/admin_news.png}}
@@ -736,7 +826,7 @@ Pathfinder \\
     \label{fig:admin_news.png}
   \end{figure}
   \subsubsection{お知らせ表示機能}
-  お知らせ表示機能本システムのトップページに、お知らせ編集機能で編集した日付とタイトルを表示することができる。お知らせ表示機能のシーケンス図は図\ref{fig:admin_news_display.png}に示す。
+  お知らせ表示機能では、本システムのトップページに、お知らせ編集機能で編集した日付とタイトルを表示することができる。お知らせ表示機能のシーケンス図は図\ref{fig:admin_news_display.png}に示す。
   \begin{figure}[H]
     \centering
     \resizebox{10cm}{!}{\includegraphics{subsystem/admin_news_display.png}}
