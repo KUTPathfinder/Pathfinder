@@ -176,7 +176,8 @@ Pathfinder \\
 \end{center}
 \end{table}
 \section{テーブル設計}
-本小節ではデータベース構成するテーブルについて示す。また、各カラムについても詳細も示す。
+本章ではデータベースを構成する各テーブルについて示す。また、各カラムについても詳細を示す。
+テーブル間の各関係については、付録\ref{fig:ER}にてER図を記載している。
 
 \subsection{ユーザテーブル(users)}
 ユーザテーブルではユーザに関する情報を管理する。このテーブルの詳細は表\ref{tab:user} に示す。
@@ -994,10 +995,11 @@ Pathfinder \\
   24 & /threads/:id/contents/:id/report\_check & GET & report\#check \\
   25 & /threads/:id/report & POST & report\#craete \\
   26 & /threads/:id/contents/:id/report & POST & report\#create \\
-  27 & /admins/report & GET & report\#index \\ \hline
+  27 & /admins/report/threads & GET & report\#index\_res \\ 
+  28 & /admins/report/contents & GET & report\#index\_thread \\ \hline
 
-  28 & /threads/:id/bookmark\_create & POST & bookmark\#create \\
-  29 & /threads/:id/bookmark\_destroy & DELETE & bookmark\#destroy \\ \hline
+  29 & /threads/:id/bookmark\_create & POST & bookmark\#create \\
+  30 & /threads/:id/bookmark\_destroy & DELETE & bookmark\#destroy \\ \hline
 
 \end{tabular}
 
@@ -1010,42 +1012,42 @@ Pathfinder \\
   \begin{tabular}{|c|l|l||l|}\hline
     No. & URL & METHOD & Controller\#Action \\ \hline \hline
 
-    30 & /threads/:id/hide & PATCH & hide\#thread\_hide \\
-    31 & /threads/:id/contents/:id/hide & PATCH & hide\#res\_hide \\
-    32 & /admins/threads/:id/hide & GET & hide\#thread\_index \\
-    33 & /admins/threads/:id/contents/:id/hide & GET & hide\#res\_index \\ \hline
+    31 & /threads/:id/hide & PATCH & hide\#thread\_hide \\
+    32 & /threads/:id/contents/:id/hide & PATCH & hide\#res\_hide \\
+    33 & /admins/threads/:id/hide & GET & hide\#thread\_index \\
+    34 & /admins/threads/:id/contents/:id/hide & GET & hide\#res\_index \\ \hline
 
-    34 & /admins/login & GET & admins\_session\#new \\
-    35 & /admins/login & POST & admins\_session\#login \\
-    36 & /admins/logout & DELETE & admins\_session\#logout \\ \hline
+    35 & /admins/login & GET & admins\_session\#new \\
+    36 & /admins/login & POST & admins\_session\#login \\
+    37 & /admins/logout & DELETE & admins\_session\#logout \\ \hline
 
-    37 & /admins/top & GET & admins\_top\#home \\ \hline
+    38 & /admins/top & GET & admins\_top\#home \\ \hline
 
-    38 & /admins/ng\_word & GET & ng\_word\#home \\
-    39 & /admins/ng\_word/create & POST & ng\_word\#create \\
-    40 & /admins/ng\_word/destroy & DELETE & ng\_word\#destroy \\ \hline
+    39 & /admins/ng\_word & GET & ng\_word\#home \\
+    40 & /admins/ng\_word/create & POST & ng\_word\#create \\
+    41 & /admins/ng\_word/destroy & DELETE & ng\_word\#destroy \\ \hline
 
-    41 & /admins/manage & GET & manage\#home \\
-    42 & /admins/manage/signup & GET & manage\#signup \\
-    43 & /admins/manage/signup & POST & manage\#create \\
-    44 & /admins/manage/ok & GET & manage\#ok \\
-    45 & /admins/manage/destroy & GET & manage\#destroy\_check \\
-    46 & /admins/manage/destroy & DELETE & manage\#destroy \\ \hline
-
-    47 & /admins/manage\_user & GET & manage\_user\#home \\
-    48 & /admins/manege\_user/signup & GET & manage\_user\#user\_signup \\
-    49 & /admins/manage\_user/signup & POST & manage\_user\#user\_create \\
-    50 & /admins/manage\_user/search & GET & manage\_user\#search \\
-    51 & /admins/manage\_user/:id & GET & manage\_user\#show \\
-    52 & /admins/manage\_user/edit & GET & manage\_user\#warning\_edit \\
-    53 & /admins/manage\_user/check & GET & manage\_user\#warning\_check \\
-    54 & /admins/manage\_user/create & POST & manage\_user\#warning\_create \\
-    55 & /admins/manage\_user/:id/ban\_create & POST & manage\_user\#ban\_create \\
-    56 & /admins/manage\_user/:id/ban\_destroy & DELETE & manage\_user\#ban\_destroy \\ \hline
-    57 & /admins/announce & GET & announce\#edit \\
-    58 & /admins/announce\_check & GET & announce\#check \\
-    59 & /admins/announce\_create & POST & announce\#create \\
-    60 & /home/announce/:id & GET & announce\#show \\ \hline
+    42 & /admins/manage & GET & manage\#home \\
+    43 & /admins/manage/signup & GET & manage\#signup \\
+    44 & /admins/manage/signup & POST & manage\#create \\
+    45 & /admins/manage/ok & GET & manage\#ok \\
+    46 & /admins/manage/destroy & GET & manage\#destroy\_check \\
+    47 & /admins/manage/destroy & DELETE & manage\#destroy \\ \hline
+    
+    48 & /admins/manage\_user & GET & manage\_user\#home \\
+    49 & /admins/manege\_user/signup & GET & manage\_user\#user\_signup \\
+    50 & /admins/manage\_user/signup & POST & manage\_user\#user\_create \\
+    51 & /admins/manage\_user/search & GET & manage\_user\#search \\
+    52 & /admins/manage\_user/:id & GET & manage\_user\#show \\
+    53 & /admins/manage\_user/edit & GET & manage\_user\#warning\_edit \\
+    54 & /admins/manage\_user/check & GET & manage\_user\#warning\_check \\
+    55 & /admins/manage\_user/create & POST & manage\_user\#warning\_create \\
+    56 & /admins/manage\_user/:id/ban\_create & POST & manage\_user\#ban\_create \\
+    57 & /admins/manage\_user/:id/ban\_destroy & DELETE & manage\_user\#ban\_destroy \\ \hline
+    58 & /admins/announce & GET & announce\#edit \\
+    59 & /admins/announce\_check & GET & announce\#check \\
+    60 & /admins/announce\_create & POST & announce\#create \\
+    61 & /home/announce/:id & GET & announce\#show \\ \hline
   \end{tabular}
 \end{table}
 
@@ -1060,116 +1062,77 @@ Pathfinder \\
 
 
 \subsubsection{top\_controller.rb}
-\noindent 名称：セッション情報処理	\newline
 処理： \newline
--home:トップ画面であるtop.html.erbを表示させる。ログインボタンを押すと、/sessionにリダイレクトを行う。画面右下にあるリンクは管理者用ログインフォームで、これを押すと/adminにリダイレクトを行う。\newline
-
-
-
-
-
-
+-home:トップ画面であるtop.html.erbを表示させる。ログインボタンを押すと、/loginにリダイレクトを行う。画面右下にあるリンクは管理者用ログインフォームで、これを押すと/admins/loginにリダイレクトを行う。\newline
 
 \subsubsection{sessions\_controller.rb}
-\noindent 名称：セッション情報処理	\newline
 処理： \newline
 -new:ログインフォームであるsessions\_new.html.erbを表示させる。\newline
 -create:ユーザのIDとパスワードで認証を行い、認証されるとそのユーザのセッションを作成する。必要なパラメータparamsハッシュから取り出し、取り出した情報をUser.find\_byメソッドとauthenticateメソッドで用いてデータベースとの照合を行う。
-セッションの作成に成功した場合、セッションを作成したユーザによって以下にリダイレクトを行う。\newline
-ユーザが管理者:/adminに対してリダイレクトを行う。ユーザが一般ユーザ:/homeに対してリダイレクトを行う。また、そのユーザが初回ログインの場合は、/passwordsにリダイレクトを行う。また、一般ユーザの場合ログインボーナスの処理を行う。具体的には、(createアクション中で）そのユーザのupdated\_atカラム（最終ログイン日時）の情報を取得した後、Timeオブジェクトを作成し、そのオブジェクトのインスタンス変数から日付を取得する。それらの情報を比較して、一致しないならばログインボーナスの処理（保有ポイントの追加）をupdateメソッドで行う。情報の変更に成功した場合、フラッシュメッセージで、「ログインに成功しました。」と表示する。
-
-
-なお、認証が失敗した場合は再度/Loginに対してリダイレクトを行う。\newline
+ユーザがセッションの作成に成功した場合、/homeに対してリダイレクトを行う。また、そのユーザが初回ログインの場合は、/passwords/:idにリダイレクトを行う。
+また、一般ユーザの場合ログインボーナスの処理を行う。具体的には、(createアクション中で）そのユーザのupdated\_atカラム（最終ログイン日時）の情報を取得した後、Timeオブジェクトを作成し、そのオブジェクトのインスタンス変数から日付を取得する。それらの情報を比較して、一致しないならばログインボーナスの処理（保有ポイントの追加）をupdateメソッドで行う。情報の変更に成功した場合、フラッシュメッセージで、「ログインに成功しました。」と表示する。\newline
+なお、認証が失敗した場合は再度/loginに対してリダイレクトを行う。\newline
 -destroy:作成したユーザのセッションをdeleteメソッドで破棄する。
 
-
 \subsubsection{passwords\_controller.rb}
-\noindent 名称:ID・パスワード変更処理	\newline
 処理：\newline
 -new:初回ログインを行なった（初回ログインフラグが1）のユーザに対して、ID・パスワード変更用フォームであるpasswords\_new.html.erbを表示させる。\newline
--change:あらかじめ登録されていたユーザのパスワード情報を、変更用フォームから入力された新しいパスワードに更新する処理をUser.update\_attributeメソッドで行う。正しく更新が行われた場合、「更新を完了しました。」というフラッシュメッセージを表示する。
-更新が正常に完了したら、/signupにリダイレクトする。\newline
+-update:あらかじめ登録されていたユーザのパスワード情報を、変更用フォームから入力された新しいパスワードに更新する処理をUser.update\_attributeメソッドで行う。正しく更新が行われた場合、「更新を完了しました。」というフラッシュメッセージを表示する。
+更新が正常に完了したら、/passwords/:id/signupにリダイレクトする。\newline
 -signup:IDとパスワードを更新した後、更新完了画面であるsignup.html.erbを表示する。
-
 %「該当する」という文言は、ユーザのidやスレッドのtitle等、DB上からなんらかの(一意な)属性の値を取得する処理が存在することを意味する
 
-
-
 \subsubsection{home\_controller.rb}
-\noindent 名称：ホーム画面処理 \newline
 処理:\newline
--home:ホーム画面であるhome.html.erbを表示する。スレッドタイトル入力テキストボックスに検索したいスレッドタイトルを入力し、検索ボタンを押すと、/results/:idにリダイレクトを行う。お知らせを押すと、/infomations/:idにリダイレクトを行う。マイページボタンを押すと、/user/:idにリダイレクトを行う。\newline
+-home:ホーム画面であるhome.html.erbを表示する。スレッドタイトル入力テキストボックスに検索したいスレッドタイトルを入力し、検索ボタンを押すと、/resultsにリダイレクトを行う。お知らせを押すと、/home/announce/:idにリダイレクトを行う。マイページボタンを押すと、/users/:idにリダイレクトを行う。\newline
 %管理者が推すと管理者ページへ戻る？
 -threads\_hide:不適切なスレッドを非表示化する。この処理は、管理者以外行うことはできない(非表示化ボタン自体が存在しない)。このアクションを行うと、/homeに対してリダイレクトをする。
 
-
-
 \subsubsection{users\_controller.rb}
-\noindent 名称：マイページ画面処理 \newline
 処理:\newline
--show:マイページ画面であるshow.html.erbを表示する。\newline
--update:拡張機能を開放する(Userテーブルにおけるユーザの各種拡張フラグを1に更新する)アクションである。解放後、/user/:idにPATCHメソッドでルーティングにリクエストする。
-
+-show:マイページ画面であるshow.html.erbを表示する。警告・注意喚起ボタンを押すと/users/:id/warningにリダイレクトする。拡張機能・ハンドルネーム等を編集してから、保存ボタンを押すと、./updateへリダイレクトする。\newline
+-warning:警告・注意画面を表示する。\newline
+-update:拡張機能を開放する(Userテーブルにおけるユーザの各種拡張フラグを1に更新する)アクションである。解放後、/users/:idにリダイレクトする。
 
 \subsubsection{results\_controller.rb}
-\noindent 名称：スレッドタイトル検索処理 \newline
 処理:\newline
--search:スレッドタイトル検索機能の処理を行うアクションである。検索を行い、該当するスレッドを取得した後は、そのスレッドを一覧として表示する(これがsearch.html.erbとなる）。表示されたスレッドタイトルを押すと、/threads/:id/contentsにGETメソッドでルーティングをリクエストする。\newline
+-search:スレッドタイトル検索機能の処理を行うアクションである。検索を行い、該当するスレッドを取得した後は、そのスレッドを一覧として表示する(これがresults/search.html.erbとなる）。表示されたスレッドタイトルを押すと、/threads/:idにリダイレクトする。\newline
 
 \subsubsection{results\_categories\_controller.rb}
 \noindent 名称：カテゴリ別スレッドタイトル検索処理 \newline
 処理:\newline
 -search:スレッドタイトル検索機能の処理を行うアクションである。先ほど述べたスレッドタイトル検索処理とほとんど同じであるが、スレッドタイトル以外にも、該当するカテゴリであるかどうかを条件として検索を行う処理である。検索条件以外の処理に違いは存在しない。\newline
 
-
-
-\subsubsection{infomations\_controller.rb}
-\noindent 名称：お知らせ画面処理 \newline
-処理:\newline
--show:お知らせ詳細画面であるshow.html.erbを表示する。\newline
-
-
-
 \subsubsection{categories\_controller.rb}
-\noindent 名称：カテゴリ別トップ画面処理 \newline
 処理:\newline
--new:カテゴリ別トップ画面であるcategories.html.erbを表示する。この画面もトップ画面同様、スレッドタイトル入力テキストボックスが存在しているがこちらから検索を行うと、/results/:title/categories/:idにGETメソッドでルーティングをリクエストする。マイページに遷移するボタンの処理は、トップ画面と同様である。また、スレッドタイトルを押した場合は、/threads/:id/contentsにGETメソッドでルーティングをリクエストする。スレッドタイトルの通報ボタンを押した場合は、/thread/:id/report\_formにGETメソッドでルーティングを行う。\newline
-
-
+-new:カテゴリ別トップ画面であるcategories.html.erbを表示する。この画面もトップ画面同様、スレッドタイトル入力テキストボックスが存在しているがこちらから検索を行うと、/results/:title/categories/:idにリダイレクトする。マイページに遷移するボタンの処理は、トップ画面と同様である。また、スレッドタイトルを押した場合は、/threads/:id/contentsにリダイレクトする。スレッドタイトルの通報ボタンを押した場合は、/threads/:id/report\_formにGETメソッドでルーティングを行う。\newline
 
 \subsubsection{threads\_controller.rb}
-\noindent 名称：スレッド作成処理 \newline
 処理:\newline
--new::スレッドを新規作成するフォームであるnew\_html.erbを表示させる。作成ボタンを押した後は/threads/checkにGETメソッドでルーティングをリクエストする。\newline
--check:スレッド作成確認画面であるcheck.html.erbを表示させる。確認ボタンを押すと、/threadsにPOSTメソッドでルーティングをリクエストする。\newline
--create:newアクションで入力されたスレッドタイトルと最初の書き込み内容を反映したスレッドを作成するアクションである。スレッドを作成した後は、カテゴリ別トップページである/categories/:idにGETメソッドでルーティングをリクエストする。
-
+-new:スレッドを新規作成するフォームであるnew\_html.erbを表示させる。作成ボタンを押した後は/threads/checkにリダイレクトする。\newline
+-check:スレッド作成確認画面であるcheck.html.erbを表示させる。確認ボタンを押すと、/threadsにリダイレクトする。\newline
+-create:newアクションで入力されたスレッドタイトルと最初の書き込み内容を反映したスレッドを作成するアクションである。スレッドを作成した後は、カテゴリ別トップページである/categories/:idにリダイレクトする。
+-show スレッドを閲覧するページを表示するアクションである。通報ボタンを押すと、/threads/:id/contents/:id/reportにリダイレクトする。書き込みボタンを押すと、/threads/:id/contents/checkにリダイレクトする。コレクトボタンを押すと、./correctにリダイレクトする。また、ブックマークボタンをおすと、/threads/:id/bookmark\_createにリダイレクトする。\newline
 
 \subsubsection{contents\_controller.rb}
-\noindent 名称：スレッド閲覧処理 \newline
 処理:\newline
--bbs::スレッドを閲覧するページを表示するアクションである。通報ボタンを押すと、/thread/:id/contents/:id/reportにGETメソッドでルーティングをリクエストする。書き込みボタンを押すと、/thread/:id/contents/checkにGETメソッドでルーティングをリクエストする。コレクトボタンを押すと、/correctにPATCHメソッドでルーティングをリクエストする。また、ブックマークボタンをおすと、/threads/:id/bookmark\_createにPOSTメソッドでルーティングをリクエストする。\newline
+
 -check:書き込み確認ページであるcontents\_check.html.erbを表示するアクションである。\newline
--write:threadに書き込みを行うアクションである。書き込み確認ページに存在する書き込みボタンを押すとこのアクションが実行され、その後/thread/:id/contents/にPOSTメソッドでルーティングをリクエストする。\newline
--responses\_hide:このアクションを実行できるのは管理者だけである。このアクションを実行すると、PATCHメソッドで/thread/:id/contentsにルーティングをリクエストする。\newline
--report:このアクションは、通報用フォームであるreport\_form.html.erbを表示させるアクションである。通報ボタンを押すと、通報確認ページである/thread/:id/contents/:id/report\_formにGETメソッドでルーティングをリクエストする。\newline
--check:通報確認ページであるcheck.html.erbを表示させるアクションである。\newline
+-create:レスに対して書き込みを行うアクションである。書き込み内容はデータベースに保存される。\newline
 -correct:コレクトボタンを押したレスに対する処理を行う。
 
-
-\subsubsection{form\_controller.rb}
-\noindent 名称：通報画面表示・通報処理 \newline
+\subsubsection{report\_controller.rb}
 処理:\newline
--new:thread・レスの通報画面であるnew.html.erbを表示させるアクションである。
--cheak:通報確認画面であるcheak.html.erbを表示するアクションである。
-create:通報内容をデータベースに反映する処理を行うアクションである。通報後、スレッドを通報していれば通報前のcategories/:idにgetメソッドでルーティングをリクエストし、レスを通報していればthread/:id/contentsにGETメソッドでルーティングを行う。
-
-
+-new:thread及びレスの通報画面であるnew.html.erbを表示させるアクションである。通報のcategoryや、内容等を入力していない場合は、バリテーションによってエラーメッセージが返される。必要事項が入力されていれば、./checkにリダイレクトする。
+-check:threads及びレスの通報確認画面である。はいボタンを押すと、./createにリダイレクトされ、通報内容がDBに保存される。また、フラッシュメッセージとして通報が完了したことをユーザに知らせる。
+-create:通報内容をDBに保存するアクションである。保存完了後、スレッドを通報していればそのthreadが存在しているカテゴリTOP画面へ、またレスの場合はそのレスが存在しているスレッドの画面へリダイレクトする。
+-index\_res:admin名前空間上でしか行えないアクションで、通報されてきたレス一覧を表示する。
+-index\_threads:admin名前空間上でしか行えないアクションで、通報されてきたスレッド一覧を表示する。
 
 \subsubsection{bookmark.rb}
-\noindent 名称：通報画面表示・通報処理 \newline
 処理:\newline
-create:ブックマーク処理を行うアクションである。処理としては、データベースのbookmarkテーブルにスレッドのID及び登録したユーザのIDを挿入する。処理後、/threads/:id/contentsに
+-create:ブックマーク処理を行うアクションである。処理としては、データベースのbookmarkテーブルにスレッドのID及び登録したユーザのIDを挿入する。処理後、/threads/:id/contentsにリダイレクトする。
+-destroy:ブックマークの解除処理を行うアクションである。変更する項目以外の処理は、上記のアクションと同じである。
 
 
 \subsubsection{hide\_controller.rb}
@@ -1618,15 +1581,29 @@ ID・パスワード変更完了画面\\
 \end{itemize}
 
 
-\subsubsection{report/index.html.erb}
+\subsubsection{report/index\_thread.html.erb}
 \noindent
 【名称】\\
-通報状況画面\\
+通報状況画面(スレッド)\\
 【概要】\\
-通報の一覧を表示する画面である。\\
+通報スレッドの一覧を表示する画面である。\\
 【処理フロー】
 \begin{itemize}
-  \item 非表示ボタンを押すと、スレッドIDとレスIDを情報として、/threads/:id/contentsにPATCHメソッドでルーティングにリクエストする。
+  \item 非表示ボタンを押すと、スレッドIDを情報として、/threads/:id/hideにPATCHメソッドでルーティングにリクエストする。
+  \item レスはこちらボタンを押すと、/admins/report/contentsにGETメソッドでルーティングにリクエストする。
+  \item ユーザ情報検索ページはこちらボタンを押すと、/admins/manage\_user/searchにGETメソッドでルーティングにリクエストする。
+\end{itemize}
+
+\subsubsection{report/index\_res.html.erb}
+\noindent
+【名称】\\
+通報状況画面(レス)\\
+【概要】\\
+通報レスの一覧を表示する画面である。\\
+【処理フロー】
+\begin{itemize}
+  \item 非表示ボタンを押すと、スレッドIDとレスIDを情報として、/threads/:id/contents/hideにPATCHメソッドでルーティングにリクエストする。
+  \item スレッドはこちらボタンを押すと、/admins/report/threadsにGETメソッドでルーティングにリクエストする。
   \item ユーザ情報検索ページはこちらボタンを押すと、/admins/manage\_user/searchにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
@@ -1685,7 +1662,6 @@ ID・パスワード変更完了画面\\
 \end{itemize}
 
 \subsection{Model層}
-%モデル層を記述しました。文章の構成はMVCの小節になると思うのうまく文章構成をお願いします。
 
 \subsubsection{user.rb}
   \noindent
@@ -1887,5 +1863,23 @@ ID・パスワード変更完了画面\\
 
 
 \appendix
+\part*{付録}
+\addcontentsline{toc}{part}{付録}
+
+\setcounter{section}{0} % section の番号をゼロにリセットする
+\renewcommand{\thesection}{\Alph{section}} % 数字ではなくアルファベットで数える
+\setcounter{figure}{0} % 図番号
+\renewcommand{\thefigure}{\Alph{section}}
+
+
+\section{ER図}
+図\ref{fig:ER}に、本システムのER図を示す。
+\begin{figure}[H]
+\begin{center}
+\resizebox{10cm}{!}{\includegraphics{KUTBBS-ER.png}}
+\caption{ER図}
+\label{fig:ER}
+\end{center}
+\end{figure}
 
 \end{document}
