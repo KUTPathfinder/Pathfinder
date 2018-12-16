@@ -657,7 +657,7 @@ Pathfinder \\
   スレッド・レス通報機能のシーケンス図は図\ref{fig:bbs_report.png}に示す。
   \begin{figure}[H]
     \centering
-    \resizebox{10cm}{!}{\includegraphics{subsystem/bbs\_report.png}}
+    \resizebox{10cm}{!}{\includegraphics{subsystem/bbs_report.png}}
     \caption{スレッド・レス通報機能のシーケンス図}
     \label{fig:bbs_report.png}
   \end{figure}
@@ -674,7 +674,7 @@ Pathfinder \\
 
   \begin{figure}[H]
     \centering
-    \resizebox{10cm}{!}{\includegraphics{subsystem/correct\_correct.png}}
+    \resizebox{10cm}{!}{\includegraphics{subsystem/correct_correct.png}}
     \caption{コレクト認定機能のシーケンス図}
     \label{fig:correct_correct.png}
   \end{figure}
@@ -688,7 +688,7 @@ Pathfinder \\
 
   \begin{figure}[H]
     \centering
-    \resizebox{10cm}{!}{\includegraphics{subsystem/correct\_point.png}}
+    \resizebox{10cm}{!}{\includegraphics{subsystem/correct_point.png}}
     \caption{ポイント獲得機能のシーケンス図}
     \label{fig:correct_point.png}
   \end{figure}
@@ -702,7 +702,7 @@ Pathfinder \\
   ユーザ情報設定機能のシーケンス図は図\ref{fig:mypage_user.png}に示す。
   \begin{figure}[H]
     \centering
-    \resizebox{10cm}{!}{\includegraphics{subsystem/mypage\_user.png}}
+    \resizebox{10cm}{!}{\includegraphics{subsystem/mypage_user.png}}
     \caption{ユーザ情報設定のシーケンス図}
     \label{fig:mypage_user.png}
   \end{figure}
@@ -714,7 +714,7 @@ Pathfinder \\
 
   \begin{figure}[H]
     \centering
-    \resizebox{10cm}{!}{\includegraphics{subsystem/mypage\_bookmark.png}}
+    \resizebox{10cm}{!}{\includegraphics{subsystem/mypage_bookmark.png}}
     \caption{ブックマーク閲覧機能のシーケンス図}
     \label{fig:mypage_bookmark.png}
   \end{figure}
@@ -726,7 +726,7 @@ Pathfinder \\
 
   \begin{figure}[H]
     \centering
-    \resizebox{10cm}{!}{\includegraphics{subsystem/mypage\_extension.png}}
+    \resizebox{10cm}{!}{\includegraphics{subsystem/mypage_extension.png}}
     \caption{拡張機能のシーケンス図}
     \label{fig:mypage_extension.png}
   \end{figure}
@@ -736,7 +736,7 @@ Pathfinder \\
   通知設定機能のシーケンス図は図\ref{fig:mypage_notice.png}に示す。
   \begin{figure}[H]
     \centering
-    \resizebox{10cm}{!}{\includegraphics{subsystem/mypage\_notice.png}}
+    \resizebox{10cm}{!}{\includegraphics{subsystem/mypage_notice.png}}
     \caption{通知設定機能のシーケンス図}
     \label{fig:mypage_notice.png}
   \end{figure}
@@ -750,7 +750,7 @@ Pathfinder \\
   通知機能のシーケンス図は図\ref{fig:bbs_notice.png}に示す。
   \begin{figure}[H]
     \centering
-    \resizebox{10cm}{!}{\includegraphics{subsystem/bbs\_notice.png}}
+    \resizebox{10cm}{!}{\includegraphics{subsystem/bbs_notice.png}}
     \caption{通知機能のシーケンス図}
     \label{fig:bbs_notice.png}
   \end{figure}
@@ -766,7 +766,7 @@ Pathfinder \\
   ブックマーク登録機能のシーケンス図は図\ref{fig:bookmark_register.png}に示す。
   \begin{figure}[H]
     \centering
-    \resizebox{10cm}{!}{\includegraphics{subsystem/bookmark\_register.png}}
+    \resizebox{10cm}{!}{\includegraphics{subsystem/bookmark_register.png}}
     \caption{ブックマーク登録機能のシーケンス図}
     \label{fig:bookmark_register.png}
   \end{figure}
@@ -778,7 +778,7 @@ Pathfinder \\
   ブックマーク解除機能のシーケンス図は図\ref{fig:bookmark_release.png}に示す。
   \begin{figure}[H]
     \centering
-    \resizebox{10cm}{!}{\includegraphics{subsystem/bookmark\_release.png}}
+    \resizebox{10cm}{!}{\includegraphics{subsystem/bookmark_release.png}}
     \caption{ブックマーク解除機能のシーケンス図}
     \label{fig:bookmark_release.png}
   \end{figure}
@@ -970,36 +970,34 @@ Pathfinder \\
 	 8 &	/home	& GET & home\_pages\#home \\ \hline
 
 	 9 &	/users/:id & GET & users\#show \\
-	 10 &	/users/:id/name\_update & PATCH & users\#name\_update \\
-   11 & /users/:id/notification & PATCH & users\#notification \\
-   12 & /users/:id/warning & GET & users\#warning \\
-   13 & /users/:id/extension & PATCH & users\#extension \\ \hline
+	 10 &	/users/:id/update & PATCH & users\#update \\
+   11 & /users/:id/warning & GET & users\#warning \\ \hline
 
-	14 &	/results & GET & results\#search \\ \hline
+	12 &	/results & GET & results\#search \\ \hline
 
-	15 &	/categories/:id & GET & categories\#index \\ \hline
+	13 &	/categories/:id & GET & categories\#index \\ \hline
 
-	16 &	/threads/new  & GET & threads\#new \\
-	17 & /threads/check & GET & threads\#check \\
-	18 & /threads & POST & threads\#create \\
-  19 & /threads/:id & GET & threads\#show \\ \hline
+	14 &	/threads/new  & GET & threads\#new \\
+	15 & /threads/check & GET & threads\#check \\
+	16 & /threads & POST & threads\#create \\
+  17 & /threads/:id & GET & threads\#show \\ \hline
 
 	% 17 & /threads/:id/report\_new & GET & threads\#report\_new \\
 
-	20 & /threads/:id/contents/check	& GET & contents\#check \\
-	21 & /threads/:id/contents/create & POST  & contents\#create \\
-	22 & /threads/:id/contents/correct & PATCH & contents\#correct \\ \hline
+	18 & /threads/:id/contents/check	& GET & contents\#check \\
+	19 & /threads/:id/contents/create & POST  & contents\#create \\
+	20 & /threads/:id/contents/:id/correct & PATCH & contents\#correct \\ \hline
 
-  23 & /threads/:id/report\_form & GET & report\#new \\
-  24 & /threads/:id/contents/:id/report\_form & GET & report\#new \\
-  25 & /threads/:id/report\_check & GET & report\#check \\
-  26 & /threads/:id/contents/:id/report\_check & GET & report\#check \\
-  27 & /threads/:id/report & POST & report\#craete \\
-  28 & /threads/:id/contents/:id/report & POST & report\#create \\
-  29 & /admins/report & GET & report\#index \\ \hline
+  21 & /threads/:id/report\_form & GET & report\#new \\
+  22 & /threads/:id/contents/:id/report\_form & GET & report\#new \\
+  23 & /threads/:id/report\_check & GET & report\#check \\
+  24 & /threads/:id/contents/:id/report\_check & GET & report\#check \\
+  25 & /threads/:id/report & POST & report\#craete \\
+  26 & /threads/:id/contents/:id/report & POST & report\#create \\
+  27 & /admins/report & GET & report\#index \\ \hline
 
-  30 & /threads/:id/bookmark\_create & POST & bookmark\#create \\
-  31 & /threads/:id/bookmark\_destroy & DELETE & bookmark\#destroy \\ \hline
+  28 & /threads/:id/bookmark\_create & POST & bookmark\#create \\
+  29 & /threads/:id/bookmark\_destroy & DELETE & bookmark\#destroy \\ \hline
 
 \end{tabular}
 
@@ -1012,42 +1010,42 @@ Pathfinder \\
   \begin{tabular}{|c|l|l||l|}\hline
     No. & URL & METHOD & Controller\#Action \\ \hline \hline
 
-    32 & /threads/:id/hide & PATCH & hide\#thread\_hide \\
-    33 & /threads/:id/contents/:id/hide & PATCH & hide\#res\_hide \\
-    34 & /admins/threads/:id/hide & GET & hide\#thread\_index \\
-    35 & /admins/threads/:id/contents/:id/hide & GET & hide\#res\_index \\ \hline
+    30 & /threads/:id/hide & PATCH & hide\#thread\_hide \\
+    31 & /threads/:id/contents/:id/hide & PATCH & hide\#res\_hide \\
+    32 & /admins/threads/:id/hide & GET & hide\#thread\_index \\
+    33 & /admins/threads/:id/contents/:id/hide & GET & hide\#res\_index \\ \hline
 
-    36 & /admins/login & GET & admins\_session\#new \\
-    37 & /admins/login & POST & admins\_session\#login \\
-    38 & /admins/logout & DELETE & admins\_session\#logout \\ \hline
+    34 & /admins/login & GET & admins\_session\#new \\
+    35 & /admins/login & POST & admins\_session\#login \\
+    36 & /admins/logout & DELETE & admins\_session\#logout \\ \hline
 
-    39 & /admins/top & GET & admins\_top\#home \\ \hline
+    37 & /admins/top & GET & admins\_top\#home \\ \hline
 
-    40 & /admins/ng\_word & GET & ng\_word\#home \\
-    41 & /admins/ng\_word/create & POST & ng\_word\#create \\
-    42 & /admins/ng\_word/destroy & DELETE & ng\_word\#destroy \\ \hline
+    38 & /admins/ng\_word & GET & ng\_word\#home \\
+    39 & /admins/ng\_word/create & POST & ng\_word\#create \\
+    40 & /admins/ng\_word/destroy & DELETE & ng\_word\#destroy \\ \hline
 
-    43 & /admins/manage & GET & manage\#home \\
-    44 & /admins/manage/signup & GET & manage\#signup \\
-    45 & /admins/manage/signup & POST & manage\#create \\
-    46 & /admins/manage/ok & GET & manage\#ok \\
-    47 & /admins/manage/destroy & GET & manage\#destroy\_check \\
-    48 & /admins/manage/destroy & DELETE & manage\#destroy \\ \hline
+    41 & /admins/manage & GET & manage\#home \\
+    42 & /admins/manage/signup & GET & manage\#signup \\
+    43 & /admins/manage/signup & POST & manage\#create \\
+    44 & /admins/manage/ok & GET & manage\#ok \\
+    45 & /admins/manage/destroy & GET & manage\#destroy\_check \\
+    46 & /admins/manage/destroy & DELETE & manage\#destroy \\ \hline
 
-    49 & /admins/manage\_user & GET & manage\_user\#home \\
-    50 & /admins/manege\_user/signup & GET & manage\_user\#user\_signup \\
-    51 & /admins/manage\_user/signup & POST & manage\_user\#user\_create \\
-    52 & /admins/manage\_user/search & GET & manage\_user\#search \\
-    53 & /admins/manage\_user/:id & GET & manage\_user\#show \\
-    54 & /admins/manage\_user/edit & GET & manage\_user\#warning\_edit \\
-    55 & /admins/manage\_user/check & GET & manage\_user\#warning\_check \\
-    56 & /admins/manage\_user/create & POST & manage\_user\#warning\_create \\
-    57 & /admins/manage\_user/id/ban\_create & PATCH & manage\_user\#ban\_create \\ \hline
-    58 & /admins/manage\_user/id/ban\_destroy & PATCH & manage\_user\#ban\_destroy \\ \hline
-    59 & /admins/announce & GET & announce\#edit \\
-    60 & /admins/announce\_check & GET & announce\#check \\
-    61 & /admins/announce\_create & POST & announce\#create \\
-    62 & /home/announce/:id & GET & announce\#show \\ \hline
+    47 & /admins/manage\_user & GET & manage\_user\#home \\
+    48 & /admins/manege\_user/signup & GET & manage\_user\#user\_signup \\
+    49 & /admins/manage\_user/signup & POST & manage\_user\#user\_create \\
+    50 & /admins/manage\_user/search & GET & manage\_user\#search \\
+    51 & /admins/manage\_user/:id & GET & manage\_user\#show \\
+    52 & /admins/manage\_user/edit & GET & manage\_user\#warning\_edit \\
+    53 & /admins/manage\_user/check & GET & manage\_user\#warning\_check \\
+    54 & /admins/manage\_user/create & POST & manage\_user\#warning\_create \\
+    55 & /admins/manage\_user/:id/ban\_create & POST & manage\_user\#ban\_create \\
+    56 & /admins/manage\_user/:id/ban\_destroy & DELETE & manage\_user\#ban\_destroy \\ \hline
+    57 & /admins/announce & GET & announce\#edit \\
+    58 & /admins/announce\_check & GET & announce\#check \\
+    59 & /admins/announce\_create & POST & announce\#create \\
+    60 & /home/announce/:id & GET & announce\#show \\ \hline
   \end{tabular}
 \end{table}
 
@@ -1185,7 +1183,7 @@ create:ブックマーク処理を行うアクションである。処理とし�
 \subsubsection{admins\_session\_controller.rb}
 \noindent
 処理:  \\
-- new: /admins/login.html.erbを表示する。
+- new: /admins/login.html.erbを表示する。\\
 - login: 入力されたIDとパスワードを取得する。if文でデータベース上に存在するか判別する。\\
 存在する場合の処理\\
 \begin{itemize}
@@ -1210,7 +1208,7 @@ create:ブックマーク処理を行うアクションである。処理とし�
 \noindent
 処理:  \\
 -home: admins/ng\_word.html.erbを表示する。\\
--create: 入力された文字列を受け取り、受け取った文字列をデータベースに保存する。保存に成功した場合、flashメッセージで「単語を登録しました」と表示し、/admins/ng\_wordへリダイレクトする。\\
+-create: 入力された文字列を受け取り、受け取った文字列をデータベースに保存する。保存後、flashメッセージで「単語を登録しました」と表示し、/admins/ng\_wordへリダイレクトする。入力テキストボックスに何も入力されてない場合は、エラーメッセージ用の変数にエラーメッセージを代入する。\\
 -destroy: 特定の文字列を受け取り、削除処理をする。削除後、flashメッセージで「単語を削除しました」と表示して/admins/ng\_wordへリダイレクトする。
 
 \subsubsection{manage\_controller.rb}
@@ -1218,7 +1216,7 @@ create:ブックマーク処理を行うアクションである。処理とし�
 処理:  \\
 -home: /admins/manage.html.erbを表示する。\\
 -signup: /admins/manage/signup.html.erbを表示する。\\
--create: 入力されたIDとパスワードを取得し、データベースに保存する。保存後、/admins/manage/okへリダイレクトする。\\
+-create: 入力されたIDとパスワードを取得し、データベースに保存する。保存後、/admins/manage/okへリダイレクトする。入力テキストボックスに何も入力されてない場合は、エラーメッセージ用の変数にエラーメッセージを代入する。\\
 -ok: /admins/manage/ok.htmlを表示する。
 -destroy\_check: /admins/manage/destroy.html.erbを表示する。\\
 -destroy: 特定の子管理者アカウント情報を受け取り、削除処理をする。flashメッセージで「子管理者アカウントを削除しました」と表示し、/admins/magnageへリダイレクトする。
@@ -1229,11 +1227,11 @@ create:ブックマーク処理を行うアクションである。処理とし�
 -home: /admins/manage\_user.html.erbを表示する。\\
 -signup: /admins/manage\_user/signup.html.erbを表示する。\\
 -create: 受け取った整数の範囲のユーザのIDとパスワードを乱数で生成し、データベースに保存する。保存に成功した場合、flashメッセージで「ユーザアカウントを作成しました」と表示し、/admins/manage\_userへリダイレクトする。保存に失敗した場合、エラーメッセージを表示し、さらに入力された文字列を初期値として/admins/manage\_user/signupへリダイレクトする。\\
--search: 入力された学籍番号を受け取り、/admins/manage\_user/search.html.erbを表示する。\\
+-search: 入力された学籍番号を受け取り、/admins/manage\_user/search.html.erbを表示する。入力テキストボックスに何も入力されてない場合は、エラーメッセージ用の変数にエラーメッセージを代入する。\\
 -show: 特定のユーザのidを受け取り、/admins/manage\_user/:id.html.erbを表示する。\\
 -warning\_edit: admins/manage\_user/:id/warning\_edit.html.erbを表示する。\\
 -warning\_check: admins/manage\_user/:id/warning\_check.html.erbを表示する。\\
--warning\_create: 入力された文字列を受け取り、データベースに保存する。保存に成功した場合、flashメッセージで「警告・注意喚起を作成しました」と表示し、admins/manage\_user/:idへリダイレクトする。\\
+-warning\_create: 入力された文字列を受け取り、データベースに保存する。保存に成功した場合、flashメッセージで「警告・注意喚起を作成しました」と表示し、admins/manage\_user/:idへリダイレクトする。入力テキストボックスに何も入力されてない場合は、エラーメッセージ用の変数にエラーメッセージを代入する。\\
 -ban\_create: 特定のユーザIDを凍結ユーザテーブルに保存する。処理後はadmins/manage\_user/:idへリダイレクトする。\\
 -ban\_destroy:特定のユーザIDを凍結ユーザテーブルから削除する。処理後はadmins/manage\_user/:idへリダイレクトする。
 
@@ -1242,8 +1240,8 @@ create:ブックマーク処理を行うアクションである。処理とし�
 \noindent
 処理:  \\
 -edit: /admins/announce.html.erbを表示する。\\
--check: /admins/announce\_check.html.erbを表示する。\\
--create: 入力されたお知らせ内容をデータベースに保存する。保存後はadmins/announceへリダイレクトする。
+-check: /admins/announce\_check.html.erbを表示する。入力テキストボックスに何も入力されてない場合は、エラーメッセージ用の変数にエラーメッセージを代入する。\\
+-create: 入力されたお知らせ内容をデータベースに保存する。保存後はadmins/announceへリダイレクトする。\\
 -show: /home/announce/:id.html.erbを表示する。
 
 
@@ -1256,7 +1254,7 @@ create:ブックマーク処理を行うアクションである。処理とし�
 
 
 \subsection{View層}
-\underline{\bf (現時点では掲示板の画面詳細のみ記述しています。v2で管理者側の画面詳細の追記とこの章全体の修正をします。)}\\
+
 
 \subsubsection{top/home.html.erb}
 \noindent
@@ -1309,7 +1307,7 @@ ID・パスワード変更完了画面\\
 \subsubsection{home\_pages/home.html.erb}
 \noindent
 【名称】\\
-掲示板TOP画面
+掲示板TOP画面\\
 【概要】\\
 掲示板TOP画面を表示する画面である。\\
 【処理フロー】
@@ -1321,7 +1319,7 @@ ID・パスワード変更完了画面\\
 \subsubsection{announce/show.html.erb}
 \noindent
 【名称】\\
-お知らせ画面
+お知らせ画面\\
 【概要】\\
 管理者からユーザに対するお知らせの詳細を表示する画面である。\\
 【処理フロー】
@@ -1335,10 +1333,8 @@ ID・パスワード変更完了画面\\
 ユーザのマイページを表示する画面である。\\
 【処理フロー】
 \begin{itemize}
-  \item ハンドルネームの変更ボタンを押すと、入力された名前を情報として、/users/:id/name\_updateにPATCHメソッドでルーティングにリクエストする。
-  \item 通知設定のラジオボタンを押すと、ラジオボタンの入力を情報として、/users/:id/notificationにPATCHメソッドでルーティングにリクエストする。
-  \item 警告・注意喚起確認ボタンを押すと、/users/:id/warningにGETメソッドでルーティングにリクエストする。
-  \item 拡張機能の開放ボタンを押すと、保有ポイントを情報として、/users/:idにPATCHメソッドでルーティングにリクエストする。
+  \item 変更内容を保存ボタンを押すと、ハンドルネーム・通知設定のラジオボタン・拡張機能の解放の入力を情報として、/users/:id/updateにPATCHメソッドでルーティングにリクエストする。
+  \item 警告・注意喚起確認ボタンを押すと、/users/:id/warningにGETメソッドでルーティングにリクエストする。警告がない場合、flashメッセージで「警告・注意喚起はありません」と表示し、/users/:idにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
 \subsubsection{results/search.html.erb}
@@ -1403,7 +1399,7 @@ ID・パスワード変更完了画面\\
 \begin{itemize}
   \item レスの書き込みフォームは、凍結ユーザには表示されない。
   \item ブックマークボタンを押すと、スレッドIDを情報として、/bookmark/createにPOSTメソッドでルーティングにリクエストする。
-  \item ブックマークボタンを押すと、スレッドIDを情報として、/bookmark/createにPOSTメソッドでルーティングにリクエストする。
+  \item コレクトボタンを押すと、レスIDを情報として、/threads/:id/contents/:id/correctにPATCHメソッドでルーティングにリクエストする。
   \item 通報ボタンを押すと、/threads/:id/contents/reportにGETメソッドでルーティングにリクエストする。
   \item 非表示ボタンを押すと、スレッドIDとレスIDを情報として、/threads/:id/contents/にPATCHメソッドでルーティングにリクエストする。
   \item 送信ボタンを押すと、/threads/:id/contents/checkにGETメソッドでルーティングにリクエストする。
@@ -1417,7 +1413,7 @@ ID・パスワード変更完了画面\\
 スレッドに書き込むレスの内容確認を表示する画面である。\\
 【処理フロー】
 \begin{itemize}
-  \item はいボタンを押すと、書き込み内容を情報として、/contents/writeにPOSTメソッドでルーティングにリクエストする。
+  \item はいボタンを押すと、書き込み内容を情報として、/contents/createにPOSTメソッドでルーティングにリクエストする。
   \item いいえボタンを押すと、/threads/showにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
@@ -1442,7 +1438,7 @@ ID・パスワード変更完了画面\\
 通報の内容確認を表示する画面である。\\
 【処理フロー】
 \begin{itemize}
-  \item はいボタンを押すと、通報内容を情報として、/threads/:id/contentsにPOSTメソッドでルーティングにリクエストする。
+  \item はいボタンを押すと、通報内容を情報として、/threads/:id/reportにPOSTメソッドでルーティングにリクエストする。
   \item いいえボタンを押すと、/threads/:id/contents/:id/reportにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
@@ -1494,7 +1490,7 @@ ID・パスワード変更完了画面\\
 親管理者が子管理者のアカウントを発行するための画面である。\\
 【処理フロー】
 \begin{itemize}
-  \item はいボタンを押すと、乱数により子管理者のIDとパスワードを生成し、それらを情報として、/admins/manage/signupにPOSTメソッドでルーティングにリクエストする。
+  \item はいボタンを押すと、入力された子管理者のIDとパスワードを情報として、/admins/manage/signupにPOSTメソッドでルーティングにリクエストする。
   \item いいえボタンを押すと、/admins/manageにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
@@ -1525,7 +1521,7 @@ ID・パスワード変更完了画面\\
 \subsubsection{manage\_user/home.html.erb}
 \noindent
 【名称】\\
-ユーザ管理画面\\
+ユーザ管理TOP画面\\
 【概要】\\
 管理者がユーザの各管理をするための画面である。\\
 【処理フロー】
@@ -1561,27 +1557,17 @@ ID・パスワード変更完了画面\\
 \subsubsection{manage\_user/show.html.erb}
 \noindent
 【名称】\\
-ユーザ情報画面\\
+ユーザ情報閲覧画面\\
 【概要】\\
 管理者がユーザの情報を閲覧するための画面である。\\
 【処理フロー】
 \begin{itemize}
   \item 警告・注意喚起ボタンを押すと、/admins/manage\_user/editにGETメソッドでルーティングにリクエストする。
-  \item ユーザが凍結ユーザでない場合にアカウント凍結ボタンを押すと、IDと学籍番号を情報として、/manage\_user/:id/banにPOSTメソッドでルーティングにリクエストする。
-  \item ユーザが凍結ユーザである場合にアカウント凍結解除ボタンを押すと、/admins\_top/:id/banにDELETEメソッドでルーティングにリクエストする。
+  \item ユーザが凍結ユーザでない場合にアカウント凍結ボタンを押すと、IDと学籍番号を情報として、/manage\_user/:id/ban\_createにPOSTメソッドでルーティングにリクエストする。
+  \item ユーザが凍結ユーザである場合にアカウント凍結解除ボタンを押すと、/admins\_top/:id/ban\_destroyにDELETEメソッドでルーティングにリクエストする。
 \end{itemize}
 
-\subsubsection{manage\_user/search.html.erb}
-\noindent
-【名称】\\
-ユーザ情報検索画面\\
-【概要】\\
-管理者がユーザの情報を検索するための画面である。\\
-【処理フロー】
-\begin{itemize}
-  \item 検索ボタンを押すと、/admins/manage/:idにGETメソッドでルーティングにリクエストする。
-  \item 管理者TOPボタンを押すと、/admins\_top/homeにGETメソッドでルーティングにリクエストする。
-\end{itemize}
+
 
 \subsubsection{manage\_user/warning\_edit.html.erb}
 \noindent
@@ -1592,10 +1578,10 @@ ID・パスワード変更完了画面\\
 【処理フロー】
 \begin{itemize}
   \item 送信ボタンを押すと、/admins/manage\_user/checkにGETメソッドでルーティングにリクエストする。
-  \item ユーザ情報ページに戻るボタンを押すと、/admins/manage\_userにGETメソッドでルーティングにリクエストする。
+  \item ユーザ情報ページに戻るボタンを押すと、/admins/manage\_user/:idにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
-\subsubsection{manage\_user/warning\_check.html.erb}\
+\subsubsection{manage\_user/warning\_check.html.erb}
 \noindent
 【名称】\\
 警告・注意喚起確認画面\\
@@ -1627,12 +1613,12 @@ ID・パスワード変更完了画面\\
 管理者がお知らせを編集するための画面である。\\
 【処理フロー】
 \begin{itemize}
-  \item はいボタンを押すと、入力されたお知らせタイトルと内容をを情報として、/admins/ng\_words/createにPOSTメソッドでルーティングにリクエストする。
+  \item はいボタンを押すと、入力されたお知らせタイトルと内容を情報として、/admins/ng\_words/createにPOSTメソッドでルーティングにリクエストする。
   \item いいえボタンを押すと、/admins/announceにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
 
-\subsubsection{admins/login.html.erb}
+\subsubsection{report/index.html.erb}
 \noindent
 【名称】\\
 通報状況画面\\
@@ -1640,8 +1626,8 @@ ID・パスワード変更完了画面\\
 通報の一覧を表示する画面である。\\
 【処理フロー】
 \begin{itemize}
-  \item 非表示ボタンを押すと、スレッドIDとレスIDを情報として、/threads/:id/contents/にPATCHメソッドでルーティングにリクエストする。
-  \item 非表示ボタンを押すと、入力されたIDとパスワードを情報として/admins/loginにPOSTメソッドでルーティングにリクエストする。
+  \item 非表示ボタンを押すと、スレッドIDとレスIDを情報として、/threads/:id/contentsにPATCHメソッドでルーティングにリクエストする。
+  \item ユーザ情報検索ページはこちらボタンを押すと、/admins/manage\_user/searchにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
 \subsubsection{ng\_words/home.html.erb}
@@ -1680,20 +1666,23 @@ ID・パスワード変更完了画面\\
   \item 管理者TOPボタンを押すと、/admins\_top/homeにGETメソッドでルーティングにリクエストする。
 \end{itemize}
 
-%\subsubsection{application.html.erb}
-%\noindent
-%【名称】\\
-%共通項目\\
-%
-%【概要】\\
-%掲示板の共通項目
-%【処理フロー】
-%\begin{itemize}
-%  \item メニューリスト内のカテゴリボタンを押すと、/categories/:idにGETメソッドでルーティングにリクエストする。
-%  \item ロゴボタンを押すと、/homeにGETメソッドでルーティングにリクエストする。
-%  \item マイページボタンを押すと、/users/:idにGETメソッドでルーティングにリクエストする。
-%  \item ログアウトボタンを押すと、/logoutにDELETEメソッドでルーティングにリクエストする。
-%\end{itemize}
+\subsubsection{application.html.erb}
+\noindent
+
+【概要】\\
+掲示板の共通項目
+【処理フロー】
+\begin{itemize}
+ \item メニューリスト内のカテゴリボタンを押すと、/categories/:idにGETメソッドでルーティングにリクエストする。
+ \item ロゴボタンを押すと、/homeにGETメソッドでルーティングにリクエストする。
+ \item マイページボタンを押すと、/users/:idにGETメソッドでルーティングにリクエストする。なお、管理者には、このボタンは表示されない。
+ \item ログアウトボタンを押すと、以下の処理を行う。
+ \begin{itemize}
+   \item ユーザの場合、/logoutにDELETEメソッドでルーティングにリクエストする。
+   \item 管理者の場合、/admins/logoutにDELETEメソッドでルーティングにリクエストする。
+ \end{itemize}
+ \item flash変数の値を受け取り、文字列を表示する。
+\end{itemize}
 
 \subsection{Model層}
 %モデル層を記述しました。文章の構成はMVCの小節になると思うのうまく文章構成をお願いします。
@@ -1817,7 +1806,7 @@ ID・パスワード変更完了画面\\
 \end{table}
 
 
-\subsubsection{announcement.rb}
+\subsubsection{announce.rb}
 \noindent
 処理:バリデーションを設定する。
 \begin{itemize}
